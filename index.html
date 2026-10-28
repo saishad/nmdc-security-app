@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- SheetJS (xlsx) for Excel Upload/Parse -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
@@ -34,12 +36,33 @@
             </div>
         </div>
 
-        <div class="flex items-center space-x-3 rtl:space-x-reverse">
-            <button onclick="autoScheduleFillAndSort()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-amber-500/20 transition-all">
-                <i data-lucide="wand-2" class="w-4 h-4"></i>
-                <span>Auto-Fill & Sort Roster</span>
+        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+            <!-- Excel Upload Button -->
+            <label class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse cursor-pointer shadow-lg shadow-emerald-600/20 transition-all">
+                <i data-lucide="file-up" class="w-4 h-4"></i>
+                <span>Upload Excel Data</span>
+                <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" onchange="handleExcelUpload(event)" class="hidden">
+            </label>
+
+            <!-- Download Template Button -->
+            <button onclick="downloadExcelTemplate()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 transition-colors flex items-center space-x-1 rtl:space-x-reverse">
+                <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+                <span>Sample Template</span>
             </button>
 
+            <!-- Add Post Button -->
+            <button onclick="openAddPostModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-blue-600/20 transition-all">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Add New Post</span>
+            </button>
+
+            <!-- Auto-Fill & Sort Button -->
+            <button onclick="autoScheduleFillAndSort()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-amber-500/20 transition-all">
+                <i data-lucide="wand-2" class="w-4 h-4"></i>
+                <span>Auto-Fill & Sort</span>
+            </button>
+
+            <!-- Language Toggle -->
             <button onclick="toggleLanguage()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-400 transition-colors flex items-center space-x-1.5 rtl:space-x-reverse">
                 <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                 <span id="lang-btn-text">العربية</span>
@@ -90,7 +113,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400">Total Active Posts</div>
-                    <div class="text-2xl font-black text-slate-100" id="m-total-posts">19 Posts</div>
+                    <div class="text-2xl font-black text-slate-100" id="m-total-posts">0 Posts</div>
                     <div class="text-[10px] text-slate-500">24/7 Manning Required</div>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
@@ -105,7 +128,7 @@
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400">Total Personnel Allocated</div>
-                    <div class="text-2xl font-black text-emerald-400" id="m-personnel-count">76 Personnel</div>
+                    <div class="text-2xl font-black text-emerald-400" id="m-personnel-count">0 Personnel</div>
                     <div class="text-[10px] text-slate-500">Guards, Drivers & Supervisors</div>
                 </div>
             </div>
@@ -115,7 +138,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-sm font-bold text-slate-100">Interactive Smart Deployment Roster Matrix</h2>
-                        <p class="text-xs text-slate-400">Real-time gap detection, reliever allocation, and post sorting</p>
+                        <p class="text-xs text-slate-400">Real-time gap detection, reliever allocation, and staff re-location</p>
                     </div>
                 </div>
 
@@ -170,10 +193,126 @@
         </main>
     </div>
 
+    <!-- MODAL: ADD NEW POST -->
+    <div id="add-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-sm text-slate-100">Add New Security Post</h3>
+                <button onclick="closeModal('add-post-modal')" class="text-slate-400 hover:text-slate-200">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1">Sector Side</label>
+                    <select id="p-sector" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                        <option value="North">North Side</option>
+                        <option value="South">South Side</option>
+                        <option value="West">West Side</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Plot Location</label>
+                    <input id="p-plot" type="text" placeholder="e.g. Plot A, Plot B, Plot C" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Post ID</label>
+                    <input id="p-id" type="text" placeholder="e.g. Gate A04 or AX2" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 font-mono">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Post Name / Title</label>
+                    <input id="p-name" type="text" placeholder="e.g. Gate A04 Main Gate Access" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Post Type</label>
+                    <select id="p-type" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                        <option value="Gate">Gate Access</option>
+                        <option value="External Patrol Vehicle">External Patrol Vehicle</option>
+                        <option value="Internal Patrol Vehicle">Internal Patrol Vehicle</option>
+                        <option value="Supervisor">Supervisor Post</option>
+                        <option value="Area Supervisor">Area Supervisor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
+                <button onclick="closeModal('add-post-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
+                <button onclick="saveNewPost()" class="px-3 py-1.5 rounded-lg text-xs bg-blue-600 hover:bg-blue-500 text-white font-bold">Save Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT POST & SHIFT STAFF MANAGEMENT -->
+    <div id="edit-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-sm text-slate-100" id="edit-modal-title">Edit Post Personnel & Shift Allocation</h3>
+                <button onclick="closeModal('edit-post-modal')" class="text-slate-400 hover:text-slate-200">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <input type="hidden" id="edit-post-index">
+            <div class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 block mb-1">Sector</label>
+                        <select id="ep-sector" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                            <option value="North">North Side</option>
+                            <option value="South">South Side</option>
+                            <option value="West">West Side</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-slate-400 block mb-1">Plot</label>
+                        <input id="ep-plot" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-slate-400 block mb-1">Post ID</label>
+                        <input id="ep-id" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 font-mono">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 block mb-1">Post Name</label>
+                        <input id="ep-name" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-2 space-y-2">
+                    <label class="font-bold text-slate-200 block">Guard Shift Relocation & Assignments</label>
+                    <div>
+                        <label class="text-slate-400 block mb-1">Shift 1 Guard / Driver (06:00 - 14:00)</label>
+                        <input id="ep-s1" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 block mb-1">Shift 2 Guard / Driver (14:00 - 22:00)</label>
+                        <input id="ep-s2" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 block mb-1">Shift 3 Guard / Driver (22:00 - 06:00)</label>
+                        <input id="ep-s3" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                    <div>
+                        <label class="text-amber-400 block mb-1">Reliever Guard / Driver (5:2 Rotation)</label>
+                        <input id="ep-reliever" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-3 border-t border-slate-800">
+                <button onclick="deleteCurrentPost()" class="px-3 py-1.5 rounded-lg text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">Delete Post</button>
+                <div class="flex space-x-2 rtl:space-x-reverse">
+                    <button onclick="closeModal('edit-post-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
+                    <button onclick="savePostModalChanges()" class="px-3 py-1.5 rounded-lg text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript Controller Engine -->
     <script>
         // Exact Deployment Plan Data Model for North, South, and West Sides
-        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v1')) || [
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v2')) || [
             // NORTH SIDE - PLOT A
             { sector: "North", plot: "Plot A", id: "A01", name: "Gate A01 Access Post", type: "Gate", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
             { sector: "North", plot: "Plot A", id: "A02", name: "Gate A02 Access Post", type: "Gate", s1: "Fahad Harbi", s2: "Nasser Ghamdi", s3: "Ayman Shehri", reliever: "Bandar Dawsari", status: "Full Coverage" },
@@ -200,7 +339,7 @@
 
             // SOUTH SIDE - PLOT D
             { sector: "South", plot: "Plot D", id: "D08", name: "Gate D08 Access Post", type: "Gate", s1: "Hassan Ghamdi", s2: "Ali Asiri", s3: "Majed Ruwaili", reliever: "Sultan Hazmi", status: "Full Coverage" },
-            { sector: "South", plot: "South", id: "D09", name: "Gate D09 Access Post", type: "Gate", s1: "Naif Subaie", s2: "Bader Otaibi", s3: "Yasser Harbi", reliever: "Adnan Dawsari", status: "Full Coverage" },
+            { sector: "South", plot: "Plot D", id: "D09", name: "Gate D09 Access Post", type: "Gate", s1: "Naif Subaie", s2: "Bader Otaibi", s3: "Yasser Harbi", reliever: "Adnan Dawsari", status: "Full Coverage" },
             { sector: "South", plot: "Plot D", id: "D010", name: "Gate D010 Access Post", type: "Gate", s1: "Faisal Malki", s2: "Sami Zahrani", s3: "Tariq Qahtani", reliever: "Omar Hazmi", status: "Full Coverage" },
             { sector: "South", plot: "Plot D", id: "DX1", name: "Plot D External Patrol", type: "External Patrol Vehicle", s1: "Bandar Ghamdi", s2: "Khaled Asiri", s3: "Mounir Ruwaili", reliever: "Rashid Hazmi", status: "Full Coverage" },
             { sector: "South", plot: "Plot D", id: "DD1", name: "Plot D Internal Patrol", type: "Internal Patrol Vehicle", s1: "Ziyad Subaie", s2: "Waleed Otaibi", s3: "Ahmad Harbi", reliever: "Faris Dawsari", status: "Full Coverage" },
@@ -229,10 +368,10 @@
             let assignedCount = 0;
 
             postsData.forEach(p => {
-                if (p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
-                if (p.s2 === "UNASSIGNED") gaps++; else assignedCount++;
-                if (p.s3 === "UNASSIGNED") gaps++; else assignedCount++;
-                if (p.reliever === "UNASSIGNED") relieverDeficits++; else assignedCount++;
+                if (!p.s1 || p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (!p.s2 || p.s2 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (!p.s3 || p.s3 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (!p.reliever || p.reliever === "UNASSIGNED") relieverDeficits++; else assignedCount++;
             });
 
             document.getElementById('m-gaps-count').innerText = `${gaps} Gaps`;
@@ -254,15 +393,15 @@
                         <span class="font-bold text-amber-400 font-mono block">${p.id}</span>
                         <span class="text-xs text-slate-200">${p.name}</span>
                     </td>
-                    <td class="p-3"><span class="${p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1}</span></td>
-                    <td class="p-3"><span class="${p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2}</span></td>
-                    <td class="p-3"><span class="${p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3}</span></td>
-                    <td class="p-3"><span class="${p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever}</span></td>
+                    <td class="p-3"><span class="${!p.s1 || p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1 || 'UNASSIGNED'}</span></td>
+                    <td class="p-3"><span class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</span></td>
+                    <td class="p-3"><span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span></td>
+                    <td class="p-3"><span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span></td>
                     <td class="p-3">
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (p.status === 'Reliever Deficit' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse')}">${p.status}</span>
                     </td>
                     <td class="p-3 text-right rtl:text-left">
-                        <button onclick="editPostRow(${idx})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit Post</button>
+                        <button onclick="openEditPostModal(${idx})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit Post</button>
                     </td>
                 </tr>
             `).join('');
@@ -289,40 +428,159 @@
                         <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${p.status}</span>
                     </div>
                     <div class="text-[11px] text-slate-400 space-y-0.5 bg-slate-950 p-2 rounded border border-slate-800/80 font-mono">
-                        <div>S1 (06-14): <span class="text-slate-200">${p.s1}</span></div>
-                        <div>S2 (14-22): <span class="text-slate-200">${p.s2}</span></div>
-                        <div>S3 (22-06): <span class="text-slate-200">${p.s3}</span></div>
-                        <div class="text-amber-400 pt-1 border-t border-slate-800/80">Reliever: <span>${p.reliever}</span></div>
+                        <div>S1 (06-14): <span class="text-slate-200">${p.s1 || 'UNASSIGNED'}</span></div>
+                        <div>S2 (14-22): <span class="text-slate-200">${p.s2 || 'UNASSIGNED'}</span></div>
+                        <div>S3 (22-06): <span class="text-slate-200">${p.s3 || 'UNASSIGNED'}</span></div>
+                        <div class="text-amber-400 pt-1 border-t border-slate-800/80">Reliever: <span>${p.reliever || 'UNASSIGNED'}</span></div>
                     </div>
                 </div>
             `;
         }
 
-        function editPostRow(idx) {
-            const s1 = prompt("Assign Shift 1 Personnel (06:00 - 14:00):", postsData[idx].s1);
-            if (s1 === null) return;
-            const s2 = prompt("Assign Shift 2 Personnel (14:00 - 22:00):", postsData[idx].s2);
-            if (s2 === null) return;
-            const s3 = prompt("Assign Shift 3 Personnel (22:00 - 06:00):", postsData[idx].s3);
-            if (s3 === null) return;
-            const rel = prompt("Assign Reliever Personnel (5:2 Rotation):", postsData[idx].reliever);
-            if (rel === null) return;
+        function openAddPostModal() {
+            document.getElementById('p-plot').value = "";
+            document.getElementById('p-id').value = "";
+            document.getElementById('p-name').value = "";
+            document.getElementById('add-post-modal').classList.remove('hidden');
+        }
 
-            postsData[idx].s1 = s1 || "UNASSIGNED";
-            postsData[idx].s2 = s2 || "UNASSIGNED";
-            postsData[idx].s3 = s3 || "UNASSIGNED";
-            postsData[idx].reliever = rel || "UNASSIGNED";
+        function saveNewPost() {
+            const sector = document.getElementById('p-sector').value;
+            const plot = document.getElementById('p-plot').value || "Plot A";
+            const id = document.getElementById('p-id').value || "NEW-01";
+            const name = document.getElementById('p-name').value || "New Custom Post";
+            const type = document.getElementById('p-type').value;
 
-            if (postsData[idx].s1 === "UNASSIGNED" || postsData[idx].s2 === "UNASSIGNED" || postsData[idx].s3 === "UNASSIGNED") {
-                postsData[idx].status = "COVERAGE GAP";
-            } else if (postsData[idx].reliever === "UNASSIGNED") {
-                postsData[idx].status = "Reliever Deficit";
+            postsData.push({
+                sector, plot, id, name, type,
+                s1: "UNASSIGNED", s2: "UNASSIGNED", s3: "UNASSIGNED", reliever: "UNASSIGNED",
+                status: "COVERAGE GAP"
+            });
+
+            localStorage.setItem('nm_deployment_v2', JSON.stringify(postsData));
+            closeModal('add-post-modal');
+            renderAll();
+        }
+
+        function openEditPostModal(idx) {
+            const p = postsData[idx];
+            document.getElementById('edit-post-index').value = idx;
+            document.getElementById('ep-sector').value = p.sector;
+            document.getElementById('ep-plot').value = p.plot;
+            document.getElementById('ep-id').value = p.id;
+            document.getElementById('ep-name').value = p.name;
+            document.getElementById('ep-s1').value = p.s1 || "UNASSIGNED";
+            document.getElementById('ep-s2').value = p.s2 || "UNASSIGNED";
+            document.getElementById('ep-s3').value = p.s3 || "UNASSIGNED";
+            document.getElementById('ep-reliever').value = p.reliever || "UNASSIGNED";
+
+            document.getElementById('edit-post-modal').classList.remove('hidden');
+        }
+
+        function savePostModalChanges() {
+            const idx = parseInt(document.getElementById('edit-post-index').value);
+            const p = postsData[idx];
+
+            p.sector = document.getElementById('ep-sector').value;
+            p.plot = document.getElementById('ep-plot').value;
+            p.id = document.getElementById('ep-id').value;
+            p.name = document.getElementById('ep-name').value;
+            p.s1 = document.getElementById('ep-s1').value;
+            p.s2 = document.getElementById('ep-s2').value;
+            p.s3 = document.getElementById('ep-s3').value;
+            p.reliever = document.getElementById('ep-reliever').value;
+
+            if (p.s1 === "UNASSIGNED" || p.s2 === "UNASSIGNED" || p.s3 === "UNASSIGNED") {
+                p.status = "COVERAGE GAP";
+            } else if (p.reliever === "UNASSIGNED") {
+                p.status = "Reliever Deficit";
             } else {
-                postsData[idx].status = "Full Coverage";
+                p.status = "Full Coverage";
             }
 
-            localStorage.setItem('nm_deployment_v1', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v2', JSON.stringify(postsData));
+            closeModal('edit-post-modal');
             renderAll();
+        }
+
+        function deleteCurrentPost() {
+            const idx = parseInt(document.getElementById('edit-post-index').value);
+            if (confirm(`Are you sure you want to delete post ${postsData[idx].id}?`)) {
+                postsData.splice(idx, 1);
+                localStorage.setItem('nm_deployment_v2', JSON.stringify(postsData));
+                closeModal('edit-post-modal');
+                renderAll();
+            }
+        }
+
+        function handleExcelUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const parsedRows = XLSX.utils.sheet_to_json(firstSheet);
+
+                    if (parsedRows.length === 0) {
+                        alert("The uploaded Excel file is empty.");
+                        return;
+                    }
+
+                    // Map Excel rows to system model
+                    const importedPosts = parsedRows.map(row => {
+                        const s1 = row["Shift 1"] || row["S1"] || row["Shift1"] || "UNASSIGNED";
+                        const s2 = row["Shift 2"] || row["S2"] || row["Shift2"] || "UNASSIGNED";
+                        const s3 = row["Shift 3"] || row["S3"] || row["Shift3"] || "UNASSIGNED";
+                        const reliever = row["Reliever"] || row["RELIEVER"] || "UNASSIGNED";
+
+                        let status = "Full Coverage";
+                        if (s1 === "UNASSIGNED" || s2 === "UNASSIGNED" || s3 === "UNASSIGNED") {
+                            status = "COVERAGE GAP";
+                        } else if (reliever === "UNASSIGNED") {
+                            status = "Reliever Deficit";
+                        }
+
+                        return {
+                            sector: row["Sector"] || "North",
+                            plot: row["Plot"] || "Plot A",
+                            id: row["Post ID"] || row["ID"] || "NEW-01",
+                            name: row["Post Name"] || row["Name"] || "Imported Post",
+                            type: row["Type"] || "Gate",
+                            s1: s1,
+                            s2: s2,
+                            s3: s3,
+                            reliever: reliever,
+                            status: status
+                        };
+                    });
+
+                    postsData = importedPosts;
+                    localStorage.setItem('nm_deployment_v2', JSON.stringify(postsData));
+                    renderAll();
+                    alert(`✅ Successfully imported ${importedPosts.length} posts from Excel!`);
+                } catch (err) {
+                    alert("Error parsing Excel file. Please ensure it follows the sample template layout.");
+                    console.error(err);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function downloadExcelTemplate() {
+            const templateData = [
+                { "Sector": "North", "Plot": "Plot A", "Post ID": "A01", "Post Name": "Gate A01 Access Post", "Type": "Gate", "Shift 1": "Ahmad Suleiman", "Shift 2": "Sami Ruwaili", "Shift 3": "Bader Mutairi", "Reliever": "Ziyad Mutairi" },
+                { "Sector": "North", "Plot": "Plot A", "Post ID": "AX1", "Post Name": "Plot A External Patrol", "Type": "External Patrol Vehicle", "Shift 1": "Tariq Mansoor", "Shift 2": "Adnan Qasim", "Shift 3": "Rashid Otaibi", "Reliever": "Musaad Zahrani" },
+                { "Sector": "South", "Plot": "Plot C", "Post ID": "CG1", "Post Name": "Gate CG1 Access Post", "Type": "Gate", "Shift 1": "Youssef Ibrahim", "Shift 2": "Badr Asiri", "Shift 3": "Wael Dosari", "Reliever": "Sami Shammari" }
+            ];
+
+            const ws = XLSX.utils.json_to_sheet(templateData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Deployment Template");
+            XLSX.writeFile(wb, "New_Murabba_Deployment_Template.xlsx");
         }
 
         function autoScheduleFillAndSort() {
@@ -330,19 +588,22 @@
             let staffIdx = 0;
 
             postsData.forEach(p => {
-                if (p.s1 === "UNASSIGNED") { p.s1 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                if (p.s2 === "UNASSIGNED") { p.s2 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                if (p.s3 === "UNASSIGNED") { p.s3 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                if (p.reliever === "UNASSIGNED") { p.reliever = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (!p.s1 || p.s1 === "UNASSIGNED") { p.s1 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (!p.s2 || p.s2 === "UNASSIGNED") { p.s2 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (!p.s3 || p.s3 === "UNASSIGNED") { p.s3 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (!p.reliever || p.reliever === "UNASSIGNED") { p.reliever = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
                 p.status = "Full Coverage";
             });
 
-            // Sort posts chronologically by Sector and Plot
             postsData.sort((a, b) => a.sector.localeCompare(b.sector) || a.plot.localeCompare(b.plot));
 
-            localStorage.setItem('nm_deployment_v1', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v2', JSON.stringify(postsData));
             renderAll();
             alert("✅ Smart Auto-Schedule Completed! All gaps filled, 5:2 relievers assigned, and posts sorted by Sector.");
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
         }
 
         function switchTab(tabId) {
