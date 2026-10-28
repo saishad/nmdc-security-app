@@ -124,6 +124,15 @@
                 { id: "NM-X11", role: "Quarantined / Repair", status: "Defective", driver: "Unassigned", fuel: 40, dashcam: "FAULT", bravo: "Offline" },
                 { id: "NM-X12", role: "Reserve Unit 2", status: "Reserve", driver: "Unassigned", fuel: 100, dashcam: "OK", bravo: "Tested" },
                 { id: "NM-X13", role: "Reserve Unit 3 (Deployed)", status: "Active", driver: "Rayan Malki", fuel: 100, dashcam: "OK", bravo: "Tested" }
+            ],
+            roster: [
+                { name: "Saad Al-Khalaf", badge: "NM-SEC-001", post: "CCC Supervisor Desk", shift: "Shift 1 (06:00-14:00)", checkin: "05:50 AST", status: "Verified On-Post" },
+                { name: "Tariq Mansoor", badge: "NM-SEC-042", post: "Gate C3 (Plot C)", shift: "Shift 1 (06:00-14:00)", checkin: "ABSENT", status: "Uncovered Gap" },
+                { name: "Sultan Otaibi", badge: "NM-SEC-089", post: "Patrol NM-X02", shift: "Shift 1 (06:00-14:00)", checkin: "06:00 AST", status: "Verified On-Post" }
+            ],
+            incidents: [
+                { id: "INC-2026-0412", title: "Attempted Gate Bypass at Gate B2", plot: "Plot B Perimeter", severity: "Level 2", reporter: "Security Provider", time: "07:40 AST", status: "Under Investigation" },
+                { id: "INC-2026-0411", title: "Unannounced Perimeter Trenching", plot: "Plot A Infrastructure", severity: "Level 1", reporter: "Sector Supervisor", time: "06:15 AST", status: "Interim Control Active" }
             ]
         };
 
@@ -162,6 +171,28 @@
                 </div>
             `;
 
+            // Render CCC Operations & Dispatch View
+            document.getElementById('tab-ccc').innerHTML = `
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-sm font-bold text-slate-100">Command & Control Center (CCC) Live Dispatch Hub</h2>
+                        <span class="text-[10px] font-mono text-emerald-400">Single Recognized Dispatch Authority</span>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 min-h-[140px] bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-3">
+                            <div class="font-bold text-xs text-emerald-400 mb-1">PLOT A SECTOR</div>
+                            <div class="text-[11px] text-slate-300">Gates A1, A2, A3 • Active</div>
+                            <div class="text-[10px] text-amber-400 font-mono mt-2">Patrol NM-X01 Assigned</div>
+                        </div>
+                        <div class="border border-rose-500/40 bg-rose-500/10 rounded-lg p-3">
+                            <div class="font-bold text-xs text-rose-400 mb-1">PLOT C SECTOR</div>
+                            <div class="text-[11px] text-slate-300">Gate C3 Unmanned</div>
+                            <div class="text-[10px] text-rose-400 font-mono mt-2">Patrol NM-X05 Dispatched</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
             // Render Fleet View
             document.getElementById('tab-fleet').innerHTML = `
                 <div class="flex justify-between items-center mb-4">
@@ -188,16 +219,86 @@
                 </div>
             `;
 
-            // Render CCC View
-            document.getElementById('tab-ccc').innerHTML = `
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-                    <h2 class="text-sm font-bold text-slate-100 mb-2">Command & Control Center (CCC) Live Dispatch Hub</h2>
-                    <p class="text-xs text-slate-400">Single recognized dispatch authority for New Murabba Project Site</p>
+            // Render Deployment & Shifts View
+            document.getElementById('tab-roster').innerHTML = `
+                <div class="space-y-3">
+                    <h2 class="text-sm font-bold text-slate-100">Guard Deployment & Shift Roster (Asia/Riyadh AST)</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                        <table class="w-full text-left text-xs rtl:text-right">
+                            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                                <tr>
+                                    <th class="p-3">Officer Name</th>
+                                    <th class="p-3">Badge ID</th>
+                                    <th class="p-3">Assigned Post</th>
+                                    <th class="p-3">Shift</th>
+                                    <th class="p-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                ${AppState.roster.map(r => `
+                                    <tr>
+                                        <td class="p-3 font-semibold text-slate-100">${r.name}</td>
+                                        <td class="p-3 font-mono text-slate-400">${r.badge}</td>
+                                        <td class="p-3">${r.post}</td>
+                                        <td class="p-3 text-slate-400">${r.shift}</td>
+                                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.status.includes('Gap') ? 'bg-rose-500/20 text-rose-300' : 'bg-emerald-500/20 text-emerald-300'}">${r.status}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             `;
 
-            // Re-initialize icons
-            if (window.lucide) { lucide.createIcons(); }
+            // Render Incidents & Investigations View
+            document.getElementById('tab-incidents').innerHTML = `
+                <div class="space-y-3">
+                    <h2 class="text-sm font-bold text-slate-100">Incident & Case Management History</h2>
+                    <div class="space-y-2">
+                        ${AppState.incidents.map(i => `
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex justify-between items-center">
+                                <div>
+                                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400">${i.severity}</span>
+                                        <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
+                                    </div>
+                                    <div class="text-xs text-slate-400 mt-1">${i.plot} • Reported by ${i.reporter} at ${i.time}</div>
+                                </div>
+                                <span class="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">${i.status}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Render Copilot View
+            document.getElementById('tab-copilot').innerHTML = `
+                <div class="bg-slate-900 border border-indigo-500/30 rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <div class="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-xl">
+                            <i data-lucide="bot" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-sm font-bold text-indigo-200">Security Operations Copilot</h2>
+                            <p class="text-xs text-slate-400">Natural language operational analysis grounded in site records</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 h-48 text-xs font-mono text-slate-400 space-y-2">
+                        <div>[SYSTEM]: Copilot initialized for Director of Delivery Security.</div>
+                        <div class="text-slate-200">[QUERY]: "Show active uncovered post gaps in Shift 1."</div>
+                        <div class="text-indigo-300">[RESPONSE]: Uncovered Gap detected at Gate C3 (Plot C) since 07:15 AST. Relief dispatch pending.</div>
+                    </div>
+                </div>
+            `;
+
+            // Initialize Lucide icons safely
+            try {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch (err) {
+                console.warn('Lucide icon rendering deferred:', err);
+            }
         }
 
         function switchTab(tabId) {
@@ -218,6 +319,16 @@
                 activeNav.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
                 activeNav.classList.remove('text-slate-400');
             }
+        }
+
+        function toggleLanguage() {
+            const currentDir = document.documentElement.dir;
+            document.documentElement.dir = currentDir === 'rtl' ? 'ltr' : 'rtl';
+            document.getElementById('lang-btn-text').innerText = currentDir === 'rtl' ? 'العربية' : 'English';
+        }
+
+        function changeRole(role) {
+            AppState.currentRole = role;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
