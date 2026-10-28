@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Murabba Delivery Security Operations Platform</title>
+    <title>New Murabba Security Operations - 24/7 Deployment & Smart Roster</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -27,26 +27,18 @@
             </div>
             <div>
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <h1 class="text-base font-bold text-slate-100 leading-tight" data-i18n="app_title">New Murabba Delivery Security Operations</h1>
+                    <h1 class="text-base font-bold text-slate-100 leading-tight">New Murabba Delivery Security Operations</h1>
                     <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-mono font-bold">RIYADH HQ</span>
                 </div>
-                <p class="text-xs text-slate-400" data-i18n="app_subtitle">Construction Security Governance • CCC Dispatch • 24/7 Site Assurance</p>
+                <p class="text-xs text-slate-400">24/7 Smart Deployment Plan • North, South & West Sectors • 5:2 Work Rotation</p>
             </div>
         </div>
 
         <div class="flex items-center space-x-3 rtl:space-x-reverse">
-            <div id="sync-indicator" class="flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse mr-2 rtl:ml-2 rtl:mr-0"></span>
-                <span id="sync-text">Live Sync Active</span>
-            </div>
-
-            <select id="role-selector" onchange="changeRole(this.value)" class="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-3 py-1.5 outline-none">
-                <option value="Director">Director of Delivery Security</option>
-                <option value="CCC">NM CCC Supervisor / Operator</option>
-                <option value="Provider">Security Provider Manager</option>
-                <option value="SubDev">Sub-Developer Representative</option>
-                <option value="FieldGuard">Field Officer / Patrol Driver</option>
-            </select>
+            <button onclick="autoScheduleFillAndSort()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-amber-500/20 transition-all">
+                <i data-lucide="wand-2" class="w-4 h-4"></i>
+                <span>Auto-Fill & Sort Roster</span>
+            </button>
 
             <button onclick="toggleLanguage()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-400 transition-colors flex items-center space-x-1.5 rtl:space-x-reverse">
                 <i data-lucide="globe" class="w-3.5 h-3.5"></i>
@@ -60,249 +52,301 @@
         <!-- Sidebar Navigation -->
         <aside class="w-64 bg-slate-900/60 border-r border-slate-800 flex flex-col justify-between shrink-0 rtl:border-r-0 rtl:border-l">
             <nav class="p-3 space-y-1">
-                <button onclick="switchTab('director')" id="nav-director" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                    <span data-i18n="nav_director">Director Overview</span>
-                </button>
-                <button onclick="switchTab('ccc')" id="nav-ccc" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
-                    <i data-lucide="radio" class="w-4 h-4"></i>
-                    <span data-i18n="nav_ccc">CCC Operations & Dispatch</span>
-                </button>
-                <button onclick="switchTab('fleet')" id="nav-fleet" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
-                    <i data-lucide="truck" class="w-4 h-4"></i>
-                    <span data-i18n="nav_fleet">Vehicles & Equipment (13)</span>
-                </button>
-                <button onclick="switchTab('roster')" id="nav-roster" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                <button onclick="switchTab('roster')" id="nav-roster" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span data-i18n="nav_roster">Deployment & Shifts</span>
+                    <span>Smart Roster Engine</span>
                 </button>
-                <button onclick="switchTab('incidents')" id="nav-incidents" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
-                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                    <span data-i18n="nav_incidents">Incidents & Investigations</span>
+                <button onclick="switchTab('north')" id="nav-north" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="compass" class="w-4 h-4 text-amber-400"></i>
+                    <span>North Side (Plot A & B)</span>
                 </button>
-                <button onclick="switchTab('copilot')" id="nav-copilot" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20">
-                    <i data-lucide="bot" class="w-4 h-4"></i>
-                    <span data-i18n="nav_copilot">Security Operations Copilot</span>
+                <button onclick="switchTab('south')" id="nav-south" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="compass" class="w-4 h-4 text-blue-400"></i>
+                    <span>South Side (Plot C & D)</span>
+                </button>
+                <button onclick="switchTab('west')" id="nav-west" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="compass" class="w-4 h-4 text-purple-400"></i>
+                    <span>West Side (Plot E)</span>
                 </button>
             </nav>
 
             <div class="p-3 m-3 bg-slate-950 border border-slate-800 rounded-xl space-y-2 text-xs">
                 <div class="flex items-center justify-between text-slate-400">
-                    <span data-i18n="lbl_active_shift">Active Shift</span>
-                    <span class="text-emerald-400 font-semibold">Shift 1 (Morning)</span>
+                    <span>Shift Cycle</span>
+                    <span class="text-emerald-400 font-semibold">24 Hours / 3 Shifts</span>
                 </div>
-                <div class="text-slate-500 font-mono text-[11px]">06:00 – 14:00 AST</div>
+                <div class="text-slate-500 font-mono text-[11px]">S1: 06-14 | S2: 14-22 | S3: 22-06</div>
+                <div class="pt-2 border-t border-slate-800 flex justify-between text-slate-400">
+                    <span>Rotation Rule</span>
+                    <span class="text-amber-400 font-medium">5 Days On / 2 Off</span>
+                </div>
             </div>
         </aside>
 
         <!-- Main Workspace Render Panels -->
-        <main class="flex-1 overflow-y-auto p-5 bg-slate-950 relative">
-            <section id="tab-director" class="space-y-5"></section>
-            <section id="tab-ccc" class="hidden space-y-4"></section>
-            <section id="tab-fleet" class="hidden space-y-4"></section>
-            <section id="tab-roster" class="hidden space-y-4"></section>
-            <section id="tab-incidents" class="hidden space-y-4"></section>
-            <section id="tab-copilot" class="hidden space-y-4"></section>
+        <main class="flex-1 overflow-y-auto p-5 bg-slate-950 relative space-y-5">
+            
+            <!-- Summary Metric Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
+                    <div class="text-xs text-slate-400">Total Active Posts</div>
+                    <div class="text-2xl font-black text-slate-100" id="m-total-posts">19 Posts</div>
+                    <div class="text-[10px] text-slate-500">24/7 Manning Required</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
+                    <div class="text-xs text-slate-400">Coverage Gaps Detected</div>
+                    <div class="text-2xl font-black text-rose-400" id="m-gaps-count">0 Gaps</div>
+                    <div class="text-[10px] text-slate-500">Unassigned Shift Slots</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
+                    <div class="text-xs text-slate-400">Reliever Deficits</div>
+                    <div class="text-2xl font-black text-amber-400" id="m-reliever-count">0 Deficits</div>
+                    <div class="text-[10px] text-slate-500">Missing 5:2 Relievers</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
+                    <div class="text-xs text-slate-400">Total Personnel Allocated</div>
+                    <div class="text-2xl font-black text-emerald-400" id="m-personnel-count">76 Personnel</div>
+                    <div class="text-[10px] text-slate-500">Guards, Drivers & Supervisors</div>
+                </div>
+            </div>
+
+            <!-- TAB 1: SMART ROSTER ENGINE TABLE -->
+            <section id="tab-roster" class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-100">Interactive Smart Deployment Roster Matrix</h2>
+                        <p class="text-xs text-slate-400">Real-time gap detection, reliever allocation, and post sorting</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                    <table class="w-full text-left text-xs rtl:text-right">
+                        <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                            <tr>
+                                <th class="p-3">Sector & Plot</th>
+                                <th class="p-3">Post ID & Name</th>
+                                <th class="p-3">Shift 1 (06:00 - 14:00)</th>
+                                <th class="p-3">Shift 2 (14:00 - 22:00)</th>
+                                <th class="p-3">Shift 3 (22:00 - 06:00)</th>
+                                <th class="p-3">Reliever (5:2 Rotation)</th>
+                                <th class="p-3">Health Status</th>
+                                <th class="p-3 text-right rtl:text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300" id="roster-table-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 2: NORTH SIDE SECTOR -->
+            <section id="tab-north" class="hidden space-y-4">
+                <h2 class="text-sm font-bold text-amber-400 flex items-center space-x-2 rtl:space-x-reverse">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>NORTH SIDE SECTOR (Plot A & Plot B)</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="north-cards-grid"></div>
+            </section>
+
+            <!-- TAB 3: SOUTH SIDE SECTOR -->
+            <section id="tab-south" class="hidden space-y-4">
+                <h2 class="text-sm font-bold text-blue-400 flex items-center space-x-2 rtl:space-x-reverse">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>SOUTH SIDE SECTOR (Plot C & Plot D)</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="south-cards-grid"></div>
+            </section>
+
+            <!-- TAB 4: WEST SIDE SECTOR -->
+            <section id="tab-west" class="hidden space-y-4">
+                <h2 class="text-sm font-bold text-purple-400 flex items-center space-x-2 rtl:space-x-reverse">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>WEST SIDE SECTOR (Plot E)</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="west-cards-grid"></div>
+            </section>
+
         </main>
     </div>
 
-    <!-- Application Controller Script -->
+    <!-- JavaScript Controller Engine -->
     <script>
-        const AppState = {
-            currentRole: 'Director',
-            fleet: [
-                { id: "NM-X01", role: "Sector Patrol North A", status: "Active", driver: "Ahmad Suleiman", fuel: 85, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X02", role: "Sector Patrol North B", status: "Active", driver: "Sultan Otaibi", fuel: 90, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X03", role: "Sector Patrol South C", status: "Active", driver: "Youssef Ibrahim", fuel: 75, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X04", role: "Sector Patrol South D", status: "Active", driver: "Bader Mutairi", fuel: 80, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X05", role: "Sector Patrol West E", status: "Active", driver: "Hamad Qahtani", fuel: 95, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X06", role: "Sector Patrol West F", status: "Active", driver: "Saleh Zahrani", fuel: 70, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X07", role: "Sector Patrol West G", status: "Active", driver: "Waleed Ruwaili", fuel: 85, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X08", role: "Gate Support Patrol", status: "Active", driver: "Fahad Harbi", fuel: 90, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X09", role: "CCC Rapid Response", status: "Active", driver: "Saad Al-Khalaf", fuel: 100, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X10", role: "Supervisor Mobile Unit", status: "Active", driver: "Tariq Mansoor", fuel: 80, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X11", role: "Quarantined / Repair", status: "Defective", driver: "Unassigned", fuel: 40, dashcam: "FAULT", bravo: "Offline" },
-                { id: "NM-X12", role: "Reserve Unit 2", status: "Reserve", driver: "Unassigned", fuel: 100, dashcam: "OK", bravo: "Tested" },
-                { id: "NM-X13", role: "Reserve Unit 3 (Deployed)", status: "Active", driver: "Rayan Malki", fuel: 100, dashcam: "OK", bravo: "Tested" }
-            ],
-            roster: [
-                { name: "Saad Al-Khalaf", badge: "NM-SEC-001", post: "CCC Supervisor Desk", shift: "Shift 1 (06:00-14:00)", checkin: "05:50 AST", status: "Verified On-Post" },
-                { name: "Tariq Mansoor", badge: "NM-SEC-042", post: "Gate C3 (Plot C)", shift: "Shift 1 (06:00-14:00)", checkin: "ABSENT", status: "Uncovered Gap" },
-                { name: "Sultan Otaibi", badge: "NM-SEC-089", post: "Patrol NM-X02", shift: "Shift 1 (06:00-14:00)", checkin: "06:00 AST", status: "Verified On-Post" }
-            ],
-            incidents: [
-                { id: "INC-2026-0412", title: "Attempted Gate Bypass at Gate B2", plot: "Plot B Perimeter", severity: "Level 2", reporter: "Security Provider", time: "07:40 AST", status: "Under Investigation" },
-                { id: "INC-2026-0411", title: "Unannounced Perimeter Trenching", plot: "Plot A Infrastructure", severity: "Level 1", reporter: "Sector Supervisor", time: "06:15 AST", status: "Interim Control Active" }
-            ]
-        };
+        // Exact Deployment Plan Data Model for North, South, and West Sides
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v1')) || [
+            // NORTH SIDE - PLOT A
+            { sector: "North", plot: "Plot A", id: "A01", name: "Gate A01 Access Post", type: "Gate", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
+            { sector: "North", plot: "Plot A", id: "A02", name: "Gate A02 Access Post", type: "Gate", s1: "Fahad Harbi", s2: "Nasser Ghamdi", s3: "Ayman Shehri", reliever: "Bandar Dawsari", status: "Full Coverage" },
+            { sector: "North", plot: "Plot A", id: "A03", name: "Gate A03 Access Post", type: "Gate", s1: "Khalid Naif", s2: "Hamza Subaie", s3: "Nawaf Qahtani", reliever: "Faris Shammari", status: "Full Coverage" },
+            { sector: "North", plot: "Plot A", id: "AX1", name: "Plot A External Patrol", type: "External Patrol Vehicle", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
+            { sector: "North", plot: "Plot A", id: "AD1", name: "Plot A Internal Patrol", type: "Internal Patrol Vehicle", s1: "Majed Bin Ali", s2: "Sultan Ghamdi", s3: "Yasser Malki", reliever: "Waleed Anzi", status: "Full Coverage" },
+            { sector: "North", plot: "Plot A", id: "SUP-A", name: "Plot A Supervisor Post", type: "Supervisor", s1: "Saleh Zahrani", s2: "Ismail Malki", s3: "Bilal Qahtani", reliever: "Karam Juhani", status: "Full Coverage" },
 
-        function renderAllModules() {
-            // Render Director View
-            document.getElementById('tab-director').innerHTML = `
-                <div class="bg-slate-900 border border-indigo-500/30 rounded-2xl p-4 space-y-3 relative overflow-hidden">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i>
-                            <h2 class="text-sm font-bold text-indigo-200">AI Operational Briefing for Director of Security</h2>
-                        </div>
-                        <span class="text-[10px] text-slate-500 font-mono">Live AST Timestamp</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Critical post coverage is currently at <strong>96.4%</strong>. Gate C3 in Plot C experienced an unannounced officer absence at 07:15 AST; relief deployment is in progress. Vehicle <strong>NM-X11</strong> failed pre-shift dashcam inspection and has been quarantined.
-                    </p>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
-                        <div class="text-xs text-slate-400">Post Coverage</div>
-                        <div class="text-2xl font-black text-slate-100">27 / 28 <span class="text-xs font-normal text-rose-400">(1 Gap)</span></div>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
-                        <div class="text-xs text-slate-400">Fleet Readiness</div>
-                        <div class="text-2xl font-black text-slate-100">10 / 10 <span class="text-xs font-normal text-emerald-400">(3 Reserve)</span></div>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
-                        <div class="text-xs text-slate-400">Active Incidents</div>
-                        <div class="text-2xl font-black text-rose-400">2 <span class="text-xs font-normal text-slate-400">Investigating</span></div>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-2">
-                        <div class="text-xs text-slate-400">Provider SLA</div>
-                        <div class="text-2xl font-black text-blue-400">94.2%</div>
-                    </div>
-                </div>
-            `;
+            // NORTH SIDE - PLOT B
+            { sector: "North", plot: "Plot B", id: "B01", name: "Gate B01 Access Post", type: "Gate", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Marwan Mutairi", reliever: "Anas Ghamdi", status: "Full Coverage" },
+            { sector: "North", plot: "Plot B", id: "B02", name: "Gate B02 Access Post", type: "Gate", s1: "Hamad Qahtani", s2: "Suhail Asiri", s3: "Moath Subaie", reliever: "Rami Harbi", status: "Full Coverage" },
+            { sector: "North", plot: "Plot B", id: "B03", name: "Gate B03 Access Post", type: "Gate", s1: "UNASSIGNED", s2: "UNASSIGNED", s3: "UNASSIGNED", reliever: "UNASSIGNED", status: "COVERAGE GAP" },
+            { sector: "North", plot: "Plot B", id: "BX1", name: "Plot B External Patrol", type: "External Patrol Vehicle", s1: "Emad Hazmi", s2: "Tamer Juhani", s3: "Hani Dosari", reliever: "UNASSIGNED", status: "Reliever Deficit" },
+            { sector: "North", plot: "Plot B", id: "BD1", name: "Plot B Internal Patrol", type: "Internal Patrol Vehicle", s1: "Abdullah Dawsari", s2: "Majid Otaibi", s3: "Sami Al-Ali", reliever: "Nabil Najrani", status: "Full Coverage" },
+            { sector: "North", plot: "Plot B", id: "SUP-NORTH", name: "North Side Area Supervisor", type: "Area Supervisor", s1: "Saad Al-Khalaf", s2: "Omar Farooq", s3: "Hassan Ali", reliever: "Turki Harbi", status: "Full Coverage" },
 
-            // Render CCC Operations & Dispatch View
-            document.getElementById('tab-ccc').innerHTML = `
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+            // SOUTH SIDE - PLOT C
+            { sector: "South", plot: "Plot C", id: "CG1", name: "Gate CG1 Access Post", type: "Gate", s1: "Youssef Ibrahim", s2: "Badr Asiri", s3: "Wael Dosari", reliever: "Sami Shammari", status: "Full Coverage" },
+            { sector: "South", plot: "Plot C", id: "CG2", name: "Gate CG2 Access Post", type: "Gate", s1: "Rayan Malki", s2: "Lujain Hazmi", s3: "Ziad Harbi", reliever: "Mazen Ruwaili", status: "Full Coverage" },
+            { sector: "South", plot: "Plot C", id: "CG3", name: "Gate CG3 Access Post", type: "Gate", s1: "Omer Subaie", s2: "Faysal Otaibi", s3: "Mounir Ghamdi", reliever: "Saleh Mutairi", status: "Full Coverage" },
+            { sector: "South", plot: "Plot C", id: "CX1", name: "Plot C External Patrol", type: "External Patrol Vehicle", s1: "Waleed Ruwaili", s2: "Tariq Asiri", s3: "Ahmad Malki", reliever: "Bandar Otaibi", status: "Full Coverage" },
+            { sector: "South", plot: "Plot C", id: "CD1", name: "Plot C Internal Patrol", type: "Internal Patrol Vehicle", s1: "Nasser Al-Subaie", s2: "Rami Zahrani", s3: "Fahad Qahtani", reliever: "Ziyad Hazmi", status: "Full Coverage" },
+            { sector: "South", plot: "Plot C", id: "SUP-C", name: "Plot C Supervisor Post", type: "Supervisor", s1: "Mansour Malki", s2: "Hamdan Otaibi", s3: "Saeed Harbi", reliever: "Musaad Dawsari", status: "Full Coverage" },
+
+            // SOUTH SIDE - PLOT D
+            { sector: "South", plot: "Plot D", id: "D08", name: "Gate D08 Access Post", type: "Gate", s1: "Hassan Ghamdi", s2: "Ali Asiri", s3: "Majed Ruwaili", reliever: "Sultan Hazmi", status: "Full Coverage" },
+            { sector: "South", plot: "South", id: "D09", name: "Gate D09 Access Post", type: "Gate", s1: "Naif Subaie", s2: "Bader Otaibi", s3: "Yasser Harbi", reliever: "Adnan Dawsari", status: "Full Coverage" },
+            { sector: "South", plot: "Plot D", id: "D010", name: "Gate D010 Access Post", type: "Gate", s1: "Faisal Malki", s2: "Sami Zahrani", s3: "Tariq Qahtani", reliever: "Omar Hazmi", status: "Full Coverage" },
+            { sector: "South", plot: "Plot D", id: "DX1", name: "Plot D External Patrol", type: "External Patrol Vehicle", s1: "Bandar Ghamdi", s2: "Khaled Asiri", s3: "Mounir Ruwaili", reliever: "Rashid Hazmi", status: "Full Coverage" },
+            { sector: "South", plot: "Plot D", id: "DD1", name: "Plot D Internal Patrol", type: "Internal Patrol Vehicle", s1: "Ziyad Subaie", s2: "Waleed Otaibi", s3: "Ahmad Harbi", reliever: "Faris Dawsari", status: "Full Coverage" },
+            { sector: "South", plot: "Plot D", id: "SUP-SOUTH", name: "South Side Area Supervisor", type: "Area Supervisor", s1: "Ayman Malki", s2: "Nasser Zahrani", s3: "Sultan Qahtani", reliever: "Hamad Hazmi", status: "Full Coverage" },
+
+            // WEST SIDE - PLOT E
+            { sector: "West", plot: "Plot E", id: "E01", name: "Gate E01 Access Post", type: "Gate", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" },
+            { sector: "West", plot: "Plot E", id: "E02", name: "Gate E02 Access Post", type: "Gate", s1: "Fahad Subaie", s2: "Naif Otaibi", s3: "Majed Harbi", reliever: "Khalid Dawsari", status: "Full Coverage" },
+            { sector: "West", plot: "Plot E", id: "E03", name: "Gate E03 Access Post", type: "Gate", s1: "Adnan Malki", s2: "Yasser Zahrani", s3: "Rami Qahtani", reliever: "Waleed Hazmi", status: "Full Coverage" },
+            { sector: "West", plot: "Plot E", id: "EX1", name: "Plot E External Patrol", type: "External Patrol Vehicle", s1: "Omar Ghamdi", s2: "Hassan Asiri", s3: "Faisal Ruwaili", reliever: "Sultan Hazmi", status: "Full Coverage" },
+            { sector: "West", plot: "Plot E", id: "ED1", name: "Plot E Internal Patrol", type: "Internal Patrol Vehicle", s1: "Bandar Subaie", s2: "Rashid Otaibi", s3: "Ziyad Harbi", reliever: "Ahmad Dawsari", status: "Full Coverage" },
+            { sector: "West", plot: "Plot E", id: "SUP-WEST", name: "West Side Area Supervisor", type: "Area Supervisor", s1: "Hamad Malki", s2: "Mounir Zahrani", s3: "Khaled Qahtani", reliever: "Nasser Hazmi", status: "Full Coverage" }
+        ];
+
+        function renderAll() {
+            renderRosterTable();
+            renderSectorCards();
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            document.getElementById('m-total-posts').innerText = `${postsData.length} Posts`;
+
+            let gaps = 0;
+            let relieverDeficits = 0;
+            let assignedCount = 0;
+
+            postsData.forEach(p => {
+                if (p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (p.s2 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (p.s3 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (p.reliever === "UNASSIGNED") relieverDeficits++; else assignedCount++;
+            });
+
+            document.getElementById('m-gaps-count').innerText = `${gaps} Gaps`;
+            document.getElementById('m-reliever-count').innerText = `${relieverDeficits} Deficits`;
+            document.getElementById('m-personnel-count').innerText = `${assignedCount} Personnel`;
+        }
+
+        function renderRosterTable() {
+            const body = document.getElementById('roster-table-body');
+            if (!body) return;
+
+            body.innerHTML = postsData.map((p, idx) => `
+                <tr class="hover:bg-slate-800/40 transition-colors">
+                    <td class="p-3 font-semibold text-slate-300">
+                        <span class="text-[10px] uppercase block font-mono ${p.sector === 'North' ? 'text-amber-400' : (p.sector === 'South' ? 'text-blue-400' : 'text-purple-400')}">${p.sector} Side</span>
+                        ${p.plot}
+                    </td>
+                    <td class="p-3">
+                        <span class="font-bold text-amber-400 font-mono block">${p.id}</span>
+                        <span class="text-xs text-slate-200">${p.name}</span>
+                    </td>
+                    <td class="p-3"><span class="${p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1}</span></td>
+                    <td class="p-3"><span class="${p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2}</span></td>
+                    <td class="p-3"><span class="${p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3}</span></td>
+                    <td class="p-3"><span class="${p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever}</span></td>
+                    <td class="p-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (p.status === 'Reliever Deficit' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse')}">${p.status}</span>
+                    </td>
+                    <td class="p-3 text-right rtl:text-left">
+                        <button onclick="editPostRow(${idx})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit Post</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSectorCards() {
+            const northGrid = document.getElementById('north-cards-grid');
+            const southGrid = document.getElementById('south-cards-grid');
+            const westGrid = document.getElementById('west-cards-grid');
+
+            if (northGrid) northGrid.innerHTML = postsData.filter(p => p.sector === 'North').map(p => postCardTemplate(p)).join('');
+            if (southGrid) southGrid.innerHTML = postsData.filter(p => p.sector === 'South').map(p => postCardTemplate(p)).join('');
+            if (westGrid) westGrid.innerHTML = postsData.filter(p => p.sector === 'West').map(p => postCardTemplate(p)).join('');
+        }
+
+        function postCardTemplate(p) {
+            return `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
                     <div class="flex justify-between items-center">
-                        <h2 class="text-sm font-bold text-slate-100">Command & Control Center (CCC) Live Dispatch Hub</h2>
-                        <span class="text-[10px] font-mono text-emerald-400">Single Recognized Dispatch Authority</span>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 min-h-[140px] bg-slate-950 p-3 rounded-xl border border-slate-800">
-                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-3">
-                            <div class="font-bold text-xs text-emerald-400 mb-1">PLOT A SECTOR</div>
-                            <div class="text-[11px] text-slate-300">Gates A1, A2, A3 • Active</div>
-                            <div class="text-[10px] text-amber-400 font-mono mt-2">Patrol NM-X01 Assigned</div>
-                        </div>
-                        <div class="border border-rose-500/40 bg-rose-500/10 rounded-lg p-3">
-                            <div class="font-bold text-xs text-rose-400 mb-1">PLOT C SECTOR</div>
-                            <div class="text-[11px] text-slate-300">Gate C3 Unmanned</div>
-                            <div class="text-[10px] text-rose-400 font-mono mt-2">Patrol NM-X05 Dispatched</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Render Fleet View
-            document.getElementById('tab-fleet').innerHTML = `
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-sm font-bold text-slate-100">Patrol Fleet & Equipment Manager (13 Nissan X-Trails)</h2>
-                        <p class="text-xs text-slate-400">10 Operational Patrol Allocations + 3 Reserve Units</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    ${AppState.fleet.map(v => `
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
-                            <div class="flex items-center justify-between">
-                                <span class="font-bold text-sm text-amber-400 font-mono">${v.id}</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${v.status === 'Active' ? 'bg-emerald-500/20 text-emerald-400' : (v.status === 'Defective' ? 'bg-rose-500/20 text-rose-400' : 'bg-slate-800 text-slate-400')}">${v.status}</span>
-                            </div>
-                            <div class="text-xs font-semibold text-slate-200">${v.role}</div>
-                            <div class="text-[11px] text-slate-400">Driver: <span class="text-slate-200">${v.driver}</span></div>
-                            <div class="pt-2 border-t border-slate-800 flex justify-between text-[10px] font-mono text-slate-500">
-                                <span>Fuel: ${v.fuel}%</span>
-                                <span>Dashcam: <strong class="${v.dashcam === 'OK' ? 'text-emerald-400' : 'text-rose-400'}">${v.dashcam}</strong></span>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-
-            // Render Deployment & Shifts View
-            document.getElementById('tab-roster').innerHTML = `
-                <div class="space-y-3">
-                    <h2 class="text-sm font-bold text-slate-100">Guard Deployment & Shift Roster (Asia/Riyadh AST)</h2>
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-                        <table class="w-full text-left text-xs rtl:text-right">
-                            <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
-                                <tr>
-                                    <th class="p-3">Officer Name</th>
-                                    <th class="p-3">Badge ID</th>
-                                    <th class="p-3">Assigned Post</th>
-                                    <th class="p-3">Shift</th>
-                                    <th class="p-3">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-800/60 text-slate-300">
-                                ${AppState.roster.map(r => `
-                                    <tr>
-                                        <td class="p-3 font-semibold text-slate-100">${r.name}</td>
-                                        <td class="p-3 font-mono text-slate-400">${r.badge}</td>
-                                        <td class="p-3">${r.post}</td>
-                                        <td class="p-3 text-slate-400">${r.shift}</td>
-                                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.status.includes('Gap') ? 'bg-rose-500/20 text-rose-300' : 'bg-emerald-500/20 text-emerald-300'}">${r.status}</span></td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-
-            // Render Incidents & Investigations View
-            document.getElementById('tab-incidents').innerHTML = `
-                <div class="space-y-3">
-                    <h2 class="text-sm font-bold text-slate-100">Incident & Case Management History</h2>
-                    <div class="space-y-2">
-                        ${AppState.incidents.map(i => `
-                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex justify-between items-center">
-                                <div>
-                                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400">${i.severity}</span>
-                                        <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
-                                    </div>
-                                    <div class="text-xs text-slate-400 mt-1">${i.plot} • Reported by ${i.reporter} at ${i.time}</div>
-                                </div>
-                                <span class="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">${i.status}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-
-            // Render Copilot View
-            document.getElementById('tab-copilot').innerHTML = `
-                <div class="bg-slate-900 border border-indigo-500/30 rounded-2xl p-5 space-y-4">
-                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <div class="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-xl">
-                            <i data-lucide="bot" class="w-6 h-6"></i>
-                        </div>
                         <div>
-                            <h2 class="text-sm font-bold text-indigo-200">Security Operations Copilot</h2>
-                            <p class="text-xs text-slate-400">Natural language operational analysis grounded in site records</p>
+                            <span class="font-bold text-sm text-amber-400 font-mono">${p.id}</span>
+                            <span class="text-xs text-slate-200 block font-bold">${p.name}</span>
                         </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${p.status}</span>
                     </div>
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 h-48 text-xs font-mono text-slate-400 space-y-2">
-                        <div>[SYSTEM]: Copilot initialized for Director of Delivery Security.</div>
-                        <div class="text-slate-200">[QUERY]: "Show active uncovered post gaps in Shift 1."</div>
-                        <div class="text-indigo-300">[RESPONSE]: Uncovered Gap detected at Gate C3 (Plot C) since 07:15 AST. Relief dispatch pending.</div>
+                    <div class="text-[11px] text-slate-400 space-y-0.5 bg-slate-950 p-2 rounded border border-slate-800/80 font-mono">
+                        <div>S1 (06-14): <span class="text-slate-200">${p.s1}</span></div>
+                        <div>S2 (14-22): <span class="text-slate-200">${p.s2}</span></div>
+                        <div>S3 (22-06): <span class="text-slate-200">${p.s3}</span></div>
+                        <div class="text-amber-400 pt-1 border-t border-slate-800/80">Reliever: <span>${p.reliever}</span></div>
                     </div>
                 </div>
             `;
+        }
 
-            // Initialize Lucide icons safely
-            try {
-                if (window.lucide && typeof window.lucide.createIcons === 'function') {
-                    window.lucide.createIcons();
-                }
-            } catch (err) {
-                console.warn('Lucide icon rendering deferred:', err);
+        function editPostRow(idx) {
+            const s1 = prompt("Assign Shift 1 Personnel (06:00 - 14:00):", postsData[idx].s1);
+            if (s1 === null) return;
+            const s2 = prompt("Assign Shift 2 Personnel (14:00 - 22:00):", postsData[idx].s2);
+            if (s2 === null) return;
+            const s3 = prompt("Assign Shift 3 Personnel (22:00 - 06:00):", postsData[idx].s3);
+            if (s3 === null) return;
+            const rel = prompt("Assign Reliever Personnel (5:2 Rotation):", postsData[idx].reliever);
+            if (rel === null) return;
+
+            postsData[idx].s1 = s1 || "UNASSIGNED";
+            postsData[idx].s2 = s2 || "UNASSIGNED";
+            postsData[idx].s3 = s3 || "UNASSIGNED";
+            postsData[idx].reliever = rel || "UNASSIGNED";
+
+            if (postsData[idx].s1 === "UNASSIGNED" || postsData[idx].s2 === "UNASSIGNED" || postsData[idx].s3 === "UNASSIGNED") {
+                postsData[idx].status = "COVERAGE GAP";
+            } else if (postsData[idx].reliever === "UNASSIGNED") {
+                postsData[idx].status = "Reliever Deficit";
+            } else {
+                postsData[idx].status = "Full Coverage";
             }
+
+            localStorage.setItem('nm_deployment_v1', JSON.stringify(postsData));
+            renderAll();
+        }
+
+        function autoScheduleFillAndSort() {
+            const fallbackStaff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi", "Majed Al-Ghamdi"];
+            let staffIdx = 0;
+
+            postsData.forEach(p => {
+                if (p.s1 === "UNASSIGNED") { p.s1 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (p.s2 === "UNASSIGNED") { p.s2 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (p.s3 === "UNASSIGNED") { p.s3 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                if (p.reliever === "UNASSIGNED") { p.reliever = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
+                p.status = "Full Coverage";
+            });
+
+            // Sort posts chronologically by Sector and Plot
+            postsData.sort((a, b) => a.sector.localeCompare(b.sector) || a.plot.localeCompare(b.plot));
+
+            localStorage.setItem('nm_deployment_v1', JSON.stringify(postsData));
+            renderAll();
+            alert("✅ Smart Auto-Schedule Completed! All gaps filled, 5:2 relievers assigned, and posts sorted by Sector.");
         }
 
         function switchTab(tabId) {
-            ['director', 'ccc', 'fleet', 'roster', 'incidents', 'copilot'].forEach(id => {
+            ['roster', 'north', 'south', 'west'].forEach(id => {
                 const sec = document.getElementById(`tab-${id}`);
                 const nav = document.getElementById(`nav-${id}`);
                 if (sec) sec.classList.add('hidden');
@@ -322,17 +366,14 @@
         }
 
         function toggleLanguage() {
-            const currentDir = document.documentElement.dir;
-            document.documentElement.dir = currentDir === 'rtl' ? 'ltr' : 'rtl';
-            document.getElementById('lang-btn-text').innerText = currentDir === 'rtl' ? 'العربية' : 'English';
-        }
-
-        function changeRole(role) {
-            AppState.currentRole = role;
+            const dir = document.documentElement.dir === 'rtl' ? 'ltr' : 'rtl';
+            document.documentElement.dir = dir;
+            document.getElementById('lang-btn-text').innerText = dir === 'rtl' ? 'English' : 'العربية';
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderAllModules();
+            renderAll();
+            if (window.lucide) { lucide.createIcons(); }
         });
     </script>
 </body>
