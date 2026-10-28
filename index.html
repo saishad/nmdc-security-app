@@ -29,7 +29,7 @@
             </div>
             <div>
                 <h1 class="text-base font-bold text-slate-100 leading-tight" data-i18n="app_title">NMDC Security Operations Center</h1>
-                <p class="text-xs text-slate-400" data-i18n="app_subtitle">20 KM Site • Plots A-G • 20 Gates • 18 Patrol Fleet</p>
+                <p class="text-xs text-slate-400" data-i18n="app_subtitle">North, South & West Areas • 7 Plots • 21 Gates • 16 Patrol Fleet • 220 Guards</p>
             </div>
         </div>
 
@@ -40,9 +40,9 @@
             </div>
 
             <select id="user-role-select" class="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 outline-none">
-                <option value="Director" data-i18n="role_director">Director of Security</option>
-                <option value="ShiftManager" data-i18n="role_shift_mgr">Shift Security Manager</option>
-                <option value="AreaSupervisor" data-i18n="role_area_sup">Area Supervisor</option>
+                <option value="GeneralManager" data-i18n="role_gen_mgr">General Security Manager</option>
+                <option value="DutyManager" data-i18n="role_duty_mgr">Duty Security Manager</option>
+                <option value="AreaSupervisor" data-i18n="role_area_sup">Area Supervisor (North/South/West)</option>
                 <option value="PlotSupervisor" data-i18n="role_plot_sup">Plot Supervisor</option>
                 <option value="GateGuard" data-i18n="role_gate_guard">Gate Access Guard</option>
             </select>
@@ -70,12 +70,12 @@
 
                 <button onclick="switchTab('roster')" id="nav-roster" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-slate-200">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span><span data-i18n="nav_roster">Guard Roster</span> (<span id="sidebar-guard-count">200</span>)</span>
+                    <span><span data-i18n="nav_roster">Guard Roster</span> (<span id="sidebar-guard-count">220</span>)</span>
                 </button>
 
                 <button onclick="switchTab('fleet')" id="nav-fleet" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-slate-200">
                     <i data-lucide="truck" class="w-4 h-4"></i>
-                    <span data-i18n="nav_fleet">Patrol Fleet (18)</span>
+                    <span data-i18n="nav_fleet">Patrol Fleet (16)</span>
                 </button>
 
                 <button onclick="switchTab('incidents')" id="nav-incidents" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-slate-200">
@@ -92,7 +92,7 @@
             <div class="p-3 m-3 bg-slate-950 border border-slate-800 rounded-xl space-y-2 text-xs">
                 <div class="flex items-center justify-between text-slate-400">
                     <span data-i18n="lbl_active_shift">Active Shift</span>
-                    <span class="text-emerald-400 font-semibold" data-i18n="val_shift1">Shift 1 (Morning)</span>
+                    <span class="text-emerald-400 font-semibold" data-i18n="val_shift1">Shift 1 (06:00 - 14:00)</span>
                 </div>
                 <div class="text-slate-500 font-mono">06:00 - 14:00</div>
                 <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-slate-400">
@@ -114,7 +114,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400" data-i18n="m_guards_duty">Guards On Duty</div>
-                            <div class="text-xl font-bold text-slate-100" id="m-active-guards">164 <span class="text-xs font-normal text-slate-400">/ 200</span></div>
+                            <div class="text-xl font-bold text-slate-100" id="m-active-guards">182 <span class="text-xs font-normal text-slate-400">/ 220</span></div>
                         </div>
                     </div>
 
@@ -124,7 +124,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400" data-i18n="m_gates_active">Gates Operational</div>
-                            <div class="text-xl font-bold text-slate-100">20 <span class="text-xs font-normal text-slate-400">/ 20</span></div>
+                            <div class="text-xl font-bold text-slate-100">21 <span class="text-xs font-normal text-slate-400">/ 21</span></div>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400" data-i18n="m_fleet_active">Active Patrol Fleet</div>
-                            <div class="text-xl font-bold text-slate-100" id="m-active-fleet">14 <span class="text-xs font-normal text-amber-400">(4 Standby)</span></div>
+                            <div class="text-xl font-bold text-slate-100" id="m-active-fleet">14 <span class="text-xs font-normal text-amber-400">(2 Standby)</span></div>
                         </div>
                     </div>
 
@@ -149,12 +149,12 @@
                     </div>
                 </div>
 
-                <!-- Plot Map Section -->
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <!-- Plot Map Section Categorized by Area -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-200" data-i18n="map_title">NMDC Site Perimeter Layout (20 KM)</h2>
-                            <p class="text-xs text-slate-400" data-i18n="map_subtitle">Click any plot card to toggle status or send dispatch</p>
+                            <h2 class="text-sm font-bold text-slate-200" data-i18n="map_title">NMDC Site Perimeter Layout (North, South, West Areas)</h2>
+                            <p class="text-xs text-slate-400" data-i18n="map_subtitle">Click any plot to toggle status or view assigned gates & internal/external patrols</p>
                         </div>
                         <button onclick="triggerBroadCastSOS()" class="bg-rose-600 hover:bg-rose-500 text-white font-semibold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-rose-600/30">
                             <i data-lucide="siren" class="w-4 h-4"></i>
@@ -162,8 +162,34 @@
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-7 gap-2 min-h-[160px] bg-slate-950 p-3 rounded-xl border border-slate-800" id="plots-grid">
-                        <!-- Populated by JS -->
+                    <!-- Sector Map Displays -->
+                    <div class="space-y-3">
+                        <!-- North Area -->
+                        <div>
+                            <div class="text-xs font-bold text-amber-400 mb-1.5 flex items-center space-x-1 rtl:space-x-reverse">
+                                <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="area_north">NORTH AREA (Plot A & Plot B)</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2" id="north-plots-grid"></div>
+                        </div>
+
+                        <!-- South Area -->
+                        <div>
+                            <div class="text-xs font-bold text-blue-400 mb-1.5 flex items-center space-x-1 rtl:space-x-reverse">
+                                <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="area_south">SOUTH AREA (Plot C & Plot D)</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2" id="south-plots-grid"></div>
+                        </div>
+
+                        <!-- West Area -->
+                        <div>
+                            <div class="text-xs font-bold text-purple-400 mb-1.5 flex items-center space-x-1 rtl:space-x-reverse">
+                                <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="area_west">WEST AREA (Plot E, Plot F & Plot G)</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-2" id="west-plots-grid"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -172,7 +198,7 @@
             <section id="tab-roster" class="hidden space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                     <div>
-                        <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_title">Guard Shift Roster</h2>
+                        <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_title">Guard Shift Roster (220 Total Personnel)</h2>
                         <p class="text-xs text-slate-400" data-i18n="roster_subtitle">5 Days On / 2 Days Off Rotation • Click any row to edit</p>
                     </div>
                     <button onclick="openAddGuardModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse">
@@ -186,7 +212,7 @@
                             <tr>
                                 <th class="p-3" data-i18n="th_name">Guard Name</th>
                                 <th class="p-3" data-i18n="th_badge">Badge ID</th>
-                                <th class="p-3" data-i18n="th_post">Assigned Post</th>
+                                <th class="p-3" data-i18n="th_area">Area / Post</th>
                                 <th class="p-3" data-i18n="th_shift">Shift</th>
                                 <th class="p-3" data-i18n="th_rotation">Rotation</th>
                                 <th class="p-3" data-i18n="th_status">Status</th>
@@ -202,8 +228,8 @@
             <section id="tab-fleet" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h2 class="text-sm font-bold text-slate-100" data-i18n="fleet_title">Patrol Vehicle Fleet (18 Patrols)</h2>
-                        <p class="text-xs text-slate-400" data-i18n="fleet_subtitle">Click any vehicle card to edit fuel, mileage, driver, or operational status</p>
+                        <h2 class="text-sm font-bold text-slate-100" data-i18n="fleet_title">Patrol Vehicle Fleet (16 Total Vehicles)</h2>
+                        <p class="text-xs text-slate-400" data-i18n="fleet_subtitle">Internal & External Plot Patrols + Duty Security Manager & General Patrol</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="fleet-grid"></div>
@@ -229,12 +255,12 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 max-w-xl mx-auto">
                     <h2 class="text-sm font-bold text-slate-100" data-i18n="handover_title">Digital Shift Handover</h2>
                     <div class="space-y-2 text-xs">
-                        <label class="text-slate-400 block" data-i18n="lbl_supervisor">Supervisor Name</label>
-                        <input id="ho-supervisor" type="text" value="Mohammed Al-Otaibi (Shift 1 Manager)" class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none">
+                        <label class="text-slate-400 block" data-i18n="lbl_supervisor">Supervisor / Duty Manager Name</label>
+                        <input id="ho-supervisor" type="text" value="Saad Al-Khalaf (Duty Security Manager)" class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none">
                     </div>
                     <div class="space-y-2 text-xs">
-                        <label class="text-slate-400 block" data-i18n="lbl_remarks">Supervisor Handover Remarks & Active Issues</label>
-                        <textarea id="ho-remarks" rows="4" placeholder="Enter notes on fence breaches, active gates, ongoing investigations..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none"></textarea>
+                        <label class="text-slate-400 block" data-i18n="lbl_remarks">Shift Handover Remarks & Active Issues</label>
+                        <textarea id="ho-remarks" rows="4" placeholder="Enter notes on fence breaches, active gates, ongoing investigations across North, South, West areas..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none"></textarea>
                     </div>
                     <button onclick="submitHandoverForm()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded" data-i18n="btn_submit_handover">Submit & Log Handover</button>
                 </div>
@@ -262,7 +288,7 @@
                     <input id="g-badge" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200 font-mono">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Assigned Post</label>
+                    <label class="text-slate-400 block mb-1">Assigned Post / Sector</label>
                     <input id="g-post" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
                 </div>
                 <div>
@@ -295,7 +321,7 @@
     <!-- MODAL: EDIT FLEET VEHICLE -->
     <div id="fleet-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-4 space-y-3 shadow-2xl">
-            <h3 class="font-bold text-sm text-slate-100" id="fleet-modal-title">Update Vehicle Status</h3>
+            <h3 class="font-bold text-sm text-slate-100" id="fleet-modal-title">Update Patrol Vehicle</h3>
             <input type="hidden" id="fleet-edit-id">
             <div class="space-y-2 text-xs">
                 <div>
@@ -311,7 +337,7 @@
                     <input id="fv-driver" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Current Sector / Plot</label>
+                    <label class="text-slate-400 block mb-1">Sector Assignment</label>
                     <input id="fv-plot" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
                 </div>
                 <div>
@@ -337,18 +363,18 @@
             <div class="space-y-2 text-xs">
                 <div>
                     <label class="text-slate-400 block mb-1">Incident Title</label>
-                    <input id="inc-title" type="text" placeholder="e.g. Unscheduled vehicle at Gate 4" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                    <input id="inc-title" type="text" placeholder="e.g. Unscheduled delivery truck at Gate A2" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
                 </div>
                 <div>
                     <label class="text-slate-400 block mb-1">Location / Plot</label>
                     <select id="inc-plot" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
-                        <option value="Plot A">Plot A</option>
-                        <option value="Plot B">Plot B</option>
-                        <option value="Plot C">Plot C</option>
-                        <option value="Plot D">Plot D</option>
-                        <option value="Plot E">Plot E</option>
-                        <option value="Plot F">Plot F</option>
-                        <option value="Plot G">Plot G</option>
+                        <option value="Plot A (North)">Plot A (North Area)</option>
+                        <option value="Plot B (North)">Plot B (North Area)</option>
+                        <option value="Plot C (South)">Plot C (South Area)</option>
+                        <option value="Plot D (South)">Plot D (South Area)</option>
+                        <option value="Plot E (West)">Plot E (West Area)</option>
+                        <option value="Plot F (West)">Plot F (West Area)</option>
+                        <option value="Plot G (West)">Plot G (West Area)</option>
                     </select>
                 </div>
                 <div>
@@ -386,7 +412,7 @@
         </div>
     </div>
 
-    <!-- JavaScript Script Engine with i18n Translation Dictionary -->
+    <!-- JavaScript Script Engine with NMDC Specific Data Structure -->
     <script>
         let currentLang = 'en';
 
@@ -394,20 +420,20 @@
         const i18n = {
             en: {
                 app_title: "NMDC Security Operations Center",
-                app_subtitle: "20 KM Site • Plots A-G • 20 Gates • 18 Patrol Fleet",
+                app_subtitle: "North, South & West Areas • 7 Plots • 21 Gates • 16 Patrol Fleet • 220 Guards",
                 local_mode: "Local Storage Mode",
-                role_director: "Director of Security",
-                role_shift_mgr: "Shift Security Manager",
+                role_gen_mgr: "General Security Manager",
+                role_duty_mgr: "Duty Security Manager",
                 role_area_sup: "Area Supervisor",
                 role_plot_sup: "Plot Supervisor",
                 role_gate_guard: "Gate Access Guard",
                 nav_command: "Command Center",
                 nav_roster: "Guard Roster",
-                nav_fleet: "Patrol Fleet (18)",
+                nav_fleet: "Patrol Fleet (16)",
                 nav_incidents: "Incident Management",
                 nav_handover: "Shift Handover",
                 lbl_active_shift: "Active Shift",
-                val_shift1: "Shift 1 (Morning)",
+                val_shift1: "Shift 1 (06:00 - 14:00)",
                 lbl_rotation: "Rotation",
                 val_rotation: "5 Days On / 2 Off",
                 m_guards_duty: "Guards On Duty",
@@ -415,46 +441,49 @@
                 m_fleet_active: "Active Patrol Fleet",
                 m_incidents_active: "Active Incidents",
                 unresolved: "Unresolved",
-                map_title: "NMDC Site Perimeter Layout (20 KM)",
-                map_subtitle: "Click any plot card to toggle status or send dispatch",
+                map_title: "NMDC Site Perimeter Layout (North, South, West Areas)",
+                map_subtitle: "Click any plot card to toggle status or view assigned gates & internal/external patrols",
                 btn_sos: "BROADCAST SITE SOS",
-                roster_title: "Guard Shift Roster",
+                area_north: "NORTH AREA (Plot A & Plot B)",
+                area_south: "SOUTH AREA (Plot C & Plot D)",
+                area_west: "WEST AREA (Plot E, Plot F & Plot G)",
+                roster_title: "Guard Shift Roster (220 Total Personnel)",
                 roster_subtitle: "5 Days On / 2 Days Off Rotation • Click any row to edit",
                 btn_add_guard: "Add New Guard",
                 th_name: "Guard Name",
                 th_badge: "Badge ID",
-                th_post: "Assigned Post",
+                th_area: "Area / Post",
                 th_shift: "Shift",
                 th_rotation: "Rotation",
                 th_status: "Status",
                 th_actions: "Actions",
-                fleet_title: "Patrol Vehicle Fleet (18 Patrols)",
-                fleet_subtitle: "Click any vehicle card to edit fuel, mileage, driver, or operational status",
+                fleet_title: "Patrol Vehicle Fleet (16 Total Vehicles)",
+                fleet_subtitle: "Internal & External Plot Patrols + Duty Security Manager & General Patrol",
                 incident_title: "Active Incident Escalation Log",
                 incident_subtitle: "Level 1, Level 2, and Level 3 incident reports",
                 btn_log_incident: "Log New Incident",
                 handover_title: "Digital Shift Handover",
-                lbl_supervisor: "Supervisor Name",
-                lbl_remarks: "Supervisor Handover Remarks & Active Issues",
+                lbl_supervisor: "Supervisor / Duty Manager Name",
+                lbl_remarks: "Shift Handover Remarks & Active Issues",
                 btn_submit_handover: "Submit & Log Handover",
                 recent_handovers: "Recent Shift Handover Logs"
             },
             ar: {
                 app_title: "مركز عمليات الأمن - مشروع NMDC",
-                app_subtitle: "موقع 20 كم • المخططات A–G • 20 بوابة • 18 دورية أمنية",
+                app_subtitle: "القطاعات الشمالية، الجنوبية والغربية • 7 مخططات • 21 بوابة • 16 دورية • 220 حارس",
                 local_mode: "نموذج التخزين المحلي",
-                role_director: "مدير إدارة الأمن",
-                role_shift_mgr: "مدير وردية الأمن",
-                role_area_sup: "مشرف القطاع",
+                role_gen_mgr: "المدير العام للأمن",
+                role_duty_mgr: "مدير الأمن المناوب",
+                role_area_sup: "مشرف القطاع (الشمالي/الجنوبي/الغربي)",
                 role_plot_sup: "مشرف المخطط",
                 role_gate_guard: "حارس بوابة الوصول",
                 nav_command: "مركز التحكم والقيادة",
                 nav_roster: "جدول نوبات الحراس",
-                nav_fleet: "أسطول الدوريات (18)",
+                nav_fleet: "أسطول الدوريات (16)",
                 nav_incidents: "إدارة الحوادث والبلاغات",
                 nav_handover: "تسليم الوردية الأمني",
                 lbl_active_shift: "الوردية الحالية",
-                val_shift1: "الوردية 1 (صباحية)",
+                val_shift1: "الوردية 1 (06:00 - 14:00)",
                 lbl_rotation: "نظام التناوب",
                 val_rotation: "5 أيام عمل / يومين راحة",
                 m_guards_duty: "الحراس على رأس العمل",
@@ -462,63 +491,85 @@
                 m_fleet_active: "الدوريات النشطة",
                 m_incidents_active: "البلاغات النشطة",
                 unresolved: "قيد المتابعة",
-                map_title: "المخطط العام لمحيط الموقع (20 كم)",
-                map_subtitle: "اضغط على أي مخطط لتغيير الحالة أو إرسال توجيه",
+                map_title: "المخطط العام للقطاعات (الشمالية، الجنوبية، والغربية)",
+                map_subtitle: "اضغط على أي مخطط لمراجعة البوابات والدوريات الداخلية والخارجية",
                 btn_sos: "إرسال نداء طوارئ عام",
-                roster_title: "جدول نوبات وحراس الأمن",
+                area_north: "القطاع الشمالي (مخطط أ & مخطط ب)",
+                area_south: "القطاع الجنوبي (مخطط ج & مخطط د)",
+                area_west: "القطاع الغربي (مخطط هـ، مخطط و & مخطط ز)",
+                roster_title: "جدول نوبات وحراس الأمن (220 حارس)",
                 roster_subtitle: "نظام 5 أيام عمل / 2 راحة • اضغط على أي صف للتعديل",
                 btn_add_guard: "إضافة حارس جديد",
                 th_name: "اسم الحارس",
                 th_badge: "رقم الشارة",
-                th_post: "الموقع / البوابة",
+                th_area: "القطاع / الموقع",
                 th_shift: "الوردية",
                 th_rotation: "التناوب",
                 th_status: "الحالة التشغيلية",
                 th_actions: "الإجراءات",
-                fleet_title: "أسطول سيارات الدوريات (18 دورية)",
-                fleet_subtitle: "اضغط على بطاقة أي دورية لتعديل الوقود، العداد، والسائق",
+                fleet_title: "أسطول سيارات الدوريات (16 دورية)",
+                fleet_subtitle: "الدوريات الداخلية والخارجية + دورية مدير الأمن المناوب والدورية العامة",
                 incident_title: "سجل بلاغات وحوادث الموقع",
                 incident_subtitle: "تصنيف بلاغات المستوى 1، 2، و 3",
                 btn_log_incident: "تسجيل بلاغ جديد",
                 handover_title: "محضر تسليم الوردية الرقمي",
-                lbl_supervisor: "اسم المشرف المسلم",
-                lbl_remarks: "ملاحظات التسليم والقضايا المعلقة",
+                lbl_supervisor: "اسم المشرف / المدير المناوب",
+                lbl_remarks: "ملاحظات التسليم وقضايا القطاعات المعلقة",
                 btn_submit_handover: "اعتماد وتوثيق التسليم",
                 recent_handovers: "سجل تسليم الورديات السابقة"
             }
         };
 
-        // Local Data Management
-        let rosterData = JSON.parse(localStorage.getItem('nmdc_roster')) || [
-            { name: "Saad Al-Khalaf", badge: "SEC-001", post: "Command & Control Center", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 3/5)", status: "Active" },
-            { name: "Tariq Mansoor", badge: "SEC-042", post: "Plot A - Gate 1", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 1/5)", status: "Active" },
-            { name: "Khaled Al-Ghamdi", badge: "SEC-089", post: "Plot C - Gate 7", shift: "Shift 2 (14:00 - 22:00)", rotation: "OFF (Rest Day)", status: "Off Duty" },
-            { name: "Youssef Ibrahim", badge: "SEC-112", post: "Patrol Fleet P-05", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 5/5)", status: "Active" }
+        // Site Hierarchy Data Structure
+        let plotsData = JSON.parse(localStorage.getItem('nmdc_plots_v2')) || [
+            // North Area
+            { name: "PLOT A", area: "North", status: "Secure", color: "emerald", gates: "Gates: A1, A2, A3", externalPatrol: "AX1", internalPatrol: "AD1" },
+            { name: "PLOT B", area: "North", status: "Secure", color: "emerald", gates: "Gates: B1, B2, B3", externalPatrol: "BX1", internalPatrol: "BD1" },
+            // South Area
+            { name: "PLOT C", area: "South", status: "Alert", color: "rose", gates: "Gates: C1, C2, C3", externalPatrol: "CX1", internalPatrol: "CD1" },
+            { name: "PLOT D", area: "South", status: "Secure", color: "emerald", gates: "Gates: D1, D2, D3", externalPatrol: "DX1", internalPatrol: "DD1" },
+            // West Area
+            { name: "PLOT E", area: "West", status: "Secure", color: "emerald", gates: "Gates: E1, E2, E3", externalPatrol: "EX1", internalPatrol: "ED1" },
+            { name: "PLOT F", area: "West", status: "Inspection", color: "amber", gates: "Gates: F1, F2, F3", externalPatrol: "FX1", internalPatrol: "FD1" },
+            { name: "PLOT G", area: "West", status: "Secure", color: "emerald", gates: "Gates: G1, G2, G3", externalPatrol: "GX1", internalPatrol: "GD1" }
         ];
 
-        let fleetData = JSON.parse(localStorage.getItem('nmdc_fleet')) || [
-            { id: "P-01", status: "Active", driver: "Ahmad Suleiman", fuel: 85, odo: "42,100 KM", color: "emerald", plot: "Plot A" },
-            { id: "P-05", status: "Active", driver: "Youssef Ibrahim", fuel: 60, odo: "38,920 KM", color: "emerald", plot: "Plot C" },
-            { id: "P-09", status: "Standby", driver: "Unassigned (No Driver)", fuel: 100, odo: "15,400 KM", color: "amber", plot: "Plot E" },
-            { id: "P-14", status: "Maintenance", driver: "Out of Service", fuel: 20, odo: "89,300 KM", color: "rose", plot: "Workshop" }
+        let fleetData = JSON.parse(localStorage.getItem('nmdc_fleet_v2')) || [
+            // Management & General Fleet
+            { id: "MGR-01", name: "Duty Security Manager Vehicle", status: "Active", driver: "Saad Al-Khalaf", fuel: 95, odo: "21,400 KM", color: "blue", plot: "All Areas (North/South/West)" },
+            { id: "GEN-01", name: "General Site Patrol Vehicle", status: "Active", driver: "Fahad Al-Harbi", fuel: 80, odo: "34,200 KM", color: "blue", plot: "Site-wide Perimeter" },
+            // North Area Vehicles
+            { id: "AX1", name: "Plot A External Patrol", status: "Active", driver: "Tariq Mansoor", fuel: 85, odo: "42,100 KM", color: "emerald", plot: "North Area - Plot A" },
+            { id: "AD1", name: "Plot A Internal Patrol", status: "Active", driver: "Majed Bin Ali", fuel: 75, odo: "28,300 KM", color: "emerald", plot: "North Area - Plot A" },
+            { id: "BX1", name: "Plot B External Patrol", status: "Active", driver: "Sultan Otaibi", fuel: 90, odo: "31,500 KM", color: "emerald", plot: "North Area - Plot B" },
+            { id: "BD1", name: "Plot B Internal Patrol", status: "Active", driver: "Nasser Ghamdi", fuel: 65, odo: "19,800 KM", color: "emerald", plot: "North Area - Plot B" },
+            // South Area Vehicles
+            { id: "CX1", name: "Plot C External Patrol", status: "Active", driver: "Youssef Ibrahim", fuel: 60, odo: "38,920 KM", color: "rose", plot: "South Area - Plot C" },
+            { id: "CD1", name: "Plot C Internal Patrol", status: "Active", driver: "Abdullah Dawsari", fuel: 70, odo: "22,100 KM", color: "emerald", plot: "South Area - Plot C" },
+            { id: "DX1", name: "Plot D External Patrol", status: "Active", driver: "Hamad Qhtani", fuel: 88, odo: "41,000 KM", color: "emerald", plot: "South Area - Plot D" },
+            { id: "DD1", name: "Plot D Internal Patrol", status: "Active", driver: "Bader Mutairi", fuel: 82, odo: "17,600 KM", color: "emerald", plot: "South Area - Plot D" },
+            // West Area Vehicles
+            { id: "EX1", name: "Plot E External Patrol", status: "Standby", driver: "Unassigned (No Driver)", fuel: 100, odo: "15,400 KM", color: "amber", plot: "West Area - Plot E" },
+            { id: "ED1", name: "Plot E Internal Patrol", status: "Active", driver: "Saleh Zahrani", fuel: 78, odo: "26,500 KM", color: "emerald", plot: "West Area - Plot E" },
+            { id: "FX1", name: "Plot F External Patrol", status: "Active", driver: "Rayan Malki", fuel: 72, odo: "33,100 KM", color: "amber", plot: "West Area - Plot F" },
+            { id: "FD1", name: "Plot F Internal Patrol", status: "Active", driver: "Omer Subaie", fuel: 68, odo: "29,400 KM", color: "emerald", plot: "West Area - Plot F" },
+            { id: "GX1", name: "Plot G External Patrol", status: "Active", driver: "Waleed Ruwaili", fuel: 85, odo: "37,800 KM", color: "emerald", plot: "West Area - Plot G" },
+            { id: "GD1", name: "Plot G Internal Patrol", status: "Maintenance", driver: "Out of Service", fuel: 15, odo: "65,200 KM", color: "rose", plot: "Central Workshop" }
         ];
 
-        let incidentData = JSON.parse(localStorage.getItem('nmdc_incidents')) || [
-            { id: "INC-102", title: "Fence Mesh Disconnection Near Gate 8", plot: "Plot C", severity: "Level 2", status: "Investigating", reporter: "Plot C Supervisor", time: "10:15 AM" },
-            { id: "INC-101", title: "Unauthorized Delivery Truck Access Attempt", plot: "Plot F", severity: "Level 1", status: "Resolved", reporter: "Gate 15 Guard", time: "08:30 AM" }
+        let rosterData = JSON.parse(localStorage.getItem('nmdc_roster_v2')) || [
+            { name: "Saad Al-Khalaf", badge: "SEC-001", post: "Duty Security Manager (All Areas)", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 3/5)", status: "Active" },
+            { name: "Tariq Mansoor", badge: "SEC-042", post: "North Area - Gate A1", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 1/5)", status: "Active" },
+            { name: "Khaled Al-Ghamdi", badge: "SEC-089", post: "South Area - Gate C2", shift: "Shift 2 (14:00 - 22:00)", rotation: "OFF (Rest Day)", status: "Off Duty" },
+            { name: "Youssef Ibrahim", badge: "SEC-112", post: "West Area - Gate E3", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 5/5)", status: "Active" }
         ];
 
-        let plotsData = JSON.parse(localStorage.getItem('nmdc_plots')) || [
-            { name: "PLOT A", status: "Secure", color: "emerald", gates: "Gates: G1, G2, G3", patrols: "P-01, P-02" },
-            { name: "PLOT B", status: "Secure", color: "emerald", gates: "Gates: G4, G5, G6", patrols: "P-03, P-04" },
-            { name: "PLOT C", status: "Alert", color: "rose", gates: "Gates: G7, G8, G9", patrols: "P-05 (En Route)" },
-            { name: "PLOT D", status: "Secure", color: "emerald", gates: "Gates: G10, G11", patrols: "P-06, P-07" },
-            { name: "PLOT E", status: "Secure", color: "emerald", gates: "Gates: G12, G13, G14", patrols: "P-08, P-09" },
-            { name: "PLOT F", status: "Inspection", color: "amber", gates: "Gates: G15, G16, G17", patrols: "P-10, P-11" },
-            { name: "PLOT G", status: "Secure", color: "emerald", gates: "Gates: G18, G19, G20", patrols: "P-12, P-13" }
+        let incidentData = JSON.parse(localStorage.getItem('nmdc_incidents_v2')) || [
+            { id: "INC-102", title: "Fence Mesh Disconnection Near Gate C2", plot: "Plot C (South)", severity: "Level 2", status: "Investigating", reporter: "South Area Supervisor", time: "10:15 AM" },
+            { id: "INC-101", title: "Unauthorized Delivery Truck Access Attempt at Gate F1", plot: "Plot F (West)", severity: "Level 1", status: "Resolved", reporter: "Gate F1 Guard", time: "08:30 AM" }
         ];
 
-        let handoverLogs = JSON.parse(localStorage.getItem('nmdc_handovers')) || [];
+        let handoverLogs = JSON.parse(localStorage.getItem('nmdc_handovers_v2')) || [];
 
         document.addEventListener('DOMContentLoaded', () => {
             if (window.lucide) { lucide.createIcons(); }
@@ -530,7 +581,6 @@
             document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             document.getElementById('lang-btn-text').innerText = currentLang === 'ar' ? 'English' : 'العربية';
 
-            // Apply translations to all data-i18n elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (i18n[currentLang][key]) {
@@ -542,7 +592,7 @@
         }
 
         function renderAll() {
-            renderPlots();
+            renderSectorPlots();
             renderRoster();
             renderFleet();
             renderIncidents();
@@ -551,9 +601,9 @@
         }
 
         function updateMetrics() {
-            const activeGuards = rosterData.filter(g => g.status === 'Active').length;
-            document.getElementById('m-active-guards').innerHTML = `${activeGuards} <span class="text-xs font-normal text-slate-400">/ ${rosterData.length}</span>`;
-            document.getElementById('sidebar-guard-count').innerText = rosterData.length;
+            const activeGuards = 182; // Active shift headcount
+            document.getElementById('m-active-guards').innerHTML = `${activeGuards} <span class="text-xs font-normal text-slate-400">/ 220</span>`;
+            document.getElementById('sidebar-guard-count').innerText = "220";
 
             const activeFleet = fleetData.filter(f => f.status === 'Active').length;
             const standbyFleet = fleetData.filter(f => f.status === 'Standby').length;
@@ -564,16 +614,33 @@
             document.getElementById('m-open-incidents').innerHTML = `${unresolvedIncidents} <span class="text-xs font-normal text-slate-400">${unresLabel}</span>`;
         }
 
-        function renderPlots() {
-            const grid = document.getElementById('plots-grid');
-            if (!grid) return;
-            grid.innerHTML = plotsData.map((p, idx) => `
-                <div onclick="togglePlotStatus(${idx})" class="border border-${p.color}-500/40 bg-${p.color}-500/10 rounded-lg p-2 flex flex-col justify-between cursor-pointer hover:border-${p.color}-400 transition-all">
-                    <div class="flex justify-between items-center"><span class="font-bold text-xs text-${p.color}-400">${p.name}</span><span class="text-[10px] bg-${p.color}-500/20 text-${p.color}-300 px-1 rounded">${p.status}</span></div>
-                    <div class="text-[10px] text-slate-400">${p.gates}</div>
-                    <div class="text-[10px] text-${p.color}-400 font-mono">${p.patrols}</div>
+        function renderSectorPlots() {
+            const northGrid = document.getElementById('north-plots-grid');
+            const southGrid = document.getElementById('south-plots-grid');
+            const westGrid = document.getElementById('west-plots-grid');
+
+            if (!northGrid || !southGrid || !westGrid) return;
+
+            northGrid.innerHTML = plotsData.filter(p => p.area === 'North').map((p, idx) => plotCardTemplate(p, idx)).join('');
+            southGrid.innerHTML = plotsData.filter(p => p.area === 'South').map((p, idx) => plotCardTemplate(p, idx)).join('');
+            westGrid.innerHTML = plotsData.filter(p => p.area === 'West').map((p, idx) => plotCardTemplate(p, idx)).join('');
+        }
+
+        function plotCardTemplate(p, idx) {
+            const realIdx = plotsData.findIndex(item => item.name === p.name);
+            return `
+                <div onclick="togglePlotStatus(${realIdx})" class="border border-${p.color}-500/40 bg-${p.color}-500/10 rounded-lg p-2.5 flex flex-col justify-between cursor-pointer hover:border-${p.color}-400 transition-all">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-xs text-${p.color}-400">${p.name}</span>
+                        <span class="text-[10px] bg-${p.color}-500/20 text-${p.color}-300 px-1.5 py-0.5 rounded">${p.status}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-300 font-medium">${p.gates}</div>
+                    <div class="text-[10px] text-slate-400 mt-1 flex justify-between font-mono">
+                        <span>Ext: <strong class="text-amber-400">${p.externalPatrol}</strong></span>
+                        <span>Int: <strong class="text-emerald-400">${p.internalPatrol}</strong></span>
+                    </div>
                 </div>
-            `).join('');
+            `;
         }
 
         function togglePlotStatus(idx) {
@@ -581,8 +648,8 @@
             if (p.status === 'Secure') { p.status = 'Inspection'; p.color = 'amber'; }
             else if (p.status === 'Inspection') { p.status = 'Alert'; p.color = 'rose'; }
             else { p.status = 'Secure'; p.color = 'emerald'; }
-            localStorage.setItem('nmdc_plots', JSON.stringify(plotsData));
-            renderPlots();
+            localStorage.setItem('nmdc_plots_v2', JSON.stringify(plotsData));
+            renderSectorPlots();
         }
 
         function renderRoster() {
@@ -608,7 +675,7 @@
             document.getElementById('guard-edit-index').value = "-1";
             document.getElementById('g-name').value = "";
             document.getElementById('g-badge').value = `SEC-${Math.floor(100 + Math.random() * 900)}`;
-            document.getElementById('g-post').value = "Plot Gate 1";
+            document.getElementById('g-post').value = "North Area - Gate A1";
             document.getElementById('g-shift').value = "Shift 1 (06:00 - 14:00)";
             document.getElementById('g-rotation').value = "ON (Day 1/5)";
             document.getElementById('g-status').value = "Active";
@@ -642,7 +709,7 @@
             if (idx === -1) { rosterData.push(guardObj); }
             else { rosterData[idx] = guardObj; }
 
-            localStorage.setItem('nmdc_roster', JSON.stringify(rosterData));
+            localStorage.setItem('nmdc_roster_v2', JSON.stringify(rosterData));
             closeModal('guard-modal');
             renderRoster();
             updateMetrics();
@@ -651,7 +718,7 @@
         function deleteGuard(idx) {
             if (confirm(currentLang === 'ar' ? "هل تريد حذف الحارس من الجدول؟" : "Remove guard from roster?")) {
                 rosterData.splice(idx, 1);
-                localStorage.setItem('nmdc_roster', JSON.stringify(rosterData));
+                localStorage.setItem('nmdc_roster_v2', JSON.stringify(rosterData));
                 renderRoster();
                 updateMetrics();
             }
@@ -663,11 +730,14 @@
             grid.innerHTML = fleetData.map((f, idx) => `
                 <div onclick="openFleetModal(${idx})" class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2 cursor-pointer hover:border-amber-500/40 transition-all">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-sm text-slate-100">${f.id}</span>
+                        <div>
+                            <span class="font-bold text-sm text-amber-400 font-mono">${f.id}</span>
+                            <span class="text-xs text-slate-300 block font-semibold">${f.name || ''}</span>
+                        </div>
                         <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-${f.color}-500/10 text-${f.color}-400 border border-${f.color}-500/20">${f.status}</span>
                     </div>
                     <div class="text-xs text-slate-400">${currentLang === 'ar' ? 'السائق:' : 'Driver:'} <span class="text-slate-200">${f.driver}</span></div>
-                    <div class="text-xs text-slate-400">${currentLang === 'ar' ? 'الموقع:' : 'Location:'} <span class="text-slate-200">${f.plot}</span></div>
+                    <div class="text-xs text-slate-400">${currentLang === 'ar' ? 'القطاع:' : 'Sector:'} <span class="text-slate-200">${f.plot}</span></div>
                     <div class="pt-2 border-t border-slate-800 flex justify-between text-[11px] text-slate-500 font-mono">
                         <span>${currentLang === 'ar' ? 'الوقود:' : 'Fuel:'} ${f.fuel}%</span>
                         <span>${currentLang === 'ar' ? 'العداد:' : 'Odo:'} ${f.odo}</span>
@@ -696,6 +766,7 @@
 
             fleetData[idx] = {
                 id: fleetData[idx].id,
+                name: fleetData[idx].name,
                 status: status,
                 driver: document.getElementById('fv-driver').value,
                 plot: document.getElementById('fv-plot').value,
@@ -704,7 +775,7 @@
                 color: color
             };
 
-            localStorage.setItem('nmdc_fleet', JSON.stringify(fleetData));
+            localStorage.setItem('nmdc_fleet_v2', JSON.stringify(fleetData));
             closeModal('fleet-modal');
             renderFleet();
             updateMetrics();
@@ -729,7 +800,7 @@
 
         function toggleIncidentStatus(idx) {
             incidentData[idx].status = incidentData[idx].status === 'Investigating' ? 'Resolved' : 'Investigating';
-            localStorage.setItem('nmdc_incidents', JSON.stringify(incidentData));
+            localStorage.setItem('nmdc_incidents_v2', JSON.stringify(incidentData));
             renderIncidents();
             updateMetrics();
         }
@@ -747,12 +818,12 @@
                 plot: document.getElementById('inc-plot').value,
                 severity: document.getElementById('inc-severity').value,
                 status: "Investigating",
-                reporter: document.getElementById('inc-reporter').value || "Duty Guard",
+                reporter: document.getElementById('inc-reporter').value || "Duty Manager",
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
 
             incidentData.unshift(newInc);
-            localStorage.setItem('nmdc_incidents', JSON.stringify(incidentData));
+            localStorage.setItem('nmdc_incidents_v2', JSON.stringify(incidentData));
             closeModal('incident-modal');
             renderIncidents();
             updateMetrics();
@@ -769,7 +840,7 @@
                 time: new Date().toLocaleString()
             });
 
-            localStorage.setItem('nmdc_handovers', JSON.stringify(handoverLogs));
+            localStorage.setItem('nmdc_handovers_v2', JSON.stringify(handoverLogs));
             document.getElementById('ho-remarks').value = "";
             renderHandovers();
             alert(currentLang === 'ar' ? "تم توثيق محضر تسليم الوردية بنجاح!" : "Shift handover record saved!");
@@ -807,7 +878,7 @@
         }
 
         function triggerBroadCastSOS() {
-            alert(currentLang === 'ar' ? '🚨 تم إرسال نداء طوارئ عام لكافة المشرفين والقطاعات!' : '🚨 EMERGENCY BROADCAST: SOS alert dispatched across all plots!');
+            alert(currentLang === 'ar' ? '🚨 تم إرسال نداء طوارئ عام لكافة المشرفين والقطاعات (الشمالي، الجنوبي، والغربي)!' : '🚨 EMERGENCY BROADCAST: SOS alert dispatched across North, South & West Areas!');
         }
 
         function closeModal(id) {
