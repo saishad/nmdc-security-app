@@ -70,7 +70,7 @@
 
                 <button onclick="switchTab('roster')" id="nav-roster" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-slate-200">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>Guard Roster (200)</span>
+                    <span>Guard Roster (<span id="sidebar-guard-count">200</span>)</span>
                 </button>
 
                 <button onclick="switchTab('fleet')" id="nav-fleet" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-slate-200">
@@ -114,7 +114,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400">Guards On Duty</div>
-                            <div class="text-xl font-bold text-slate-100">164 <span class="text-xs font-normal text-slate-400">/ 200</span></div>
+                            <div class="text-xl font-bold text-slate-100" id="m-active-guards">164 <span class="text-xs font-normal text-slate-400">/ 200</span></div>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400">Active Patrol Fleet</div>
-                            <div class="text-xl font-bold text-slate-100">14 <span class="text-xs font-normal text-amber-400">(4 Standby)</span></div>
+                            <div class="text-xl font-bold text-slate-100" id="m-active-fleet">14 <span class="text-xs font-normal text-amber-400">(4 Standby)</span></div>
                         </div>
                     </div>
 
@@ -144,7 +144,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400">Active Incidents</div>
-                            <div class="text-xl font-bold text-rose-400">2 <span class="text-xs font-normal text-slate-400">Unresolved</span></div>
+                            <div class="text-xl font-bold text-rose-400" id="m-open-incidents">2 <span class="text-xs font-normal text-slate-400">Unresolved</span></div>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-sm font-bold text-slate-200">NMDC Site Perimeter Layout (20 KM)</h2>
-                            <p class="text-xs text-slate-400">Plots A through G with Gate Points and Patrol Units</p>
+                            <p class="text-xs text-slate-400">Click any plot card to toggle status or send dispatch</p>
                         </div>
                         <button onclick="triggerBroadCastSOS()" class="bg-rose-600 hover:bg-rose-500 text-white font-semibold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-rose-600/30">
                             <i data-lucide="siren" class="w-4 h-4"></i>
@@ -162,51 +162,23 @@
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-7 gap-2 min-h-[160px] bg-slate-950 p-3 rounded-xl border border-slate-800">
-                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-emerald-400">PLOT A</span><span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1 rounded">Secure</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G1, G2, G3</div>
-                            <div class="text-[10px] text-amber-400">Patrols: P-01, P-02</div>
-                        </div>
-                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-emerald-400">PLOT B</span><span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1 rounded">Secure</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G4, G5, G6</div>
-                            <div class="text-[10px] text-amber-400">Patrols: P-03, P-04</div>
-                        </div>
-                        <div class="border border-rose-500/50 bg-rose-500/10 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-rose-400">PLOT C</span><span class="text-[10px] bg-rose-500/20 text-rose-300 px-1 rounded animate-pulse">Alert</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G7, G8, G9</div>
-                            <div class="text-[10px] text-rose-400">Patrols: P-05 (En Route)</div>
-                        </div>
-                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-emerald-400">PLOT D</span><span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1 rounded">Secure</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G10, G11</div>
-                            <div class="text-[10px] text-amber-400">Patrols: P-06, P-07</div>
-                        </div>
-                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-emerald-400">PLOT E</span><span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1 rounded">Secure</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G12, G13, G14</div>
-                            <div class="text-[10px] text-amber-400">Patrols: P-08, P-09</div>
-                        </div>
-                        <div class="border border-amber-500/30 bg-amber-500/5 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-amber-400">PLOT F</span><span class="text-[10px] bg-amber-500/20 text-amber-300 px-1 rounded">Inspection</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G15, G16, G17</div>
-                            <div class="text-[10px] text-amber-400">Patrols: P-10, P-11</div>
-                        </div>
-                        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-lg p-2 flex flex-col justify-between">
-                            <div class="flex justify-between items-center"><span class="font-bold text-xs text-emerald-400">PLOT G</span><span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-1 rounded">Secure</span></div>
-                            <div class="text-[10px] text-slate-400">Gates: G18, G19, G20</div>
-                            <div class="text-[10px] text-amber-400">Patrols: P-12, P-13</div>
-                        </div>
+                    <div class="grid grid-cols-2 md:grid-cols-7 gap-2 min-h-[160px] bg-slate-950 p-3 rounded-xl border border-slate-800" id="plots-grid">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
             </section>
 
             <!-- TAB 2: ROSTER -->
             <section id="tab-roster" class="hidden space-y-4">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-sm font-bold text-slate-100">Guard Shift Roster (200 Guards)</h2>
-                    <span class="text-xs text-slate-400">5 Days On / 2 Days Off Rotation</span>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-100">Guard Shift Roster</h2>
+                        <p class="text-xs text-slate-400">5 Days On / 2 Days Off Rotation • Click any row to edit</p>
+                    </div>
+                    <button onclick="openAddGuardModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Add New Guard</span>
+                    </button>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
                     <table class="w-full text-left text-xs rtl:text-right">
@@ -218,6 +190,7 @@
                                 <th class="p-3">Shift</th>
                                 <th class="p-3">Rotation</th>
                                 <th class="p-3">Status</th>
+                                <th class="p-3 text-right rtl:text-left">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300" id="roster-table-body"></tbody>
@@ -227,13 +200,27 @@
 
             <!-- TAB 3: FLEET -->
             <section id="tab-fleet" class="hidden space-y-4">
-                <h2 class="text-sm font-bold text-slate-100">Patrol Vehicle Fleet (18 Patrols)</h2>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-100">Patrol Vehicle Fleet (18 Patrols)</h2>
+                        <p class="text-xs text-slate-400">Click any vehicle card to edit fuel, mileage, driver, or operational status</p>
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="fleet-grid"></div>
             </section>
 
             <!-- TAB 4: INCIDENTS -->
             <section id="tab-incidents" class="hidden space-y-4">
-                <h2 class="text-sm font-bold text-slate-100">Active Incident Escalation Log</h2>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-100">Active Incident Escalation Log</h2>
+                        <p class="text-xs text-slate-400">Level 1, Level 2, and Level 3 incident reports</p>
+                    </div>
+                    <button onclick="openNewIncidentModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Log New Incident</span>
+                    </button>
+                </div>
                 <div class="space-y-3" id="incident-list-container"></div>
             </section>
 
@@ -242,17 +229,149 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 max-w-xl mx-auto">
                     <h2 class="text-sm font-bold text-slate-100">Digital Shift Handover</h2>
                     <div class="space-y-2 text-xs">
-                        <label class="text-slate-400 block">Supervisor Handover Remarks</label>
-                        <textarea rows="4" placeholder="Enter notes..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none"></textarea>
+                        <label class="text-slate-400 block">Supervisor Name</label>
+                        <input id="ho-supervisor" type="text" value="Mohammed Al-Otaibi (Shift 1 Manager)" class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none">
                     </div>
-                    <button onclick="alert('Handover submitted successfully!')" class="bg-emerald-600 text-white font-semibold text-xs px-4 py-2 rounded">Submit Handover</button>
+                    <div class="space-y-2 text-xs">
+                        <label class="text-slate-400 block">Supervisor Handover Remarks & Active Issues</label>
+                        <textarea id="ho-remarks" rows="4" placeholder="Enter notes on fence breaches, active gates, ongoing investigations..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded text-slate-200 outline-none"></textarea>
+                    </div>
+                    <button onclick="submitHandoverForm()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded">Submit & Log Handover</button>
+                </div>
+                <div class="max-w-xl mx-auto space-y-2">
+                    <h3 class="text-xs font-bold text-slate-400">Recent Shift Handover Logs</h3>
+                    <div id="handover-logs-container" class="space-y-2"></div>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <!-- DB Settings Modal -->
+    <!-- MODAL: ADD / EDIT GUARD -->
+    <div id="guard-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-4 space-y-3 shadow-2xl">
+            <h3 class="font-bold text-sm text-slate-100" id="guard-modal-title">Edit Guard Details</h3>
+            <input type="hidden" id="guard-edit-index">
+            <div class="space-y-2 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1">Guard Name</label>
+                    <input id="g-name" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Badge ID</label>
+                    <input id="g-badge" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200 font-mono">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Assigned Post</label>
+                    <input id="g-post" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Shift</label>
+                    <select id="g-shift" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                        <option value="Shift 1 (06:00 - 14:00)">Shift 1 (06:00 - 14:00)</option>
+                        <option value="Shift 2 (14:00 - 22:00)">Shift 2 (14:00 - 22:00)</option>
+                        <option value="Shift 3 (22:00 - 06:00)">Shift 3 (22:00 - 06:00)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Rotation Status</label>
+                    <input id="g-rotation" type="text" placeholder="e.g. ON (Day 2/5) or OFF (Rest Day)" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Duty Status</label>
+                    <select id="g-status" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                        <option value="Active">Active</option>
+                        <option value="Off Duty">Off Duty</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 rtl:space-x-reverse">
+                <button onclick="closeModal('guard-modal')" class="px-3 py-1.5 rounded text-xs bg-slate-800 text-slate-300">Cancel</button>
+                <button onclick="saveGuardModal()" class="px-3 py-1.5 rounded text-xs bg-amber-500 text-slate-950 font-bold">Save Guard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT FLEET VEHICLE -->
+    <div id="fleet-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-4 space-y-3 shadow-2xl">
+            <h3 class="font-bold text-sm text-slate-100" id="fleet-modal-title">Update Vehicle Status</h3>
+            <input type="hidden" id="fleet-edit-id">
+            <div class="space-y-2 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1">Operational Status</label>
+                    <select id="fv-status" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                        <option value="Active">Active Patrol</option>
+                        <option value="Standby">Standby / Unassigned</option>
+                        <option value="Maintenance">Maintenance / Workshop</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Assigned Driver</label>
+                    <input id="fv-driver" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Current Sector / Plot</label>
+                    <input id="fv-plot" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Fuel Level (%)</label>
+                    <input id="fv-fuel" type="number" min="0" max="100" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Odometer Reading (KM)</label>
+                    <input id="fv-odo" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 rtl:space-x-reverse">
+                <button onclick="closeModal('fleet-modal')" class="px-3 py-1.5 rounded text-xs bg-slate-800 text-slate-300">Cancel</button>
+                <button onclick="saveFleetModal()" class="px-3 py-1.5 rounded text-xs bg-amber-500 text-slate-950 font-bold">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: LOG INCIDENT -->
+    <div id="incident-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-4 space-y-3 shadow-2xl">
+            <h3 class="font-bold text-sm text-slate-100">Log New Incident Report</h3>
+            <div class="space-y-2 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1">Incident Title</label>
+                    <input id="inc-title" type="text" placeholder="e.g. Unscheduled vehicle at Gate 4" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Location / Plot</label>
+                    <select id="inc-plot" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                        <option value="Plot A">Plot A</option>
+                        <option value="Plot B">Plot B</option>
+                        <option value="Plot C">Plot C</option>
+                        <option value="Plot D">Plot D</option>
+                        <option value="Plot E">Plot E</option>
+                        <option value="Plot F">Plot F</option>
+                        <option value="Plot G">Plot G</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Severity Level</label>
+                    <select id="inc-severity" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                        <option value="Level 1">Level 1 (Low)</option>
+                        <option value="Level 2">Level 2 (Medium)</option>
+                        <option value="Level 3">Level 3 (Critical)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1">Reporter Name</label>
+                    <input id="inc-reporter" type="text" placeholder="Your Name / Post" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200">
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 rtl:space-x-reverse">
+                <button onclick="closeModal('incident-modal')" class="px-3 py-1.5 rounded text-xs bg-slate-800 text-slate-300">Cancel</button>
+                <button onclick="saveIncidentModal()" class="px-3 py-1.5 rounded text-xs bg-amber-500 text-slate-950 font-bold">Log Incident</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DB SETTINGS -->
     <div id="settings-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-4 space-y-3 shadow-2xl">
             <h3 class="font-bold text-sm text-slate-100">Supabase API Settings</h3>
@@ -261,7 +380,7 @@
                 <input id="cfg-supabase-key" type="password" placeholder="Anon Key" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded text-slate-200 font-mono">
             </div>
             <div class="flex justify-end space-x-2 rtl:space-x-reverse">
-                <button onclick="closeSettingsModal()" class="px-3 py-1.5 rounded text-xs bg-slate-800 text-slate-300">Cancel</button>
+                <button onclick="closeModal('settings-modal')" class="px-3 py-1.5 rounded text-xs bg-slate-800 text-slate-300">Cancel</button>
                 <button onclick="saveSupabaseConfig()" class="px-3 py-1.5 rounded text-xs bg-amber-500 text-slate-950 font-bold">Save</button>
             </div>
         </div>
@@ -271,33 +390,286 @@
     <script>
         let currentLang = 'en';
 
-        const mockRoster = [
+        // Local State Management
+        let rosterData = JSON.parse(localStorage.getItem('nmdc_roster')) || [
             { name: "Saad Al-Khalaf", badge: "SEC-001", post: "Command & Control Center", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 3/5)", status: "Active" },
             { name: "Tariq Mansoor", badge: "SEC-042", post: "Plot A - Gate 1", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 1/5)", status: "Active" },
             { name: "Khaled Al-Ghamdi", badge: "SEC-089", post: "Plot C - Gate 7", shift: "Shift 2 (14:00 - 22:00)", rotation: "OFF (Rest Day)", status: "Off Duty" },
             { name: "Youssef Ibrahim", badge: "SEC-112", post: "Patrol Fleet P-05", shift: "Shift 1 (06:00 - 14:00)", rotation: "ON (Day 5/5)", status: "Active" }
         ];
 
-        const mockFleet = [
+        let fleetData = JSON.parse(localStorage.getItem('nmdc_fleet')) || [
             { id: "P-01", status: "Active", driver: "Ahmad Suleiman", fuel: 85, odo: "42,100 KM", color: "emerald", plot: "Plot A" },
             { id: "P-05", status: "Active", driver: "Youssef Ibrahim", fuel: 60, odo: "38,920 KM", color: "emerald", plot: "Plot C" },
             { id: "P-09", status: "Standby", driver: "Unassigned (No Driver)", fuel: 100, odo: "15,400 KM", color: "amber", plot: "Plot E" },
             { id: "P-14", status: "Maintenance", driver: "Out of Service", fuel: 20, odo: "89,300 KM", color: "rose", plot: "Workshop" }
         ];
 
-        const mockIncidents = [
+        let incidentData = JSON.parse(localStorage.getItem('nmdc_incidents')) || [
             { id: "INC-102", title: "Fence Mesh Disconnection Near Gate 8", plot: "Plot C", severity: "Level 2", status: "Investigating", reporter: "Plot C Supervisor", time: "10:15 AM" },
             { id: "INC-101", title: "Unauthorized Delivery Truck Access Attempt", plot: "Plot F", severity: "Level 1", status: "Resolved", reporter: "Gate 15 Guard", time: "08:30 AM" }
         ];
 
+        let plotsData = JSON.parse(localStorage.getItem('nmdc_plots')) || [
+            { name: "PLOT A", status: "Secure", color: "emerald", gates: "Gates: G1, G2, G3", patrols: "P-01, P-02" },
+            { name: "PLOT B", status: "Secure", color: "emerald", gates: "Gates: G4, G5, G6", patrols: "P-03, P-04" },
+            { name: "PLOT C", status: "Alert", color: "rose", gates: "Gates: G7, G8, G9", patrols: "P-05 (En Route)" },
+            { name: "PLOT D", status: "Secure", color: "emerald", gates: "Gates: G10, G11", patrols: "P-06, P-07" },
+            { name: "PLOT E", status: "Secure", color: "emerald", gates: "Gates: G12, G13, G14", patrols: "P-08, P-09" },
+            { name: "PLOT F", status: "Inspection", color: "amber", gates: "Gates: G15, G16, G17", patrols: "P-10, P-11" },
+            { name: "PLOT G", status: "Secure", color: "emerald", gates: "Gates: G18, G19, G20", patrols: "P-12, P-13" }
+        ];
+
+        let handoverLogs = JSON.parse(localStorage.getItem('nmdc_handovers')) || [];
+
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.lucide) {
-                lucide.createIcons();
-            }
+            if (window.lucide) { lucide.createIcons(); }
+            renderAll();
+        });
+
+        function renderAll() {
+            renderPlots();
             renderRoster();
             renderFleet();
             renderIncidents();
-        });
+            renderHandovers();
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            const activeGuards = rosterData.filter(g => g.status === 'Active').length;
+            document.getElementById('m-active-guards').innerHTML = `${activeGuards} <span class="text-xs font-normal text-slate-400">/ ${rosterData.length}</span>`;
+            document.getElementById('sidebar-guard-count').innerText = rosterData.length;
+
+            const activeFleet = fleetData.filter(f => f.status === 'Active').length;
+            const standbyFleet = fleetData.filter(f => f.status === 'Standby').length;
+            document.getElementById('m-active-fleet').innerHTML = `${activeFleet} <span class="text-xs font-normal text-amber-400">(${standbyFleet} Standby)</span>`;
+
+            const unresolvedIncidents = incidentData.filter(i => i.status !== 'Resolved').length;
+            document.getElementById('m-open-incidents').innerHTML = `${unresolvedIncidents} <span class="text-xs font-normal text-slate-400">Unresolved</span>`;
+        }
+
+        function renderPlots() {
+            const grid = document.getElementById('plots-grid');
+            if (!grid) return;
+            grid.innerHTML = plotsData.map((p, idx) => `
+                <div onclick="togglePlotStatus(${idx})" class="border border-${p.color}-500/40 bg-${p.color}-500/10 rounded-lg p-2 flex flex-col justify-between cursor-pointer hover:border-${p.color}-400 transition-all">
+                    <div class="flex justify-between items-center"><span class="font-bold text-xs text-${p.color}-400">${p.name}</span><span class="text-[10px] bg-${p.color}-500/20 text-${p.color}-300 px-1 rounded">${p.status}</span></div>
+                    <div class="text-[10px] text-slate-400">${p.gates}</div>
+                    <div class="text-[10px] text-${p.color}-400 font-mono">${p.patrols}</div>
+                </div>
+            `).join('');
+        }
+
+        function togglePlotStatus(idx) {
+            const p = plotsData[idx];
+            if (p.status === 'Secure') { p.status = 'Inspection'; p.color = 'amber'; }
+            else if (p.status === 'Inspection') { p.status = 'Alert'; p.color = 'rose'; }
+            else { p.status = 'Secure'; p.color = 'emerald'; }
+            localStorage.setItem('nmdc_plots', JSON.stringify(plotsData));
+            renderPlots();
+        }
+
+        function renderRoster() {
+            const body = document.getElementById('roster-table-body');
+            if (!body) return;
+            body.innerHTML = rosterData.map((g, idx) => `
+                <tr onclick="openEditGuardModal(${idx})" class="hover:bg-slate-800/40 cursor-pointer transition-colors">
+                    <td class="p-3 font-semibold text-slate-100">${g.name}</td>
+                    <td class="p-3 font-mono text-slate-400">${g.badge}</td>
+                    <td class="p-3">${g.post}</td>
+                    <td class="p-3 text-slate-400">${g.shift}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${g.rotation.includes('OFF') ? 'bg-slate-800 text-slate-400' : 'bg-emerald-500/10 text-emerald-400'}">${g.rotation}</span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${g.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">${g.status}</span></td>
+                    <td class="p-3 text-right rtl:text-left">
+                        <button onclick="event.stopPropagation(); deleteGuard(${idx})" class="text-rose-400 hover:text-rose-300 text-xs px-2 py-1 rounded bg-rose-500/10">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddGuardModal() {
+            document.getElementById('guard-modal-title').innerText = "Add New Guard";
+            document.getElementById('guard-edit-index').value = "-1";
+            document.getElementById('g-name').value = "";
+            document.getElementById('g-badge').value = `SEC-${Math.floor(100 + Math.random() * 900)}`;
+            document.getElementById('g-post').value = "Plot Gate 1";
+            document.getElementById('g-shift').value = "Shift 1 (06:00 - 14:00)";
+            document.getElementById('g-rotation').value = "ON (Day 1/5)";
+            document.getElementById('g-status').value = "Active";
+            document.getElementById('guard-modal').classList.remove('hidden');
+        }
+
+        function openEditGuardModal(idx) {
+            const g = rosterData[idx];
+            document.getElementById('guard-modal-title').innerText = "Edit Guard Details";
+            document.getElementById('guard-edit-index').value = idx;
+            document.getElementById('g-name').value = g.name;
+            document.getElementById('g-badge').value = g.badge;
+            document.getElementById('g-post').value = g.post;
+            document.getElementById('g-shift').value = g.shift;
+            document.getElementById('g-rotation').value = g.rotation;
+            document.getElementById('g-status').value = g.status;
+            document.getElementById('guard-modal').classList.remove('hidden');
+        }
+
+        function saveGuardModal() {
+            const idx = parseInt(document.getElementById('guard-edit-index').value);
+            const guardObj = {
+                name: document.getElementById('g-name').value || "Unnamed Guard",
+                badge: document.getElementById('g-badge').value || "SEC-000",
+                post: document.getElementById('g-post').value || "Unassigned",
+                shift: document.getElementById('g-shift').value,
+                rotation: document.getElementById('g-rotation').value || "ON (Day 1/5)",
+                status: document.getElementById('g-status').value
+            };
+
+            if (idx === -1) { rosterData.push(guardObj); }
+            else { rosterData[idx] = guardObj; }
+
+            localStorage.setItem('nmdc_roster', JSON.stringify(rosterData));
+            closeModal('guard-modal');
+            renderRoster();
+            updateMetrics();
+        }
+
+        function deleteGuard(idx) {
+            if (confirm("Remove guard from roster?")) {
+                rosterData.splice(idx, 1);
+                localStorage.setItem('nmdc_roster', JSON.stringify(rosterData));
+                renderRoster();
+                updateMetrics();
+            }
+        }
+
+        function renderFleet() {
+            const grid = document.getElementById('fleet-grid');
+            if (!grid) return;
+            grid.innerHTML = fleetData.map((f, idx) => `
+                <div onclick="openFleetModal(${idx})" class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2 cursor-pointer hover:border-amber-500/40 transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-sm text-slate-100">${f.id}</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-${f.color}-500/10 text-${f.color}-400 border border-${f.color}-500/20">${f.status}</span>
+                    </div>
+                    <div class="text-xs text-slate-400">Driver: <span class="text-slate-200">${f.driver}</span></div>
+                    <div class="text-xs text-slate-400">Location: <span class="text-slate-200">${f.plot}</span></div>
+                    <div class="pt-2 border-t border-slate-800 flex justify-between text-[11px] text-slate-500 font-mono">
+                        <span>Fuel: ${f.fuel}%</span>
+                        <span>Odo: ${f.odo}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openFleetModal(idx) {
+            const f = fleetData[idx];
+            document.getElementById('fleet-edit-id').value = idx;
+            document.getElementById('fv-status').value = f.status;
+            document.getElementById('fv-driver').value = f.driver;
+            document.getElementById('fv-plot').value = f.plot;
+            document.getElementById('fv-fuel').value = f.fuel;
+            document.getElementById('fv-odo').value = f.odo;
+            document.getElementById('fleet-modal').classList.remove('hidden');
+        }
+
+        function saveFleetModal() {
+            const idx = parseInt(document.getElementById('fleet-edit-id').value);
+            const status = document.getElementById('fv-status').value;
+            let color = "emerald";
+            if (status === 'Standby') color = "amber";
+            if (status === 'Maintenance') color = "rose";
+
+            fleetData[idx] = {
+                id: fleetData[idx].id,
+                status: status,
+                driver: document.getElementById('fv-driver').value,
+                plot: document.getElementById('fv-plot').value,
+                fuel: parseInt(document.getElementById('fv-fuel').value) || 0,
+                odo: document.getElementById('fv-odo').value,
+                color: color
+            };
+
+            localStorage.setItem('nmdc_fleet', JSON.stringify(fleetData));
+            closeModal('fleet-modal');
+            renderFleet();
+            updateMetrics();
+        }
+
+        function renderIncidents() {
+            const container = document.getElementById('incident-list-container');
+            if (!container) return;
+            container.innerHTML = incidentData.map((i, idx) => `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex items-center justify-between">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${i.severity === 'Level 2' ? 'bg-amber-500/20 text-amber-400' : (i.severity === 'Level 3' ? 'bg-rose-500/20 text-rose-400' : 'bg-blue-500/20 text-blue-400')}">${i.severity}</span>
+                            <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
+                        </div>
+                        <div class="text-xs text-slate-400">${i.plot} • Reported by ${i.reporter} at ${i.time}</div>
+                    </div>
+                    <button onclick="toggleIncidentStatus(${idx})" class="text-xs px-2.5 py-1 rounded-lg ${i.status === 'Investigating' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-emerald-500/10 text-emerald-400'}">${i.status}</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleIncidentStatus(idx) {
+            incidentData[idx].status = incidentData[idx].status === 'Investigating' ? 'Resolved' : 'Investigating';
+            localStorage.setItem('nmdc_incidents', JSON.stringify(incidentData));
+            renderIncidents();
+            updateMetrics();
+        }
+
+        function openNewIncidentModal() {
+            document.getElementById('inc-title').value = "";
+            document.getElementById('inc-reporter').value = "";
+            document.getElementById('incident-modal').classList.remove('hidden');
+        }
+
+        function saveIncidentModal() {
+            const newInc = {
+                id: `INC-${Math.floor(100 + Math.random() * 900)}`,
+                title: document.getElementById('inc-title').value || "Unspecified Security Alert",
+                plot: document.getElementById('inc-plot').value,
+                severity: document.getElementById('inc-severity').value,
+                status: "Investigating",
+                reporter: document.getElementById('inc-reporter').value || "Duty Guard",
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            incidentData.unshift(newInc);
+            localStorage.setItem('nmdc_incidents', JSON.stringify(incidentData));
+            closeModal('incident-modal');
+            renderIncidents();
+            updateMetrics();
+        }
+
+        function submitHandoverForm() {
+            const supervisor = document.getElementById('ho-supervisor').value;
+            const remarks = document.getElementById('ho-remarks').value;
+            if (!remarks) { alert("Please enter handover remarks."); return; }
+
+            handoverLogs.unshift({
+                supervisor,
+                remarks,
+                time: new Date().toLocaleString()
+            });
+
+            localStorage.setItem('nmdc_handovers', JSON.stringify(handoverLogs));
+            document.getElementById('ho-remarks').value = "";
+            renderHandovers();
+            alert("Shift handover record saved!");
+        }
+
+        function renderHandovers() {
+            const c = document.getElementById('handover-logs-container');
+            if (!c) return;
+            c.innerHTML = handoverLogs.map(h => `
+                <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs space-y-1">
+                    <div class="flex justify-between text-slate-400"><span class="font-bold text-slate-200">${h.supervisor}</span><span class="font-mono text-[10px]">${h.time}</span></div>
+                    <p class="text-slate-300">${h.remarks}</p>
+                </div>
+            `).join('');
+        }
 
         function switchTab(tabId) {
             ['dashboard', 'roster', 'fleet', 'incidents', 'handover'].forEach(id => {
@@ -325,67 +697,16 @@
             document.getElementById('lang-btn-text').innerText = currentLang === 'ar' ? 'English' : 'العربية';
         }
 
-        function renderRoster() {
-            const body = document.getElementById('roster-table-body');
-            if (!body) return;
-            body.innerHTML = mockRoster.map(g => `
-                <tr class="hover:bg-slate-800/30">
-                    <td class="p-3 font-semibold text-slate-100">${g.name}</td>
-                    <td class="p-3 font-mono text-slate-400">${g.badge}</td>
-                    <td class="p-3">${g.post}</td>
-                    <td class="p-3 text-slate-400">${g.shift}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${g.rotation.includes('OFF') ? 'bg-slate-800 text-slate-400' : 'bg-emerald-500/10 text-emerald-400'}">${g.rotation}</span></td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${g.status === 'Active' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">${g.status}</span></td>
-                </tr>
-            `).join('');
-        }
-
-        function renderFleet() {
-            const grid = document.getElementById('fleet-grid');
-            if (!grid) return;
-            grid.innerHTML = mockFleet.map(f => `
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="font-bold text-sm text-slate-100">${f.id}</span>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-${f.color}-500/10 text-${f.color}-400 border border-${f.color}-500/20">${f.status}</span>
-                    </div>
-                    <div class="text-xs text-slate-400">Driver: <span class="text-slate-200">${f.driver}</span></div>
-                    <div class="text-xs text-slate-400">Location: <span class="text-slate-200">${f.plot}</span></div>
-                    <div class="pt-2 border-t border-slate-800 flex justify-between text-[11px] text-slate-500 font-mono">
-                        <span>Fuel: ${f.fuel}%</span>
-                        <span>Odo: ${f.odo}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderIncidents() {
-            const container = document.getElementById('incident-list-container');
-            if (!container) return;
-            container.innerHTML = mockIncidents.map(i => `
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 flex items-center justify-between">
-                    <div class="space-y-1">
-                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${i.severity === 'Level 2' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400'}">${i.severity}</span>
-                            <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
-                        </div>
-                        <div class="text-xs text-slate-400">${i.plot} • Reported by ${i.reporter} at ${i.time}</div>
-                    </div>
-                    <span class="text-xs px-2.5 py-1 rounded-lg ${i.status === 'Investigating' ? 'bg-amber-500/10 text-amber-400' : 'bg-emerald-500/10 text-emerald-400'}">${i.status}</span>
-                </div>
-            `).join('');
-        }
-
         function triggerBroadCastSOS() {
             alert('🚨 EMERGENCY BROADCAST: SOS alert dispatched across all plots!');
         }
 
-        function openSettingsModal() {
-            document.getElementById('settings-modal').classList.remove('hidden');
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
         }
 
-        function closeSettingsModal() {
-            document.getElementById('settings-modal').classList.add('hidden');
+        function openSettingsModal() {
+            document.getElementById('settings-modal').classList.remove('hidden');
         }
 
         function saveSupabaseConfig() {
@@ -396,7 +717,7 @@
                 localStorage.setItem('supabase_key', key);
                 document.getElementById('db-status-text').innerText = 'Cloud DB Connected';
             }
-            closeSettingsModal();
+            closeModal('settings-modal');
         }
     </script>
 </body>
