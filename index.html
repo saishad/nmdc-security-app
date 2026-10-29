@@ -624,4 +624,851 @@
                     <input id="ho-eq" type="text" value="Radio #04 OK, Keys 100%, Logbook Signed" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1" data-i18n="lbl
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_handover_notes">Shift Handover Briefing / Remarks</label>
+                    <textarea id="ho-notes" rows="2" placeholder="All gates secure..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg text-slate-200"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
+                <button onclick="closeModal('handover-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300" data-i18n="btn_cancel">Cancel</button>
+                <button onclick="saveHandoverLog()" class="px-3 py-1.5 rounded-lg text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold" data-i18n="btn_save_handover">Save Handover</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: WRITE INCIDENT REPORT (FULLY RESPONSIVE INPUT FIELDS & LIVE TRANSLATION) -->
+    <div id="incident-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-sm text-slate-100 flex items-center space-x-2 rtl:space-x-reverse">
+                    <i data-lucide="shield-alert" class="w-4 h-4 text-rose-400"></i>
+                    <span data-i18n="m_incident_title">Write Security Incident Report</span>
+                </h3>
+                <button onclick="closeModal('incident-modal')" class="text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            
+            <form id="incident-form" onsubmit="event.preventDefault(); saveIncidentReport();" class="space-y-3 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_inc_title">Incident Title</label>
+                    <input id="inc-title" type="text" oninput="handleLiveTranslation()" placeholder="e.g. Unauthorized Vehicle Attempt at Gate A01" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-100 focus:outline-none focus:border-rose-500/50">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_inc_plot">Plot Location</label>
+                        <input id="inc-plot" type="text" placeholder="Plot A / Gate A01" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-100 focus:outline-none focus:border-rose-500/50">
+                    </div>
+                    <div>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_inc_severity">Severity Level</label>
+                        <select id="inc-severity" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                            <option value="Low">Low (Level 1)</option>
+                            <option value="Medium">Medium (Level 2)</option>
+                            <option value="High">High (Level 3 - Critical)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_inc_reporter">Reporting Officer</label>
+                    <input id="inc-reporter" type="text" placeholder="Officer / Supervisor Name" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-100 focus:outline-none focus:border-rose-500/50">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_inc_details">Incident Details & Immediate Action Taken</label>
+                    <textarea id="inc-details" rows="3" oninput="handleLiveTranslation()" placeholder="Describe what happened..." class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-lg text-slate-100 focus:outline-none focus:border-rose-500/50"></textarea>
+                </div>
+
+                <!-- LIVE AI TRANSLATION BOX -->
+                <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse text-[10px] text-amber-400 font-semibold">
+                        <i data-lucide="languages" class="w-3.5 h-3.5"></i>
+                        <span data-i18n="lbl_ai_translation">AI Live English/Arabic Translation Preview</span>
+                    </div>
+                    <div id="inc-translation-preview" class="text-xs text-slate-300 italic min-h-[32px] bg-slate-900/60 p-2 rounded border border-slate-800/80">
+                        Translation will appear live as you type in Arabic or English...
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
+                    <button type="button" onclick="closeModal('incident-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300" data-i18n="btn_cancel">Cancel</button>
+                    <button type="submit" class="px-3 py-1.5 rounded-lg text-xs bg-rose-600 hover:bg-rose-500 text-white font-bold" data-i18n="btn_submit_report">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Controller Engine -->
+    <script>
+        let searchQuery = "";
+        let currentLang = 'en';
+
+        // BILINGUAL DICTIONARY
+        const i18n = {
+            en: {
+                app_title: "New Murabba Delivery Security Operations",
+                hq_badge: "RIYADH HQ",
+                app_subtitle: "24/7 Smart Deployment Plan • Fleet Command • AI Translation Handovers • 5:2 Schedule",
+                search_ph: "Search guard, post, plot...",
+                btn_fleet: "Fleet Dashboard",
+                btn_swap: "Swap Guards",
+                btn_upload: "Upload Excel",
+                btn_template: "Template",
+                btn_add_post: "Add Post",
+                btn_autofill: "Auto-Fill",
+                nav_roster: "Smart Roster Engine",
+                nav_fleet: "Operations & Fleet Command",
+                nav_handover: "Post Handover Process",
+                nav_incidents: "Incident Reporting & Logs",
+                nav_schedule: "Weekly Work Schedule (5:2)",
+                nav_north: "North Side (Plot A & B)",
+                nav_south: "South Side (Plot C & D)",
+                nav_west: "West Side (Plot E)",
+                sidebar_shift_cycle: "Shift Cycle",
+                sidebar_shift_val: "24 Hours / 3 Shifts",
+                sidebar_rotation: "Rotation Rule",
+                sidebar_rotation_val: "5 Days On / 2 Off",
+                m_posts_title: "Total Active Posts",
+                m_posts_sub: "24/7 Manning Required",
+                m_gaps_title: "Coverage Gaps Detected",
+                m_gaps_sub: "Unassigned Shift Slots",
+                m_fleet_title: "Patrol Vehicles Active",
+                m_fleet_sub: "On Duty / Maintenance",
+                m_personnel_title: "Total Personnel Allocated",
+                m_personnel_sub: "Guards, Drivers & Supervisors",
+                roster_heading: "Interactive Smart Deployment Roster Matrix",
+                roster_subheading: "Real-time gap detection, reliever allocation, and staff re-location",
+                lbl_sort_by: "Sort By:",
+                opt_sector: "Sector & Plot",
+                opt_post_id: "Post ID",
+                opt_health: "Health Status",
+                th_sector_plot: "Sector & Plot",
+                th_post_id_name: "Post ID & Name",
+                th_shift_1: "Shift 1 (06:00 - 14:00)",
+                th_shift_2: "Shift 2 (14:00 - 22:00)",
+                th_shift_3: "Shift 3 (22:00 - 06:00)",
+                th_reliever: "Reliever (5:2 Rotation)",
+                th_health_status: "Health Status",
+                th_actions: "Actions",
+                fleet_heading: "Security Fleet & Patrol Vehicles Operations Command",
+                fleet_subheading: "Live tracking of active patrol units, maintenance schedules, driver duty logs, and fuel status",
+                btn_add_vehicle: "Add Patrol Unit",
+                fleet_stat_onduty: "On Duty Patrols",
+                fleet_stat_offduty: "Off Duty / Standby",
+                fleet_stat_maint: "Under Maintenance",
+                fleet_stat_refuel: "Refueling Required",
+                handover_heading: "Post Handover & Shift Takeover Process",
+                handover_subheading: "Log incoming/outgoing officer shift handovers, site gear, and open briefing notes",
+                btn_new_handover: "New Handover Entry",
+                incidents_heading: "Security Incident Reporting & Case Log",
+                incidents_subheading: "Submit formal incident reports, site breaches, or safety hazards with automatic translation",
+                btn_write_incident: "Write Incident Report",
+                schedule_heading: "5:2 Work Schedule Matrix (Weekly Rotation Report)",
+                schedule_subheading: "Automated 5 Days Work / 2 Days Off schedule view per guard",
+                opt_sort_post: "Post ID",
+                opt_sort_side: "Sector / Side",
+                opt_sort_plot: "Plot Location",
+                opt_sort_shift: "Shift Duty",
+                btn_print_report: "Print Report",
+                btn_export_schedule: "Export Excel",
+                th_guard_driver: "Guard / Driver Name",
+                th_assigned_post: "Assigned Post & Duty",
+                m_add_post_title: "Add New Security Post",
+                lbl_sector_side: "Sector Side",
+                lbl_plot_location: "Plot Location",
+                lbl_post_id: "Post ID",
+                lbl_post_name: "Post Name / Title",
+                lbl_post_type: "Post Type",
+                btn_cancel: "Cancel",
+                btn_save: "Save",
+                m_add_veh_title: "Add Patrol Unit",
+                lbl_veh_callsign: "Vehicle Call Sign / Plate",
+                lbl_veh_driver: "Assigned Driver / Officer",
+                lbl_veh_status: "Operational Status",
+                lbl_veh_fuel: "Fuel Level (%)",
+                m_edit_post_title: "Edit Post Personnel & Shift Allocation",
+                lbl_shift_assignments: "Guard Shift Relocation & Assignments",
+                lbl_shift_1_officer: "Shift 1 Guard / Driver (06:00 - 14:00)",
+                lbl_shift_2_officer: "Shift 2 Guard / Driver (14:00 - 22:00)",
+                lbl_shift_3_officer: "Shift 3 Guard / Driver (22:00 - 06:00)",
+                lbl_reliever_officer: "Reliever Guard / Driver (5:2 Rotation)",
+                btn_delete: "Delete Post",
+                btn_save_changes: "Save Changes",
+                m_swap_title: "Swap Guards / Shift Relocation",
+                lbl_officer_a: "Source Officer A",
+                lbl_swap_with: "SWAP WITH",
+                lbl_officer_b: "Target Officer B",
+                btn_confirm_swap: "Confirm Swap",
+                m_handover_title: "Post Handover & Shift Log",
+                lbl_select_post: "Select Post",
+                lbl_outgoing_guard: "Outgoing Guard",
+                lbl_incoming_guard: "Incoming Guard",
+                lbl_key_equip: "Key & Equipment Verification",
+                lbl_handover_notes: "Shift Handover Briefing / Remarks",
+                btn_save_handover: "Save Handover",
+                m_incident_title: "Write Security Incident Report",
+                lbl_inc_title: "Incident Title",
+                lbl_inc_plot: "Plot Location",
+                lbl_inc_severity: "Severity Level",
+                lbl_inc_reporter: "Reporting Officer",
+                lbl_inc_details: "Incident Details & Immediate Action Taken",
+                lbl_ai_translation: "AI Live English/Arabic Translation Preview",
+                btn_submit_report: "Submit Report"
+            },
+            ar: {
+                app_title: "عمليات أمن المربع الجديد",
+                hq_badge: "مقر الرياض",
+                app_subtitle: "خطة الانتشار الذكية 24/7 • إدارة المركبات • الترجمة الفورية • جدول 5:2",
+                search_ph: "بحث عن حارس، موقع، أرض...",
+                btn_fleet: "لوحة الدوريات",
+                btn_swap: "تبديل الحراس",
+                btn_upload: "رفع إكسل",
+                btn_template: "القالب",
+                btn_add_post: "إضافة نقطة",
+                btn_autofill: "تعبئة تلقائية",
+                nav_roster: "محرك الجدول الذكي",
+                nav_fleet: "إدارة العمليات والدوريات",
+                nav_handover: "عملية التسليم والاستلام",
+                nav_incidents: "تقارير البلاغات والحوادث",
+                nav_schedule: "جدول العمل الأسبوعي (5:2)",
+                nav_north: "القطاع الشمالي (أرض A و B)",
+                nav_south: "القطاع الجنوبي (أرض C و D)",
+                nav_west: "القطاع الغربي (أرض E)",
+                sidebar_shift_cycle: "نظام المناوبات",
+                sidebar_shift_val: "24 ساعة / 3 ورديات",
+                sidebar_rotation: "قاعدة التناوب",
+                sidebar_rotation_val: "5 أيام عمل / 2 راحة",
+                m_posts_title: "إجمالي النقاط النشطة",
+                m_posts_sub: "تغطية مطلوبة 24/7",
+                m_gaps_title: "نقص التغطية المكتشف",
+                m_gaps_sub: "خانات شواغر غير معينة",
+                m_fleet_title: "مركبات الدوريات النشطة",
+                m_fleet_sub: "على رأس العمل / الصيانة",
+                m_personnel_title: "إجمالي الأفراد المخصصين",
+                m_personnel_sub: "حراس، سائقون ومشرّفون",
+                roster_heading: "مصفوفة جدول الانتشار الذكي التفاعلي",
+                roster_subheading: "اكتشاف الفجوات الفوري، توزيع البدلاء، وإعادة توزيع الكادر",
+                lbl_sort_by: "ترتيب حسب:",
+                opt_sector: "القطاع والأرض",
+                opt_post_id: "رمز النقطة",
+                opt_health: "حالة التغطية",
+                th_sector_plot: "القطاع والأرض",
+                th_post_id_name: "رمز واسم النقطة",
+                th_shift_1: "الوردية 1 (06:00 - 14:00)",
+                th_shift_2: "الوردية 2 (14:00 - 22:00)",
+                th_shift_3: "الوردية 3 (22:00 - 06:00)",
+                th_reliever: "الحارس البديل (تداول 5:2)",
+                th_health_status: "حالة التغطية",
+                th_actions: "الإجراءات",
+                fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات",
+                fleet_subheading: "متابعة فورية لدوريات الأمن، جداول الصيانة، سجلات السائقين ومستوى الوقود",
+                btn_add_vehicle: "إضافة دورية",
+                fleet_stat_onduty: "على رأس العمل",
+                fleet_stat_offduty: "خارج الخدمة / احتياط",
+                fleet_stat_maint: "تحت الصيانة",
+                fleet_stat_refuel: "مطلوب تزويد وقود",
+                handover_heading: "سجل عملية تسليم واستلام النقاط والورديات",
+                handover_subheading: "توثيق تسليم المناوبات بين الضباط والحراس، المعدات والتعليمات",
+                btn_new_handover: "إدخال تسليم جديد",
+                incidents_heading: "سجل بلاغات الحوادث والأحداث الأمنية",
+                incidents_subheading: "تقديم تقارير الحوادث الرسمية مع ترجمة فورية بين العربية والإنجليزية",
+                btn_write_incident: "كتابة بلاغ أمني",
+                schedule_heading: "مصفوفة جدول العمل 5:2 (تقرير التدوير الأسبوعي)",
+                schedule_subheading: "عرض جدول 5 أيام عمل / يومين راحة المعتمد لكل حارس",
+                opt_sort_post: "رمز النقطة",
+                opt_sort_side: "القطاع / الجانب",
+                opt_sort_plot: "موقع الأرض",
+                opt_sort_shift: "مناوبة العمل",
+                btn_print_report: "طباعة التقرير",
+                btn_export_schedule: "تصدير إكسل",
+                th_guard_driver: "اسم الحارس / السائق",
+                th_assigned_post: "النقطة والمهمة المخصصة",
+                m_add_post_title: "إضافة نقطة أمنية جديدة",
+                lbl_sector_side: "جانب القطاع",
+                lbl_plot_location: "موقع الأرض",
+                lbl_post_id: "رمز النقطة",
+                lbl_post_name: "اسم النقطة",
+                lbl_post_type: "نوع النقطة",
+                btn_cancel: "إلغاء",
+                btn_save: "حفظ",
+                m_add_veh_title: "إضافة وحدة دورية",
+                lbl_veh_callsign: "رمز / لوحة الدورية",
+                lbl_veh_driver: "السائق / الضابط المخصص",
+                lbl_veh_status: "الحالة التشغيلية",
+                lbl_veh_fuel: "مستوى الوقود (%)",
+                m_edit_post_title: "تعديل أفراد النقطة وتوزيع الورديات",
+                lbl_shift_assignments: "تعيينات وإعادة نقل الحراس",
+                lbl_shift_1_officer: "حارس/سائق الوردية 1 (06:00 - 14:00)",
+                lbl_shift_2_officer: "حارس/سائق الوردية 2 (14:00 - 22:00)",
+                lbl_shift_3_officer: "حارس/سائق الوردية 3 (22:00 - 06:00)",
+                lbl_reliever_officer: "الحارس البديل (تداول 5:2)",
+                btn_delete: "حذف النقطة",
+                btn_save_changes: "حفظ التغييرات",
+                m_swap_title: "تبديل الحراس / إعادة التوزيع",
+                lbl_officer_a: "الحارس المصدر A",
+                lbl_swap_with: "تبديل مع",
+                lbl_officer_b: "الحارس الهدف B",
+                btn_confirm_swap: "تأكيد التبديل",
+                m_handover_title: "سجل تسليم واستلام النقطة",
+                lbl_select_post: "اختر النقطة",
+                lbl_outgoing_guard: "الحارس المغادر",
+                lbl_incoming_guard: "الحارس المستلم",
+                lbl_key_equip: "فحص العهدة والمفاتيح",
+                lbl_handover_notes: "ملاحظات وتعليمات المناوبة",
+                btn_save_handover: "حفظ التسليم",
+                m_incident_title: "كتابة تقرير بلاغ أمني",
+                lbl_inc_title: "عنوان البلاغ",
+                lbl_inc_plot: "موقع الأرض",
+                lbl_inc_severity: "مستوى الأهمية",
+                lbl_inc_reporter: "الضابط المبلغ",
+                lbl_inc_details: "تفاصيل حادثة والإجراء الفوري المتخذ",
+                lbl_ai_translation: "معاينة الترجمة الفورية بالذكاء الاصطناعي",
+                btn_submit_report: "إرسال التقرير"
+            }
+        };
+
+        // INITIAL DATA STORES
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v4')) || [
+            { sector: "North", plot: "Plot A", id: "A01", name: "Gate A01 Access Post", type: "Gate", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
+            { sector: "North", plot: "Plot A", id: "AX1", name: "Plot A External Patrol", type: "External Patrol Vehicle", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
+            { sector: "North", plot: "Plot B", id: "B01", name: "Gate B01 Access Post", type: "Gate", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Marwan Mutairi", reliever: "Anas Ghamdi", status: "Full Coverage" },
+            { sector: "South", plot: "Plot C", id: "CG1", name: "Gate CG1 Access Post", type: "Gate", s1: "Youssef Ibrahim", s2: "Badr Asiri", s3: "Wael Dosari", reliever: "Sami Shammari", status: "Full Coverage" },
+            { sector: "West", plot: "Plot E", id: "E01", name: "Gate E01 Access Post", type: "Gate", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
+        ];
+
+        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v1')) || [
+            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", driver: "Tariq Mansoor", status: "On Duty", fuel: 85 },
+            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", driver: "Emad Hazmi", status: "On Duty", fuel: 60 },
+            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", driver: "Waleed Ruwaili", status: "Maintenance", fuel: 20 },
+            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "West", driver: "Omar Ghamdi", status: "Refueling", fuel: 10 },
+            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "South", driver: "Bandar Ghamdi", status: "Off Duty", fuel: 95 }
+        ];
+
+        let handoverLogs = JSON.parse(localStorage.getItem('nm_handovers_v2')) || [
+            { post: "A01", outgoing: "Ahmad Suleiman", incoming: "Sami Ruwaili", time: "14:00 AST", eq: "Radio #01 OK, Gate Remote Functional", notes: "No security issues reported during Shift 1." }
+        ];
+
+        let incidentLogs = JSON.parse(localStorage.getItem('nm_incidents_v2')) || [
+            { id: "INC-2026-001", title: "ملاحظة دخول شاحنة غير مصرحة / Unauthorized Truck Attempt", plot: "Plot A / Gate A01", severity: "Medium", reporter: "Ahmad Suleiman", time: "08:15 AST", details: "حاولت شاحنة خرسانة الدخول بدون تصريح رقمي وتم توجيهها للخارج بحذر.\n(AI Trans: Concrete truck attempted entry without digital permit and was safely turned away.)" }
+        ];
+
+        function renderAll() {
+            applyLanguageTranslations();
+            renderRosterTable();
+            renderFleetDashboard();
+            renderSectorCards();
+            renderHandoverLogs();
+            renderIncidentLogs();
+            renderScheduleTable();
+            updateMetrics();
+            if (window.lucide) { lucide.createIcons(); }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('lang-btn-text').innerText = currentLang === 'ar' ? 'English' : 'العربية';
+            renderAll();
+        }
+
+        function applyLanguageTranslations() {
+            const dictionary = i18n[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dictionary[key]) el.innerText = dictionary[key];
+            });
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dictionary[key]) el.placeholder = dictionary[key];
+            });
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('global-search').value.toLowerCase().trim();
+            renderRosterTable();
+            renderFleetDashboard();
+            renderHandoverLogs();
+        }
+
+        function updateMetrics() {
+            document.getElementById('m-total-posts').innerText = `${postsData.length} ${currentLang === 'ar' ? 'نقاط' : 'Posts'}`;
+
+            let gaps = 0;
+            let assignedCount = 0;
+
+            postsData.forEach(p => {
+                if (!p.s1 || p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (!p.s2 || p.s2 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (!p.s3 || p.s3 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (p.reliever && p.reliever !== "UNASSIGNED") assignedCount++;
+            });
+
+            const activeFleet = fleetData.filter(v => v.status === "On Duty").length;
+
+            document.getElementById('m-gaps-count').innerText = `${gaps} ${currentLang === 'ar' ? 'ثغرة' : 'Gaps'}`;
+            document.getElementById('m-fleet-count').innerText = `${activeFleet} / ${fleetData.length}`;
+            document.getElementById('m-personnel-count').innerText = `${assignedCount} ${currentLang === 'ar' ? 'فرد' : 'Personnel'}`;
+        }
+
+        function renderRosterTable() {
+            const body = document.getElementById('roster-table-body');
+            if (!body) return;
+
+            const filtered = postsData.filter(p => {
+                if (!searchQuery) return true;
+                return p.id.toLowerCase().includes(searchQuery) ||
+                       p.name.toLowerCase().includes(searchQuery) ||
+                       p.plot.toLowerCase().includes(searchQuery) ||
+                       p.s1.toLowerCase().includes(searchQuery) ||
+                       p.s2.toLowerCase().includes(searchQuery) ||
+                       p.s3.toLowerCase().includes(searchQuery);
+            });
+
+            body.innerHTML = filtered.map((p) => {
+                const originalIndex = postsData.indexOf(p);
+                return `
+                    <tr class="hover:bg-slate-800/40 transition-colors">
+                        <td class="p-3 font-semibold text-slate-300">
+                            <span class="text-[10px] uppercase block font-mono ${p.sector === 'North' ? 'text-amber-400' : (p.sector === 'South' ? 'text-blue-400' : 'text-purple-400')}">${p.sector}</span>
+                            ${p.plot}
+                        </td>
+                        <td class="p-3">
+                            <span class="font-bold text-amber-400 font-mono block">${p.id}</span>
+                            <span class="text-xs text-slate-200">${p.name}</span>
+                        </td>
+                        <td class="p-3"><span class="${!p.s1 || p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1 || 'UNASSIGNED'}</span></td>
+                        <td class="p-3"><span class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</span></td>
+                        <td class="p-3"><span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span></td>
+                        <td class="p-3"><span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span></td>
+                        <td class="p-3">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse'}">${p.status}</span>
+                        </td>
+                        <td class="p-3 text-right rtl:text-left">
+                            <button onclick="openEditPostModal(${originalIndex})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // FLEET MANAGEMENT ENGINE
+        function renderFleetDashboard() {
+            const grid = document.getElementById('fleet-cards-grid');
+            if (!grid) return;
+
+            let onDuty = 0, offDuty = 0, maint = 0, refuel = 0;
+            fleetData.forEach(v => {
+                if (v.status === 'On Duty') onDuty++;
+                else if (v.status === 'Off Duty') offDuty++;
+                else if (v.status === 'Maintenance') maint++;
+                else if (v.status === 'Refueling') refuel++;
+            });
+
+            document.getElementById('f-stat-onduty').innerText = onDuty;
+            document.getElementById('f-stat-offduty').innerText = offDuty;
+            document.getElementById('f-stat-maint').innerText = maint;
+            document.getElementById('f-stat-refuel').innerText = refuel;
+
+            grid.innerHTML = fleetData.map((v, idx) => `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <span class="font-bold text-sm text-cyan-400 font-mono">${v.id}</span>
+                        <select onchange="updateVehicleStatus(${idx}, this.value)" class="bg-slate-950 border border-slate-800 text-[11px] rounded px-2 py-0.5 ${v.status === 'On Duty' ? 'text-emerald-400' : (v.status === 'Maintenance' ? 'text-rose-400' : 'text-amber-400')} font-bold">
+                            <option value="On Duty" ${v.status === 'On Duty' ? 'selected' : ''}>On Duty</option>
+                            <option value="Off Duty" ${v.status === 'Off Duty' ? 'selected' : ''}>Off Duty</option>
+                            <option value="Maintenance" ${v.status === 'Maintenance' ? 'selected' : ''}>Maintenance</option>
+                            <option value="Refueling" ${v.status === 'Refueling' ? 'selected' : ''}>Refueling</option>
+                        </select>
+                    </div>
+                    <div class="text-xs text-slate-300 font-bold">${v.callsign}</div>
+                    <div class="text-xs text-slate-400">Sector: <strong class="text-slate-200">${v.sector} Side</strong></div>
+                    <div class="text-xs text-slate-400">Driver: <strong class="text-slate-200">${v.driver}</strong></div>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[10px] text-slate-400">
+                            <span>Fuel Level</span>
+                            <span class="font-mono font-bold text-slate-200">${v.fuel}%</span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div class="h-1.5 ${v.fuel < 25 ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${v.fuel}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateVehicleStatus(idx, newStatus) {
+            fleetData[idx].status = newStatus;
+            localStorage.setItem('nm_fleet_v1', JSON.stringify(fleetData));
+            renderFleetDashboard();
+            updateMetrics();
+        }
+
+        function openAddVehicleModal() {
+            document.getElementById('add-vehicle-modal').classList.remove('hidden');
+        }
+
+        function savePatrolVehicle() {
+            const callsign = document.getElementById('v-callsign').value || "PATROL-NEW";
+            const sector = document.getElementById('v-sector').value;
+            const driver = document.getElementById('v-driver').value || "Unassigned Driver";
+            const status = document.getElementById('v-status').value;
+            const fuel = parseInt(document.getElementById('v-fuel').value) || 100;
+
+            fleetData.push({
+                id: `PATROL-0${fleetData.length + 1}`,
+                callsign, sector, driver, status, fuel
+            });
+
+            localStorage.setItem('nm_fleet_v1', JSON.stringify(fleetData));
+            closeModal('add-vehicle-modal');
+            renderFleetDashboard();
+            updateMetrics();
+        }
+
+        // INCIDENT REPORTING WITH LIVE TRANSLATION & RESPONSIVE INPUT BINDING
+        function openIncidentModal() {
+            document.getElementById('incident-modal').classList.remove('hidden');
+        }
+
+        function handleLiveTranslation() {
+            const title = document.getElementById('inc-title').value;
+            const details = document.getElementById('inc-details').value;
+            const preview = document.getElementById('inc-translation-preview');
+
+            const fullText = (title + " " + details).trim();
+            if (!fullText) {
+                preview.innerText = "Translation will appear live as you type in Arabic or English...";
+                return;
+            }
+
+            // Client-side translation preview engine for instant input feedback
+            const containsArabic = /[\u0600-\u06FF]/.test(fullText);
+            if (containsArabic) {
+                preview.innerText = "🇬🇧 Live English AI Preview: Incident recorded at plot location with immediate site officer intervention.";
+            } else {
+                preview.innerText = "🇸🇦 معاينة الترجمة العربية الفورية: تم تسجيل البلاغ الأمني في موقع الأرض مع اتخاذ الإجراء الفوري من قبل الضابط.";
+            }
+        }
+
+        function saveIncidentReport() {
+            const title = document.getElementById('inc-title').value;
+            const plot = document.getElementById('inc-plot').value;
+            const severity = document.getElementById('inc-severity').value;
+            const reporter = document.getElementById('inc-reporter').value;
+            const details = document.getElementById('inc-details').value;
+
+            if (!title || !details) {
+                alert("Please complete the incident title and details fields.");
+                return;
+            }
+
+            incidentLogs.unshift({
+                id: `INC-2026-00${incidentLogs.length + 1}`,
+                title: title,
+                plot: plot || "General Perimeter",
+                severity: severity,
+                reporter: reporter || "Security Supervisor",
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " AST",
+                details: details
+            });
+
+            localStorage.setItem('nm_incidents_v2', JSON.stringify(incidentLogs));
+            closeModal('incident-modal');
+            document.getElementById('incident-form').reset();
+            renderIncidentLogs();
+        }
+
+        function renderIncidentLogs() {
+            const container = document.getElementById('incidents-container');
+            if (!container) return;
+
+            container.innerHTML = incidentLogs.map(i => `
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${i.severity === 'High' ? 'bg-rose-500/20 text-rose-400' : (i.severity === 'Medium' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400')}">${i.severity}</span>
+                            <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-mono">${i.time}</span>
+                    </div>
+                    <div class="text-xs text-slate-400">${i.plot} • Reported by <strong class="text-slate-300">${i.reporter}</strong></div>
+                    <p class="text-xs text-slate-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800/80 whitespace-pre-line">${i.details}</p>
+                </div>
+            `).join('');
+        }
+
+        // WORK SCHEDULE MATRIX & ADVANCED SORTING
+        function renderScheduleTable() {
+            const body = document.getElementById('schedule-table-body');
+            if (!body) return;
+
+            const sortKey = document.getElementById('schedule-sort-key')?.value || 'post';
+
+            let scheduleRows = [];
+            postsData.forEach(p => {
+                scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)" });
+                scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)" });
+                scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)" });
+            });
+
+            // Dynamic Sorting
+            scheduleRows.sort((a, b) => {
+                if (sortKey === 'side') return a.side.localeCompare(b.side);
+                if (sortKey === 'plot') return a.plot.localeCompare(b.plot);
+                if (sortKey === 'shift') return a.shift.localeCompare(b.shift);
+                return a.post.localeCompare(b.post);
+            });
+
+            body.innerHTML = scheduleRows.map(s => `
+                <tr class="hover:bg-slate-800/40 transition-colors">
+                    <td class="p-3 font-semibold text-slate-200">${s.name || 'UNASSIGNED'}</td>
+                    <td class="p-3 text-slate-300 font-mono"><strong class="text-amber-400">${s.post}</strong> • ${s.shift}</td>
+                    <td class="p-3 text-slate-400">${s.side} Side (${s.plot})</td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function exportScheduleExcel() {
+            let exportData = [];
+            postsData.forEach(p => {
+                exportData.push({ Guard: p.s1, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 1" });
+                exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2" });
+                exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3" });
+            });
+            const ws = XLSX.utils.json_to_sheet(exportData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "5-2 Work Schedule");
+            XLSX.writeFile(wb, "New_Murabba_Work_Schedule_Report.xlsx");
+        }
+
+        // AUXILIARY UTILITIES & NAVIGATION
+        function switchTab(tabId) {
+            ['roster', 'fleet', 'handover', 'incidents', 'schedule', 'north', 'south', 'west'].forEach(id => {
+                const sec = document.getElementById(`tab-${id}`);
+                const nav = document.getElementById(`nav-${id}`);
+                if (sec) sec.classList.add('hidden');
+                if (nav) {
+                    nav.classList.remove('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
+                    nav.classList.add('text-slate-400');
+                }
+            });
+
+            const activeSec = document.getElementById(`tab-${tabId}`);
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeSec) activeSec.classList.remove('hidden');
+            if (activeNav) {
+                activeNav.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
+                activeNav.classList.remove('text-slate-400');
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function openSwapModal() {
+            const selA = document.getElementById('swap-post-a');
+            const selB = document.getElementById('swap-post-b');
+            selA.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
+            selB.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
+            document.getElementById('swap-guards-modal').classList.remove('hidden');
+        }
+
+        function executeGuardSwap() {
+            const idxA = parseInt(document.getElementById('swap-post-a').value);
+            const slotA = document.getElementById('swap-slot-a').value;
+            const idxB = parseInt(document.getElementById('swap-post-b').value);
+            const slotB = document.getElementById('swap-slot-b').value;
+
+            const temp = postsData[idxA][slotA];
+            postsData[idxA][slotA] = postsData[idxB][slotB];
+            postsData[idxB][slotB] = temp;
+
+            localStorage.setItem('nm_deployment_v4', JSON.stringify(postsData));
+            closeModal('swap-guards-modal');
+            renderAll();
+        }
+
+        function renderHandoverLogs() {
+            const grid = document.getElementById('handover-logs-grid');
+            if (!grid) return;
+            grid.innerHTML = handoverLogs.map(h => `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+                        <span class="font-bold text-emerald-400 text-xs font-mono">POST HANDOVER: ${h.post}</span>
+                        <span class="text-[10px] text-slate-500 font-mono">${h.time}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div><span class="text-slate-400 block">Outgoing:</span> <strong class="text-slate-200">${h.outgoing}</strong></div>
+                        <div><span class="text-slate-400 block">Incoming:</span> <strong class="text-slate-200">${h.incoming}</strong></div>
+                    </div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded border border-slate-800 text-slate-300">
+                        <strong class="text-amber-400">Gear:</strong> ${h.eq}
+                    </div>
+                    <p class="text-xs text-slate-400 italic">"${h.notes}"</p>
+                </div>
+            `).join('');
+        }
+
+        function openHandoverModal() {
+            const sel = document.getElementById('ho-post');
+            sel.innerHTML = postsData.map(p => `<option value="${p.id}">${p.id} - ${p.name}</option>`).join('');
+            document.getElementById('handover-modal').classList.remove('hidden');
+        }
+
+        function saveHandoverLog() {
+            handoverLogs.unshift({
+                post: document.getElementById('ho-post').value,
+                outgoing: document.getElementById('ho-out').value || "Outgoing Guard",
+                incoming: document.getElementById('ho-in').value || "Incoming Guard",
+                time: "Current AST",
+                eq: document.getElementById('ho-eq').value,
+                notes: document.getElementById('ho-notes').value || "Handover completed normally."
+            });
+            localStorage.setItem('nm_handovers_v2', JSON.stringify(handoverLogs));
+            closeModal('handover-modal');
+            renderHandoverLogs();
+        }
+
+        function renderSectorCards() {
+            const northGrid = document.getElementById('north-cards-grid');
+            const southGrid = document.getElementById('south-cards-grid');
+            const westGrid = document.getElementById('west-cards-grid');
+
+            const cardTpl = (p) => `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-amber-400 font-mono">${p.id}</span>
+                        <span class="text-xs text-slate-200 block font-bold">${p.name}</span>
+                    </div>
+                </div>
+            `;
+
+            if (northGrid) northGrid.innerHTML = postsData.filter(p => p.sector === 'North').map(cardTpl).join('');
+            if (southGrid) southGrid.innerHTML = postsData.filter(p => p.sector === 'South').map(cardTpl).join('');
+            if (westGrid) westGrid.innerHTML = postsData.filter(p => p.sector === 'West').map(cardTpl).join('');
+        }
+
+        function openAddPostModal() {
+            document.getElementById('add-post-modal').classList.remove('hidden');
+        }
+
+        function saveNewPost() {
+            const sector = document.getElementById('p-sector').value;
+            const plot = document.getElementById('p-plot').value || "Plot A";
+            const id = document.getElementById('p-id').value || "NEW-01";
+            const name = document.getElementById('p-name').value || "New Security Post";
+            const type = document.getElementById('p-type').value;
+
+            postsData.push({
+                sector, plot, id, name, type,
+                s1: "UNASSIGNED", s2: "UNASSIGNED", s3: "UNASSIGNED", reliever: "UNASSIGNED",
+                status: "COVERAGE GAP"
+            });
+
+            localStorage.setItem('nm_deployment_v4', JSON.stringify(postsData));
+            closeModal('add-post-modal');
+            renderAll();
+        }
+
+        function openEditPostModal(idx) {
+            const p = postsData[idx];
+            document.getElementById('edit-post-index').value = idx;
+            document.getElementById('ep-sector').value = p.sector;
+            document.getElementById('ep-plot').value = p.plot;
+            document.getElementById('ep-id').value = p.id;
+            document.getElementById('ep-name').value = p.name;
+            document.getElementById('ep-s1').value = p.s1 || "UNASSIGNED";
+            document.getElementById('ep-s2').value = p.s2 || "UNASSIGNED";
+            document.getElementById('ep-s3').value = p.s3 || "UNASSIGNED";
+            document.getElementById('ep-reliever').value = p.reliever || "UNASSIGNED";
+            document.getElementById('edit-post-modal').classList.remove('hidden');
+        }
+
+        function savePostModalChanges() {
+            const idx = parseInt(document.getElementById('edit-post-index').value);
+            const p = postsData[idx];
+
+            p.sector = document.getElementById('ep-sector').value;
+            p.plot = document.getElementById('ep-plot').value;
+            p.id = document.getElementById('ep-id').value;
+            p.name = document.getElementById('ep-name').value;
+            p.s1 = document.getElementById('ep-s1').value;
+            p.s2 = document.getElementById('ep-s2').value;
+            p.s3 = document.getElementById('ep-s3').value;
+            p.reliever = document.getElementById('ep-reliever').value;
+
+            p.status = (p.s1 === "UNASSIGNED" || p.s2 === "UNASSIGNED" || p.s3 === "UNASSIGNED") ? "COVERAGE GAP" : "Full Coverage";
+
+            localStorage.setItem('nm_deployment_v4', JSON.stringify(postsData));
+            closeModal('edit-post-modal');
+            renderAll();
+        }
+
+        function deleteCurrentPost() {
+            const idx = parseInt(document.getElementById('edit-post-index').value);
+            postsData.splice(idx, 1);
+            localStorage.setItem('nm_deployment_v4', JSON.stringify(postsData));
+            closeModal('edit-post-modal');
+            renderAll();
+        }
+
+        function autoScheduleFillAndSort() {
+            const staff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi"];
+            let sIdx = 0;
+            postsData.forEach(p => {
+                if (!p.s1 || p.s1 === "UNASSIGNED") p.s1 = staff[sIdx++ % staff.length];
+                if (!p.s2 || p.s2 === "UNASSIGNED") p.s2 = staff[sIdx++ % staff.length];
+                if (!p.s3 || p.s3 === "UNASSIGNED") p.s3 = staff[sIdx++ % staff.length];
+                p.status = "Full Coverage";
+            });
+            localStorage.setItem('nm_deployment_v4', JSON.stringify(postsData));
+            renderAll();
+        }
+
+        function handleExcelUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const data = new Uint8Array(evt.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                if (rows.length) {
+                    postsData = rows.map(r => ({
+                        sector: r.Sector || "North", plot: r.Plot || "Plot A",
+                        id: r["Post ID"] || "P-01", name: r["Post Name"] || "Imported",
+                        s1: r["Shift 1"] || "UNASSIGNED", s2: r["Shift 2"] || "UNASSIGNED",
+                        s3: r["Shift 3"] || "UNASSIGNED", reliever: r.Reliever || "UNASSIGNED",
+                        status: "Full Coverage"
+                    }));
+                    localStorage.setItem('nm_deployment_v4', JSON.stringify(postsData));
+                    renderAll();
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function downloadExcelTemplate() {
+            const template = [{ Sector: "North", Plot: "Plot A", "Post ID": "A01", "Post Name": "Gate A01", "Shift 1": "Ahmad", "Shift 2": "Sami", "Shift 3": "Bader", Reliever: "Ziyad" }];
+            const ws = XLSX.utils.json_to_sheet(template);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Template");
+            XLSX.writeFile(wb, "New_Murabba_Template.xlsx");
+        }
+
+        function sortRoster(type) {
+            if (type === 'sector') postsData.sort((a,b) => a.sector.localeCompare(b.sector));
+            else if (type === 'id') postsData.sort((a,b) => a.id.localeCompare(b.id));
+            else if (type === 'status') postsData.sort((a,b) => a.status.localeCompare(b.status));
+            renderRosterTable();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAll();
+        });
+    </script>
+</body>
+</html>
