@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Murabba Security Operations - 24/7 Deployment & Smart Roster</title>
+    <title>New Murabba Security Operations - 24/7 Deployment & Fleet Control</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -17,6 +17,11 @@
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #090d16; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        @media print {
+            aside, header, .no-print { display: none !important; }
+            main { padding: 0 !important; overflow: visible !important; }
+            body { background: white !important; color: black !important; }
+        }
     </style>
 </head>
 <body class="h-full flex flex-col overflow-hidden bg-slate-950 text-slate-100">
@@ -29,50 +34,56 @@
             </div>
             <div>
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <h1 class="text-base font-bold text-slate-100 leading-tight">New Murabba Delivery Security Operations</h1>
-                    <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-mono font-bold">RIYADH HQ</span>
+                    <h1 class="text-base font-bold text-slate-100 leading-tight" data-i18n="app_title">New Murabba Delivery Security Operations</h1>
+                    <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-mono font-bold" data-i18n="hq_badge">RIYADH HQ</span>
                 </div>
-                <p class="text-xs text-slate-400">24/7 Smart Deployment Plan • Handover Logs • Incident Reporting • 5:2 Schedule</p>
+                <p class="text-xs text-slate-400" data-i18n="app_subtitle">24/7 Smart Deployment Plan • Fleet Command • AI Translation Handovers • 5:2 Schedule</p>
             </div>
         </div>
 
         <!-- Search Bar & Controls -->
         <div class="flex items-center space-x-2 rtl:space-x-reverse">
             <!-- Global Search Field -->
-            <div class="relative w-48 lg:w-64">
+            <div class="relative w-44 lg:w-56">
                 <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400 rtl:right-3 rtl:left-auto"></i>
-                <input id="global-search" type="text" onkeyup="handleSearch()" placeholder="Search guard, post ID, or plot..." class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50 rtl:pr-8 rtl:pl-3">
+                <input id="global-search" type="text" onkeyup="handleSearch()" placeholder="Search..." data-i18n-ph="search_ph" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50 rtl:pr-8 rtl:pl-3">
             </div>
+
+            <!-- Fleet Status Quick Trigger -->
+            <button onclick="switchTab('fleet')" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-cyan-600/20 transition-all">
+                <i data-lucide="truck" class="w-4 h-4"></i>
+                <span data-i18n="btn_fleet">Fleet Dashboard</span>
+            </button>
 
             <!-- Swap Guards Quick Trigger -->
             <button onclick="openSwapModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-indigo-600/20 transition-all">
                 <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
-                <span>Swap Guards</span>
+                <span data-i18n="btn_swap">Swap Guards</span>
             </button>
 
             <!-- Excel Upload Button -->
             <label class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse cursor-pointer shadow-lg shadow-emerald-600/20 transition-all">
                 <i data-lucide="file-up" class="w-4 h-4"></i>
-                <span>Upload Excel</span>
+                <span data-i18n="btn_upload">Upload Excel</span>
                 <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" onchange="handleExcelUpload(event)" class="hidden">
             </label>
 
             <!-- Download Template Button -->
             <button onclick="downloadExcelTemplate()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 transition-colors flex items-center space-x-1 rtl:space-x-reverse">
                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
-                <span>Template</span>
+                <span data-i18n="btn_template">Template</span>
             </button>
 
             <!-- Add Post Button -->
             <button onclick="openAddPostModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-blue-600/20 transition-all">
                 <i data-lucide="plus" class="w-4 h-4"></i>
-                <span>Add Post</span>
+                <span data-i18n="btn_add_post">Add Post</span>
             </button>
 
             <!-- Auto-Fill & Sort Button -->
             <button onclick="autoScheduleFillAndSort()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-amber-500/20 transition-all">
                 <i data-lucide="wand-2" class="w-4 h-4"></i>
-                <span>Auto-Fill</span>
+                <span data-i18n="btn_autofill">Auto-Fill</span>
             </button>
 
             <!-- Language Toggle -->
@@ -90,44 +101,48 @@
             <nav class="p-3 space-y-1">
                 <button onclick="switchTab('roster')" id="nav-roster" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>Smart Roster Engine</span>
+                    <span data-i18n="nav_roster">Smart Roster Engine</span>
+                </button>
+                <button onclick="switchTab('fleet')" id="nav-fleet" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+                    <i data-lucide="car" class="w-4 h-4 text-cyan-400"></i>
+                    <span data-i18n="nav_fleet">Operations & Fleet Command</span>
                 </button>
                 <button onclick="switchTab('handover')" id="nav-handover" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="clipboard-check" class="w-4 h-4 text-emerald-400"></i>
-                    <span>Post Handover Process</span>
+                    <span data-i18n="nav_handover">Post Handover Process</span>
                 </button>
                 <button onclick="switchTab('incidents')" id="nav-incidents" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-400"></i>
-                    <span>Incident Reporting & Logs</span>
+                    <span data-i18n="nav_incidents">Incident Reporting & Logs</span>
                 </button>
                 <button onclick="switchTab('schedule')" id="nav-schedule" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="calendar" class="w-4 h-4 text-indigo-400"></i>
-                    <span>Weekly Work Schedule (5:2)</span>
+                    <span data-i18n="nav_schedule">Weekly Work Schedule (5:2)</span>
                 </button>
                 <hr class="border-slate-800/80 my-2">
                 <button onclick="switchTab('north')" id="nav-north" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="compass" class="w-4 h-4 text-amber-400"></i>
-                    <span>North Side (Plot A & B)</span>
+                    <span data-i18n="nav_north">North Side (Plot A & B)</span>
                 </button>
                 <button onclick="switchTab('south')" id="nav-south" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="compass" class="w-4 h-4 text-blue-400"></i>
-                    <span>South Side (Plot C & D)</span>
+                    <span data-i18n="nav_south">South Side (Plot C & D)</span>
                 </button>
                 <button onclick="switchTab('west')" id="nav-west" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="compass" class="w-4 h-4 text-purple-400"></i>
-                    <span>West Side (Plot E)</span>
+                    <span data-i18n="nav_west">West Side (Plot E)</span>
                 </button>
             </nav>
 
             <div class="p-3 m-3 bg-slate-950 border border-slate-800 rounded-xl space-y-2 text-xs">
                 <div class="flex items-center justify-between text-slate-400">
-                    <span>Shift Cycle</span>
-                    <span class="text-emerald-400 font-semibold">24 Hours / 3 Shifts</span>
+                    <span data-i18n="sidebar_shift_cycle">Shift Cycle</span>
+                    <span class="text-emerald-400 font-semibold" data-i18n="sidebar_shift_val">24 Hours / 3 Shifts</span>
                 </div>
                 <div class="text-slate-500 font-mono text-[11px]">S1: 06-14 | S2: 14-22 | S3: 22-06</div>
                 <div class="pt-2 border-t border-slate-800 flex justify-between text-slate-400">
-                    <span>Rotation Rule</span>
-                    <span class="text-amber-400 font-medium">5 Days On / 2 Off</span>
+                    <span data-i18n="sidebar_rotation">Rotation Rule</span>
+                    <span class="text-amber-400 font-medium" data-i18n="sidebar_rotation_val">5 Days On / 2 Off</span>
                 </div>
             </div>
         </aside>
@@ -138,24 +153,24 @@
             <!-- Summary Metric Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
-                    <div class="text-xs text-slate-400">Total Active Posts</div>
+                    <div class="text-xs text-slate-400" data-i18n="m_posts_title">Total Active Posts</div>
                     <div class="text-2xl font-black text-slate-100" id="m-total-posts">0 Posts</div>
-                    <div class="text-[10px] text-slate-500">24/7 Manning Required</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_posts_sub">24/7 Manning Required</div>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
-                    <div class="text-xs text-slate-400">Coverage Gaps Detected</div>
+                    <div class="text-xs text-slate-400" data-i18n="m_gaps_title">Coverage Gaps Detected</div>
                     <div class="text-2xl font-black text-rose-400" id="m-gaps-count">0 Gaps</div>
-                    <div class="text-[10px] text-slate-500">Unassigned Shift Slots</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_gaps_sub">Unassigned Shift Slots</div>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
-                    <div class="text-xs text-slate-400">Reliever Deficits</div>
-                    <div class="text-2xl font-black text-amber-400" id="m-reliever-count">0 Deficits</div>
-                    <div class="text-[10px] text-slate-500">Missing 5:2 Relievers</div>
+                    <div class="text-xs text-slate-400" data-i18n="m_fleet_title">Patrol Vehicles Active</div>
+                    <div class="text-2xl font-black text-cyan-400" id="m-fleet-count">0 / 0 Vehicles</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_fleet_sub">On Duty / Maintenance</div>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
-                    <div class="text-xs text-slate-400">Total Personnel Allocated</div>
+                    <div class="text-xs text-slate-400" data-i18n="m_personnel_title">Total Personnel Allocated</div>
                     <div class="text-2xl font-black text-emerald-400" id="m-personnel-count">0 Personnel</div>
-                    <div class="text-[10px] text-slate-500">Guards, Drivers & Supervisors</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_personnel_sub">Guards, Drivers & Supervisors</div>
                 </div>
             </div>
 
@@ -163,15 +178,15 @@
             <section id="tab-roster" class="space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h2 class="text-sm font-bold text-slate-100">Interactive Smart Deployment Roster Matrix</h2>
-                        <p class="text-xs text-slate-400">Real-time gap detection, reliever allocation, and staff re-location</p>
+                        <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_heading">Interactive Smart Deployment Roster Matrix</h2>
+                        <p class="text-xs text-slate-400" data-i18n="roster_subheading">Real-time gap detection, reliever allocation, and staff re-location</p>
                     </div>
                     <div class="flex items-center space-x-2 text-xs">
-                        <span class="text-slate-400">Sort By:</span>
+                        <span class="text-slate-400" data-i18n="lbl_sort_by">Sort By:</span>
                         <select id="roster-sort" onchange="sortRoster(this.value)" class="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2.5 py-1 text-xs">
-                            <option value="sector">Sector & Plot</option>
-                            <option value="id">Post ID</option>
-                            <option value="status">Health Status</option>
+                            <option value="sector" data-i18n="opt_sector">Sector & Plot</option>
+                            <option value="id" data-i18n="opt_post_id">Post ID</option>
+                            <option value="status" data-i18n="opt_health">Health Status</option>
                         </select>
                     </div>
                 </div>
@@ -180,14 +195,14 @@
                     <table class="w-full text-left text-xs rtl:text-right">
                         <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">Sector & Plot</th>
-                                <th class="p-3">Post ID & Name</th>
-                                <th class="p-3">Shift 1 (06:00 - 14:00)</th>
-                                <th class="p-3">Shift 2 (14:00 - 22:00)</th>
-                                <th class="p-3">Shift 3 (22:00 - 06:00)</th>
-                                <th class="p-3">Reliever (5:2 Rotation)</th>
-                                <th class="p-3">Health Status</th>
-                                <th class="p-3 text-right rtl:text-left">Actions</th>
+                                <th class="p-3" data-i18n="th_sector_plot">Sector & Plot</th>
+                                <th class="p-3" data-i18n="th_post_id_name">Post ID & Name</th>
+                                <th class="p-3" data-i18n="th_shift_1">Shift 1 (06:00 - 14:00)</th>
+                                <th class="p-3" data-i18n="th_shift_2">Shift 2 (14:00 - 22:00)</th>
+                                <th class="p-3" data-i18n="th_shift_3">Shift 3 (22:00 - 06:00)</th>
+                                <th class="p-3" data-i18n="th_reliever">Reliever (5:2 Rotation)</th>
+                                <th class="p-3" data-i18n="th_health_status">Health Status</th>
+                                <th class="p-3 text-right rtl:text-left" data-i18n="th_actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300" id="roster-table-body">
@@ -197,19 +212,72 @@
                 </div>
             </section>
 
-            <!-- TAB 2: POST HANDOVER PROCESS -->
+            <!-- TAB 2: OPERATIONS & FLEET COMMAND DASHBOARD -->
+            <section id="tab-fleet" class="hidden space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-sm font-bold text-cyan-400 flex items-center space-x-2 rtl:space-x-reverse">
+                            <i data-lucide="car" class="w-4 h-4"></i>
+                            <span data-i18n="fleet_heading">Security Fleet & Patrol Vehicles Operations Command</span>
+                        </h2>
+                        <p class="text-xs text-slate-400" data-i18n="fleet_subheading">Live tracking of active patrol units, maintenance schedules, driver duty logs, and fuel status</p>
+                    </div>
+                    <button onclick="openAddVehicleModal()" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span data-i18n="btn_add_vehicle">Add Patrol Unit</span>
+                    </button>
+                </div>
+
+                <!-- Fleet Status Quick Bar -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-i18n="fleet_stat_onduty">On Duty Patrols</span>
+                            <span class="text-lg font-black text-emerald-400" id="f-stat-onduty">0</span>
+                        </div>
+                        <i data-lucide="shield" class="w-6 h-6 text-emerald-500/40"></i>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-i18n="fleet_stat_offduty">Off Duty / Standby</span>
+                            <span class="text-lg font-black text-slate-300" id="f-stat-offduty">0</span>
+                        </div>
+                        <i data-lucide="clock" class="w-6 h-6 text-slate-500/40"></i>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-i18n="fleet_stat_maint">Under Maintenance</span>
+                            <span class="text-lg font-black text-rose-400" id="f-stat-maint">0</span>
+                        </div>
+                        <i data-lucide="wrench" class="w-6 h-6 text-rose-500/40"></i>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block" data-i18n="fleet_stat_refuel">Refueling Required</span>
+                            <span class="text-lg font-black text-amber-400" id="f-stat-refuel">0</span>
+                        </div>
+                        <i data-lucide="fuel" class="w-6 h-6 text-amber-500/40"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="fleet-cards-grid">
+                    <!-- Dynamic Fleet Cards -->
+                </div>
+            </section>
+
+            <!-- TAB 3: POST HANDOVER PROCESS -->
             <section id="tab-handover" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-sm font-bold text-emerald-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="clipboard-check" class="w-4 h-4"></i>
-                            <span>Post Handover & Shift Takeover Process</span>
+                            <span data-i18n="handover_heading">Post Handover & Shift Takeover Process</span>
                         </h2>
-                        <p class="text-xs text-slate-400">Log incoming/outgoing officer shift handovers, site gear, and open briefing notes</p>
+                        <p class="text-xs text-slate-400" data-i18n="handover_subheading">Log incoming/outgoing officer shift handovers, site gear, and open briefing notes</p>
                     </div>
                     <button onclick="openHandoverModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse">
                         <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                        <span>New Handover Entry</span>
+                        <span data-i18n="btn_new_handover">New Handover Entry</span>
                     </button>
                 </div>
 
@@ -218,19 +286,19 @@
                 </div>
             </section>
 
-            <!-- TAB 3: INCIDENT REPORTING & WRITING -->
+            <!-- TAB 4: INCIDENT REPORTING & WRITING -->
             <section id="tab-incidents" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-sm font-bold text-rose-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                            <span>Security Incident Reporting & Case Log</span>
+                            <span data-i18n="incidents_heading">Security Incident Reporting & Case Log</span>
                         </h2>
-                        <p class="text-xs text-slate-400">Submit formal incident reports, site breaches, or safety hazards</p>
+                        <p class="text-xs text-slate-400" data-i18n="incidents_subheading">Submit formal incident reports, site breaches, or safety hazards with automatic translation</p>
                     </div>
                     <button onclick="openIncidentModal()" class="bg-rose-600 hover:bg-rose-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse">
                         <i data-lucide="file-plus" class="w-4 h-4"></i>
-                        <span>Write Incident Report</span>
+                        <span data-i18n="btn_write_incident">Write Incident Report</span>
                     </button>
                 </div>
 
@@ -239,15 +307,35 @@
                 </div>
             </section>
 
-            <!-- TAB 4: WORK SCHEDULE (5:2 ROTATION) -->
+            <!-- TAB 5: WORK SCHEDULE (5:2 ROTATION) WITH REPORTING & MULTI-SORTING -->
             <section id="tab-schedule" class="hidden space-y-4">
-                <div class="flex justify-between items-center">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
                     <div>
                         <h2 class="text-sm font-bold text-indigo-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="calendar" class="w-4 h-4"></i>
-                            <span>5:2 Work Schedule Matrix (Weekly Rotation)</span>
+                            <span data-i18n="schedule_heading">5:2 Work Schedule Matrix (Weekly Rotation Report)</span>
                         </h2>
-                        <p class="text-xs text-slate-400">Automated 5 Days Work / 2 Days Off schedule view per guard</p>
+                        <p class="text-xs text-slate-400" data-i18n="schedule_subheading">Automated 5 Days Work / 2 Days Off schedule view per guard</p>
+                    </div>
+
+                    <!-- Sorting & Report Options -->
+                    <div class="flex flex-wrap items-center gap-2 text-xs no-print">
+                        <span class="text-slate-400" data-i18n="lbl_sort_by">Sort By:</span>
+                        <select id="schedule-sort-key" onchange="renderScheduleTable()" class="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2 py-1">
+                            <option value="post" data-i18n="opt_sort_post">Post ID</option>
+                            <option value="side" data-i18n="opt_sort_side">Sector / Side</option>
+                            <option value="plot" data-i18n="opt_sort_plot">Plot Location</option>
+                            <option value="shift" data-i18n="opt_sort_shift">Shift Duty</option>
+                        </select>
+
+                        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1 rounded-lg flex items-center space-x-1 rtl:space-x-reverse">
+                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="btn_print_report">Print Report</span>
+                        </button>
+                        <button onclick="exportScheduleExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1 rounded-lg flex items-center space-x-1 rtl:space-x-reverse">
+                            <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="btn_export_schedule">Export Excel</span>
+                        </button>
                     </div>
                 </div>
 
@@ -255,8 +343,9 @@
                     <table class="w-full text-left text-xs rtl:text-right">
                         <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3">Guard / Driver Name</th>
-                                <th class="p-3">Assigned Post</th>
+                                <th class="p-3" data-i18n="th_guard_driver">Guard / Driver Name</th>
+                                <th class="p-3" data-i18n="th_assigned_post">Assigned Post & Duty</th>
+                                <th class="p-3" data-i18n="th_sector_plot">Sector & Plot</th>
                                 <th class="p-3">Sun</th>
                                 <th class="p-3">Mon</th>
                                 <th class="p-3">Tue</th>
@@ -277,7 +366,7 @@
             <section id="tab-north" class="hidden space-y-4">
                 <h2 class="text-sm font-bold text-amber-400 flex items-center space-x-2 rtl:space-x-reverse">
                     <i data-lucide="compass" class="w-4 h-4"></i>
-                    <span>NORTH SIDE SECTOR (Plot A & Plot B)</span>
+                    <span data-i18n="nav_north">NORTH SIDE SECTOR (Plot A & Plot B)</span>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="north-cards-grid"></div>
             </section>
@@ -285,7 +374,7 @@
             <section id="tab-south" class="hidden space-y-4">
                 <h2 class="text-sm font-bold text-blue-400 flex items-center space-x-2 rtl:space-x-reverse">
                     <i data-lucide="compass" class="w-4 h-4"></i>
-                    <span>SOUTH SIDE SECTOR (Plot C & Plot D)</span>
+                    <span data-i18n="nav_south">SOUTH SIDE SECTOR (Plot C & Plot D)</span>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="south-cards-grid"></div>
             </section>
@@ -293,7 +382,7 @@
             <section id="tab-west" class="hidden space-y-4">
                 <h2 class="text-sm font-bold text-purple-400 flex items-center space-x-2 rtl:space-x-reverse">
                     <i data-lucide="compass" class="w-4 h-4"></i>
-                    <span>WEST SIDE SECTOR (Plot E)</span>
+                    <span data-i18n="nav_west">WEST SIDE SECTOR (Plot E)</span>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="west-cards-grid"></div>
             </section>
@@ -305,14 +394,14 @@
     <div id="add-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-sm text-slate-100">Add New Security Post</h3>
+                <h3 class="font-bold text-sm text-slate-100" data-i18n="m_add_post_title">Add New Security Post</h3>
                 <button onclick="closeModal('add-post-modal')" class="text-slate-400 hover:text-slate-200">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="text-slate-400 block mb-1">Sector Side</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_sector_side">Sector Side</label>
                     <select id="p-sector" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                         <option value="North">North Side</option>
                         <option value="South">South Side</option>
@@ -320,19 +409,19 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Plot Location</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_plot_location">Plot Location</label>
                     <input id="p-plot" type="text" placeholder="e.g. Plot A, Plot B, Plot C" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Post ID</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_post_id">Post ID</label>
                     <input id="p-id" type="text" placeholder="e.g. Gate A04 or AX2" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 font-mono">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Post Name / Title</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_post_name">Post Name / Title</label>
                     <input id="p-name" type="text" placeholder="e.g. Gate A04 Main Gate Access" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Post Type</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_post_type">Post Type</label>
                     <select id="p-type" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                         <option value="Gate">Gate Access</option>
                         <option value="External Patrol Vehicle">External Patrol Vehicle</option>
@@ -343,8 +432,57 @@
                 </div>
             </div>
             <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
-                <button onclick="closeModal('add-post-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
-                <button onclick="saveNewPost()" class="px-3 py-1.5 rounded-lg text-xs bg-blue-600 hover:bg-blue-500 text-white font-bold">Save Post</button>
+                <button onclick="closeModal('add-post-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300" data-i18n="btn_cancel">Cancel</button>
+                <button onclick="saveNewPost()" class="px-3 py-1.5 rounded-lg text-xs bg-blue-600 hover:bg-blue-500 text-white font-bold" data-i18n="btn_save">Save Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT PATROL VEHICLE -->
+    <div id="add-vehicle-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-sm text-slate-100" data-i18n="m_add_veh_title">Add Patrol Unit</h3>
+                <button onclick="closeModal('add-vehicle-modal')" class="text-slate-400 hover:text-slate-200">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_callsign">Vehicle Call Sign / Plate</label>
+                    <input id="v-callsign" type="text" placeholder="PATROL-01 (KSA 4892)" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 font-mono">
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_sector_side">Sector Side</label>
+                    <select id="v-sector" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                        <option value="North">North Side</option>
+                        <option value="South">South Side</option>
+                        <option value="West">West Side</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_driver">Assigned Driver / Officer</label>
+                    <input id="v-driver" type="text" placeholder="Officer Name" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_status">Operational Status</label>
+                        <select id="v-status" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                            <option value="On Duty">On Duty</option>
+                            <option value="Off Duty">Off Duty</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Refueling">Refueling</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_fuel">Fuel Level (%)</label>
+                        <input id="v-fuel" type="number" min="0" max="100" value="100" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
+                <button onclick="closeModal('add-vehicle-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300" data-i18n="btn_cancel">Cancel</button>
+                <button onclick="savePatrolVehicle()" class="px-3 py-1.5 rounded-lg text-xs bg-cyan-600 hover:bg-cyan-500 text-white font-bold" data-i18n="btn_save">Save Unit</button>
             </div>
         </div>
     </div>
@@ -353,7 +491,7 @@
     <div id="edit-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-sm text-slate-100">Edit Post Personnel & Shift Allocation</h3>
+                <h3 class="font-bold text-sm text-slate-100" data-i18n="m_edit_post_title">Edit Post Personnel & Shift Allocation</h3>
                 <button onclick="closeModal('edit-post-modal')" class="text-slate-400 hover:text-slate-200">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
@@ -362,7 +500,7 @@
             <div class="space-y-3 text-xs">
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="text-slate-400 block mb-1">Sector</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_sector_side">Sector Side</label>
                         <select id="ep-sector" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                             <option value="North">North Side</option>
                             <option value="South">South Side</option>
@@ -370,48 +508,48 @@
                         </select>
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1">Plot</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_plot_location">Plot Location</label>
                         <input id="ep-plot" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="text-slate-400 block mb-1">Post ID</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_post_id">Post ID</label>
                         <input id="ep-id" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 font-mono">
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1">Post Name</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_post_name">Post Name</label>
                         <input id="ep-name" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                 </div>
 
                 <div class="border-t border-slate-800 pt-2 space-y-2">
-                    <label class="font-bold text-slate-200 block">Guard Shift Relocation & Assignments</label>
+                    <label class="font-bold text-slate-200 block" data-i18n="lbl_shift_assignments">Guard Shift Relocation & Assignments</label>
                     <div>
-                        <label class="text-slate-400 block mb-1">Shift 1 Guard / Driver (06:00 - 14:00)</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_shift_1_officer">Shift 1 Guard / Driver (06:00 - 14:00)</label>
                         <input id="ep-s1" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1">Shift 2 Guard / Driver (14:00 - 22:00)</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_shift_2_officer">Shift 2 Guard / Driver (14:00 - 22:00)</label>
                         <input id="ep-s2" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1">Shift 3 Guard / Driver (22:00 - 06:00)</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_shift_3_officer">Shift 3 Guard / Driver (22:00 - 06:00)</label>
                         <input id="ep-s3" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-amber-400 block mb-1">Reliever Guard / Driver (5:2 Rotation)</label>
+                        <label class="text-amber-400 block mb-1" data-i18n="lbl_reliever_officer">Reliever Guard / Driver (5:2 Rotation)</label>
                         <input id="ep-reliever" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                 </div>
             </div>
 
             <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                <button onclick="deleteCurrentPost()" class="px-3 py-1.5 rounded-lg text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">Delete Post</button>
+                <button onclick="deleteCurrentPost()" class="px-3 py-1.5 rounded-lg text-xs bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30" data-i18n="btn_delete">Delete Post</button>
                 <div class="flex space-x-2 rtl:space-x-reverse">
-                    <button onclick="closeModal('edit-post-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
-                    <button onclick="savePostModalChanges()" class="px-3 py-1.5 rounded-lg text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold">Save Changes</button>
+                    <button onclick="closeModal('edit-post-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300" data-i18n="btn_cancel">Cancel</button>
+                    <button onclick="savePostModalChanges()" class="px-3 py-1.5 rounded-lg text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold" data-i18n="btn_save_changes">Save Changes</button>
                 </div>
             </div>
         </div>
@@ -423,7 +561,7 @@
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-sm text-slate-100 flex items-center space-x-2 rtl:space-x-reverse">
                     <i data-lucide="arrow-left-right" class="w-4 h-4 text-indigo-400"></i>
-                    <span>Swap Guards / Shift Relocation</span>
+                    <span data-i18n="m_swap_title">Swap Guards / Shift Relocation</span>
                 </h3>
                 <button onclick="closeModal('swap-guards-modal')" class="text-slate-400 hover:text-slate-200">
                     <i data-lucide="x" class="w-4 h-4"></i>
@@ -431,8 +569,8 @@
             </div>
             <div class="space-y-3 text-xs">
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-                    <label class="font-bold text-slate-300 block">Source Officer A</label>
-                    <select id="swap-post-a" onchange="populateSwapSlots('a')" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200"></select>
+                    <label class="font-bold text-slate-300 block" data-i18n="lbl_officer_a">Source Officer A</label>
+                    <select id="swap-post-a" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200"></select>
                     <select id="swap-slot-a" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                         <option value="s1">Shift 1</option>
                         <option value="s2">Shift 2</option>
@@ -440,10 +578,10 @@
                         <option value="reliever">Reliever</option>
                     </select>
                 </div>
-                <div class="text-center font-bold text-amber-400">SWAP WITH</div>
+                <div class="text-center font-bold text-amber-400" data-i18n="lbl_swap_with">SWAP WITH</div>
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-                    <label class="font-bold text-slate-300 block">Target Officer B</label>
-                    <select id="swap-post-b" onchange="populateSwapSlots('b')" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200"></select>
+                    <label class="font-bold text-slate-300 block" data-i18n="lbl_officer_b">Target Officer B</label>
+                    <select id="swap-post-b" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200"></select>
                     <select id="swap-slot-b" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                         <option value="s1">Shift 1</option>
                         <option value="s2">Shift 2</option>
@@ -453,8 +591,8 @@
                 </div>
             </div>
             <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
-                <button onclick="closeModal('swap-guards-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
-                <button onclick="executeGuardSwap()" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-bold">Confirm Swap</button>
+                <button onclick="closeModal('swap-guards-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300" data-i18n="btn_cancel">Cancel</button>
+                <button onclick="executeGuardSwap()" class="px-3 py-1.5 rounded-lg text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-bold" data-i18n="btn_confirm_swap">Confirm Swap</button>
             </div>
         </div>
     </div>
@@ -463,566 +601,27 @@
     <div id="handover-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-sm text-slate-100">Post Handover & Shift Log</h3>
+                <h3 class="font-bold text-sm text-slate-100" data-i18n="m_handover_title">Post Handover & Shift Log</h3>
                 <button onclick="closeModal('handover-modal')" class="text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="text-slate-400 block mb-1">Select Post</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_select_post">Select Post</label>
                     <select id="ho-post" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200"></select>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label class="text-slate-400 block mb-1">Outgoing Guard</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_outgoing_guard">Outgoing Guard</label>
                         <input id="ho-out" type="text" placeholder="Officer Name" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1">Incoming Guard</label>
+                        <label class="text-slate-400 block mb-1" data-i18n="lbl_incoming_guard">Incoming Guard</label>
                         <input id="ho-in" type="text" placeholder="Officer Name" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Key & Equipment Verification</label>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_key_equip">Key & Equipment Verification</label>
                     <input id="ho-eq" type="text" value="Radio #04 OK, Keys 100%, Logbook Signed" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                 </div>
                 <div>
-                    <label class="text-slate-400 block mb-1">Shift Handover Briefing / Remarks</label>
-                    <textarea id="ho-notes" rows="2" placeholder="All gates secure, minor concrete delivery expected at 08:00 AST..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg text-slate-200"></textarea>
-                </div>
-            </div>
-            <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
-                <button onclick="closeModal('handover-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
-                <button onclick="saveHandoverLog()" class="px-3 py-1.5 rounded-lg text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold">Save Handover</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: WRITE INCIDENT REPORT -->
-    <div id="incident-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-sm text-slate-100">Write Security Incident Report</h3>
-                <button onclick="closeModal('incident-modal')" class="text-slate-400 hover:text-slate-200"><i data-lucide="x" class="w-4 h-4"></i></button>
-            </div>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="text-slate-400 block mb-1">Incident Title</label>
-                    <input id="inc-title" type="text" placeholder="e.g. Unauthorized Vehicle Attempt at Gate A01" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-slate-400 block mb-1">Plot Location</label>
-                        <input id="inc-plot" type="text" placeholder="Plot A / Gate A01" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                    </div>
-                    <div>
-                        <label class="text-slate-400 block mb-1">Severity Level</label>
-                        <select id="inc-severity" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                            <option value="Low">Low (Level 1)</option>
-                            <option value="Medium">Medium (Level 2)</option>
-                            <option value="High">High (Level 3 - Critical)</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="text-slate-400 block mb-1">Reporting Officer</label>
-                    <input id="inc-reporter" type="text" placeholder="Officer / Supervisor Name" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                </div>
-                <div>
-                    <label class="text-slate-400 block mb-1">Incident Details & Immediate Action Taken</label>
-                    <textarea id="inc-details" rows="3" placeholder="Describe what happened and action taken..." class="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg text-slate-200"></textarea>
-                </div>
-            </div>
-            <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800">
-                <button onclick="closeModal('incident-modal')" class="px-3 py-1.5 rounded-lg text-xs bg-slate-800 text-slate-300">Cancel</button>
-                <button onclick="saveIncidentReport()" class="px-3 py-1.5 rounded-lg text-xs bg-rose-600 hover:bg-rose-500 text-white font-bold">Submit Report</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Controller Engine -->
-    <script>
-        let searchQuery = "";
-
-        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v3')) || [
-            { sector: "North", plot: "Plot A", id: "A01", name: "Gate A01 Access Post", type: "Gate", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
-            { sector: "North", plot: "Plot A", id: "A02", name: "Gate A02 Access Post", type: "Gate", s1: "Fahad Harbi", s2: "Nasser Ghamdi", s3: "Ayman Shehri", reliever: "Bandar Dawsari", status: "Full Coverage" },
-            { sector: "North", plot: "Plot A", id: "A03", name: "Gate A03 Access Post", type: "Gate", s1: "Khalid Naif", s2: "Hamza Subaie", s3: "Nawaf Qahtani", reliever: "Faris Shammari", status: "Full Coverage" },
-            { sector: "North", plot: "Plot A", id: "AX1", name: "Plot A External Patrol", type: "External Patrol Vehicle", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
-            { sector: "North", plot: "Plot A", id: "AD1", name: "Plot A Internal Patrol", type: "Internal Patrol Vehicle", s1: "Majed Bin Ali", s2: "Sultan Ghamdi", s3: "Yasser Malki", reliever: "Waleed Anzi", status: "Full Coverage" },
-            { sector: "North", plot: "Plot A", id: "SUP-A", name: "Plot A Supervisor Post", type: "Supervisor", s1: "Saleh Zahrani", s2: "Ismail Malki", s3: "Bilal Qahtani", reliever: "Karam Juhani", status: "Full Coverage" },
-            { sector: "North", plot: "Plot B", id: "B01", name: "Gate B01 Access Post", type: "Gate", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Marwan Mutairi", reliever: "Anas Ghamdi", status: "Full Coverage" },
-            { sector: "North", plot: "Plot B", id: "B02", name: "Gate B02 Access Post", type: "Gate", s1: "Hamad Qahtani", s2: "Suhail Asiri", s3: "Moath Subaie", reliever: "Rami Harbi", status: "Full Coverage" },
-            { sector: "North", plot: "Plot B", id: "B03", name: "Gate B03 Access Post", type: "Gate", s1: "UNASSIGNED", s2: "UNASSIGNED", s3: "UNASSIGNED", reliever: "UNASSIGNED", status: "COVERAGE GAP" },
-            { sector: "North", plot: "Plot B", id: "BX1", name: "Plot B External Patrol", type: "External Patrol Vehicle", s1: "Emad Hazmi", s2: "Tamer Juhani", s3: "Hani Dosari", reliever: "UNASSIGNED", status: "Reliever Deficit" },
-            { sector: "North", plot: "Plot B", id: "BD1", name: "Plot B Internal Patrol", type: "Internal Patrol Vehicle", s1: "Abdullah Dawsari", s2: "Majid Otaibi", s3: "Sami Al-Ali", reliever: "Nabil Najrani", status: "Full Coverage" },
-            { sector: "North", plot: "Plot B", id: "SUP-NORTH", name: "North Side Area Supervisor", type: "Area Supervisor", s1: "Saad Al-Khalaf", s2: "Omar Farooq", s3: "Hassan Ali", reliever: "Turki Harbi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot C", id: "CG1", name: "Gate CG1 Access Post", type: "Gate", s1: "Youssef Ibrahim", s2: "Badr Asiri", s3: "Wael Dosari", reliever: "Sami Shammari", status: "Full Coverage" },
-            { sector: "South", plot: "Plot C", id: "CG2", name: "Gate CG2 Access Post", type: "Gate", s1: "Rayan Malki", s2: "Lujain Hazmi", s3: "Ziad Harbi", reliever: "Mazen Ruwaili", status: "Full Coverage" },
-            { sector: "South", plot: "Plot C", id: "CG3", name: "Gate CG3 Access Post", type: "Gate", s1: "Omer Subaie", s2: "Faysal Otaibi", s3: "Mounir Ghamdi", reliever: "Saleh Mutairi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot C", id: "CX1", name: "Plot C External Patrol", type: "External Patrol Vehicle", s1: "Waleed Ruwaili", s2: "Tariq Asiri", s3: "Ahmad Malki", reliever: "Bandar Otaibi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot C", id: "CD1", name: "Plot C Internal Patrol", type: "Internal Patrol Vehicle", s1: "Nasser Al-Subaie", s2: "Rami Zahrani", s3: "Fahad Qahtani", reliever: "Ziyad Hazmi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot C", id: "SUP-C", name: "Plot C Supervisor Post", type: "Supervisor", s1: "Mansour Malki", s2: "Hamdan Otaibi", s3: "Saeed Harbi", reliever: "Musaad Dawsari", status: "Full Coverage" },
-            { sector: "South", plot: "Plot D", id: "D08", name: "Gate D08 Access Post", type: "Gate", s1: "Hassan Ghamdi", s2: "Ali Asiri", s3: "Majed Ruwaili", reliever: "Sultan Hazmi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot D", id: "D09", name: "Gate D09 Access Post", type: "Gate", s1: "Naif Subaie", s2: "Bader Otaibi", s3: "Yasser Harbi", reliever: "Adnan Dawsari", status: "Full Coverage" },
-            { sector: "South", plot: "Plot D", id: "D010", name: "Gate D010 Access Post", type: "Gate", s1: "Faisal Malki", s2: "Sami Zahrani", s3: "Tariq Qahtani", reliever: "Omar Hazmi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot D", id: "DX1", name: "Plot D External Patrol", type: "External Patrol Vehicle", s1: "Bandar Ghamdi", s2: "Khaled Asiri", s3: "Mounir Ruwaili", reliever: "Rashid Hazmi", status: "Full Coverage" },
-            { sector: "South", plot: "Plot D", id: "DD1", name: "Plot D Internal Patrol", type: "Internal Patrol Vehicle", s1: "Ziyad Subaie", s2: "Waleed Otaibi", s3: "Ahmad Harbi", reliever: "Faris Dawsari", status: "Full Coverage" },
-            { sector: "South", plot: "Plot D", id: "SUP-SOUTH", name: "South Side Area Supervisor", type: "Area Supervisor", s1: "Ayman Malki", s2: "Nasser Zahrani", s3: "Sultan Qahtani", reliever: "Hamad Hazmi", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "E01", name: "Gate E01 Access Post", type: "Gate", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "E02", name: "Gate E02 Access Post", type: "Gate", s1: "Fahad Subaie", s2: "Naif Otaibi", s3: "Majed Harbi", reliever: "Khalid Dawsari", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "E03", name: "Gate E03 Access Post", type: "Gate", s1: "Adnan Malki", s2: "Yasser Zahrani", s3: "Rami Qahtani", reliever: "Waleed Hazmi", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "EX1", name: "Plot E External Patrol", type: "External Patrol Vehicle", s1: "Omar Ghamdi", s2: "Hassan Asiri", s3: "Faisal Ruwaili", reliever: "Sultan Hazmi", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "ED1", name: "Plot E Internal Patrol", type: "Internal Patrol Vehicle", s1: "Bandar Subaie", s2: "Rashid Otaibi", s3: "Ziyad Harbi", reliever: "Ahmad Dawsari", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "SUP-WEST", name: "West Side Area Supervisor", type: "Area Supervisor", s1: "Hamad Malki", s2: "Mounir Zahrani", s3: "Khaled Qahtani", reliever: "Nasser Hazmi", status: "Full Coverage" }
-        ];
-
-        let handoverLogs = JSON.parse(localStorage.getItem('nm_handovers_v1')) || [
-            { post: "A01", outgoing: "Ahmad Suleiman", incoming: "Sami Ruwaili", time: "14:00 AST", eq: "Radio #01 OK, Gate Remote Functional", notes: "No security issues reported during Shift 1." }
-        ];
-
-        let incidentLogs = JSON.parse(localStorage.getItem('nm_incidents_v1')) || [
-            { id: "INC-2026-001", title: "Unannounced Gate Clearance Attempt", plot: "Plot A / Gate A01", severity: "Medium", reporter: "Ahmad Suleiman", time: "08:15 AST", details: "Subcontractor attempted entry without digital permit. Vehicle turned back safely." }
-        ];
-
-        function renderAll() {
-            renderRosterTable();
-            renderSectorCards();
-            renderHandoverLogs();
-            renderIncidentLogs();
-            renderScheduleTable();
-            updateMetrics();
-            if (window.lucide) { lucide.createIcons(); }
-        }
-
-        function handleSearch() {
-            searchQuery = document.getElementById('global-search').value.toLowerCase().trim();
-            renderRosterTable();
-            renderHandoverLogs();
-        }
-
-        function updateMetrics() {
-            document.getElementById('m-total-posts').innerText = `${postsData.length} Posts`;
-
-            let gaps = 0;
-            let relieverDeficits = 0;
-            let assignedCount = 0;
-
-            postsData.forEach(p => {
-                if (!p.s1 || p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
-                if (!p.s2 || p.s2 === "UNASSIGNED") gaps++; else assignedCount++;
-                if (!p.s3 || p.s3 === "UNASSIGNED") gaps++; else assignedCount++;
-                if (!p.reliever || p.reliever === "UNASSIGNED") relieverDeficits++; else assignedCount++;
-            });
-
-            document.getElementById('m-gaps-count').innerText = `${gaps} Gaps`;
-            document.getElementById('m-reliever-count').innerText = `${relieverDeficits} Deficits`;
-            document.getElementById('m-personnel-count').innerText = `${assignedCount} Personnel`;
-        }
-
-        function renderRosterTable() {
-            const body = document.getElementById('roster-table-body');
-            if (!body) return;
-
-            const filtered = postsData.filter(p => {
-                if (!searchQuery) return true;
-                return p.id.toLowerCase().includes(searchQuery) ||
-                       p.name.toLowerCase().includes(searchQuery) ||
-                       p.plot.toLowerCase().includes(searchQuery) ||
-                       p.s1.toLowerCase().includes(searchQuery) ||
-                       p.s2.toLowerCase().includes(searchQuery) ||
-                       p.s3.toLowerCase().includes(searchQuery) ||
-                       p.reliever.toLowerCase().includes(searchQuery);
-            });
-
-            body.innerHTML = filtered.map((p, idx) => {
-                const originalIndex = postsData.indexOf(p);
-                return `
-                    <tr class="hover:bg-slate-800/40 transition-colors">
-                        <td class="p-3 font-semibold text-slate-300">
-                            <span class="text-[10px] uppercase block font-mono ${p.sector === 'North' ? 'text-amber-400' : (p.sector === 'South' ? 'text-blue-400' : 'text-purple-400')}">${p.sector} Side</span>
-                            ${p.plot}
-                        </td>
-                        <td class="p-3">
-                            <span class="font-bold text-amber-400 font-mono block">${p.id}</span>
-                            <span class="text-xs text-slate-200">${p.name}</span>
-                        </td>
-                        <td class="p-3"><span class="${!p.s1 || p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1 || 'UNASSIGNED'}</span></td>
-                        <td class="p-3"><span class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</span></td>
-                        <td class="p-3"><span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span></td>
-                        <td class="p-3"><span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span></td>
-                        <td class="p-3">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (p.status === 'Reliever Deficit' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse')}">${p.status}</span>
-                        </td>
-                        <td class="p-3 text-right rtl:text-left">
-                            <button onclick="openEditPostModal(${originalIndex})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit Post</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function sortRoster(type) {
-            if (type === 'sector') {
-                postsData.sort((a, b) => a.sector.localeCompare(b.sector) || a.plot.localeCompare(b.plot));
-            } else if (type === 'id') {
-                postsData.sort((a, b) => a.id.localeCompare(b.id));
-            } else if (type === 'status') {
-                postsData.sort((a, b) => a.status.localeCompare(b.status));
-            }
-            localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-            renderRosterTable();
-        }
-
-        function renderHandoverLogs() {
-            const grid = document.getElementById('handover-logs-grid');
-            if (!grid) return;
-
-            grid.innerHTML = handoverLogs.map(h => `
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
-                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
-                        <span class="font-bold text-emerald-400 text-xs font-mono">POST HANDOVER: ${h.post}</span>
-                        <span class="text-[10px] text-slate-500 font-mono">${h.time}</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div><span class="text-slate-400 block">Outgoing:</span> <strong class="text-slate-200">${h.outgoing}</strong></div>
-                        <div><span class="text-slate-400 block">Incoming:</span> <strong class="text-slate-200">${h.incoming}</strong></div>
-                    </div>
-                    <div class="text-[11px] bg-slate-950 p-2 rounded border border-slate-800 text-slate-300">
-                        <strong class="text-amber-400">Equipment Check:</strong> ${h.eq}
-                    </div>
-                    <p class="text-xs text-slate-400 italic">"${h.notes}"</p>
-                </div>
-            `).join('');
-        }
-
-        function renderIncidentLogs() {
-            const container = document.getElementById('incidents-container');
-            if (!container) return;
-
-            container.innerHTML = incidentLogs.map(i => `
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-2">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${i.severity === 'High' ? 'bg-rose-500/20 text-rose-400' : (i.severity === 'Medium' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400')}">${i.severity}</span>
-                            <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
-                        </div>
-                        <span class="text-[10px] text-slate-500 font-mono">${i.time}</span>
-                    </div>
-                    <div class="text-xs text-slate-400">${i.plot} • Reported by <strong class="text-slate-300">${i.reporter}</strong></div>
-                    <p class="text-xs text-slate-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800/80">${i.details}</p>
-                </div>
-            `).join('');
-        }
-
-        function renderScheduleTable() {
-            const body = document.getElementById('schedule-table-body');
-            if (!body) return;
-
-            let scheduleRows = [];
-            postsData.forEach(p => {
-                scheduleRows.push({ name: p.s1, post: `${p.id} (Shift 1)` });
-                scheduleRows.push({ name: p.s2, post: `${p.id} (Shift 2)` });
-                scheduleRows.push({ name: p.s3, post: `${p.id} (Shift 3)` });
-            });
-
-            body.innerHTML = scheduleRows.slice(0, 15).map(s => `
-                <tr class="hover:bg-slate-800/40 transition-colors">
-                    <td class="p-3 font-semibold text-slate-200">${s.name || 'UNASSIGNED'}</td>
-                    <td class="p-3 text-slate-400 font-mono">${s.post}</td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
-                </tr>
-            `).join('');
-        }
-
-        function renderSectorCards() {
-            const northGrid = document.getElementById('north-cards-grid');
-            const southGrid = document.getElementById('south-cards-grid');
-            const westGrid = document.getElementById('west-cards-grid');
-
-            if (northGrid) northGrid.innerHTML = postsData.filter(p => p.sector === 'North').map(p => postCardTemplate(p)).join('');
-            if (southGrid) southGrid.innerHTML = postsData.filter(p => p.sector === 'South').map(p => postCardTemplate(p)).join('');
-            if (westGrid) westGrid.innerHTML = postsData.filter(p => p.sector === 'West').map(p => postCardTemplate(p)).join('');
-        }
-
-        function postCardTemplate(p) {
-            return `
-                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <span class="font-bold text-sm text-amber-400 font-mono">${p.id}</span>
-                            <span class="text-xs text-slate-200 block font-bold">${p.name}</span>
-                        </div>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${p.status}</span>
-                    </div>
-                    <div class="text-[11px] text-slate-400 space-y-0.5 bg-slate-950 p-2 rounded border border-slate-800/80 font-mono">
-                        <div>S1 (06-14): <span class="text-slate-200">${p.s1 || 'UNASSIGNED'}</span></div>
-                        <div>S2 (14-22): <span class="text-slate-200">${p.s2 || 'UNASSIGNED'}</span></div>
-                        <div>S3 (22-06): <span class="text-slate-200">${p.s3 || 'UNASSIGNED'}</span></div>
-                        <div class="text-amber-400 pt-1 border-t border-slate-800/80">Reliever: <span>${p.reliever || 'UNASSIGNED'}</span></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // SWAP GUARDS LOGIC
-        function openSwapModal() {
-            const selA = document.getElementById('swap-post-a');
-            const selB = document.getElementById('swap-post-b');
-            selA.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
-            selB.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
-            document.getElementById('swap-guards-modal').classList.remove('hidden');
-        }
-
-        function executeGuardSwap() {
-            const idxA = parseInt(document.getElementById('swap-post-a').value);
-            const slotA = document.getElementById('swap-slot-a').value;
-            const idxB = parseInt(document.getElementById('swap-post-b').value);
-            const slotB = document.getElementById('swap-slot-b').value;
-
-            const temp = postsData[idxA][slotA];
-            postsData[idxA][slotA] = postsData[idxB][slotB];
-            postsData[idxB][slotB] = temp;
-
-            localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-            closeModal('swap-guards-modal');
-            renderAll();
-            alert("✅ Guard shift relocation/swap successful!");
-        }
-
-        // HANDOVER LOGIC
-        function openHandoverModal() {
-            const sel = document.getElementById('ho-post');
-            sel.innerHTML = postsData.map(p => `<option value="${p.id}">${p.id} - ${p.name}</option>`).join('');
-            document.getElementById('handover-modal').classList.remove('hidden');
-        }
-
-        function saveHandoverLog() {
-            handoverLogs.unshift({
-                post: document.getElementById('ho-post').value,
-                outgoing: document.getElementById('ho-out').value || "Outgoing Guard",
-                incoming: document.getElementById('ho-in').value || "Incoming Guard",
-                time: "Current AST",
-                eq: document.getElementById('ho-eq').value,
-                notes: document.getElementById('ho-notes').value || "Handover completed normally."
-            });
-            localStorage.setItem('nm_handovers_v1', JSON.stringify(handoverLogs));
-            closeModal('handover-modal');
-            renderHandoverLogs();
-        }
-
-        // INCIDENT LOGIC
-        function openIncidentModal() {
-            document.getElementById('incident-modal').classList.remove('hidden');
-        }
-
-        function saveIncidentReport() {
-            incidentLogs.unshift({
-                id: `INC-2026-00${incidentLogs.length + 1}`,
-                title: document.getElementById('inc-title').value || "Security Incident",
-                plot: document.getElementById('inc-plot').value || "Site Perimeter",
-                severity: document.getElementById('inc-severity').value,
-                reporter: document.getElementById('inc-reporter').value || "Security Supervisor",
-                time: "Live AST",
-                details: document.getElementById('inc-details').value || "No details provided."
-            });
-            localStorage.setItem('nm_incidents_v1', JSON.stringify(incidentLogs));
-            closeModal('incident-modal');
-            renderIncidentLogs();
-        }
-
-        function openAddPostModal() {
-            document.getElementById('p-plot').value = "";
-            document.getElementById('p-id').value = "";
-            document.getElementById('p-name').value = "";
-            document.getElementById('add-post-modal').classList.remove('hidden');
-        }
-
-        function saveNewPost() {
-            const sector = document.getElementById('p-sector').value;
-            const plot = document.getElementById('p-plot').value || "Plot A";
-            const id = document.getElementById('p-id').value || "NEW-01";
-            const name = document.getElementById('p-name').value || "New Custom Post";
-            const type = document.getElementById('p-type').value;
-
-            postsData.push({
-                sector, plot, id, name, type,
-                s1: "UNASSIGNED", s2: "UNASSIGNED", s3: "UNASSIGNED", reliever: "UNASSIGNED",
-                status: "COVERAGE GAP"
-            });
-
-            localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-            closeModal('add-post-modal');
-            renderAll();
-        }
-
-        function openEditPostModal(idx) {
-            const p = postsData[idx];
-            document.getElementById('edit-post-index').value = idx;
-            document.getElementById('ep-sector').value = p.sector;
-            document.getElementById('ep-plot').value = p.plot;
-            document.getElementById('ep-id').value = p.id;
-            document.getElementById('ep-name').value = p.name;
-            document.getElementById('ep-s1').value = p.s1 || "UNASSIGNED";
-            document.getElementById('ep-s2').value = p.s2 || "UNASSIGNED";
-            document.getElementById('ep-s3').value = p.s3 || "UNASSIGNED";
-            document.getElementById('ep-reliever').value = p.reliever || "UNASSIGNED";
-
-            document.getElementById('edit-post-modal').classList.remove('hidden');
-        }
-
-        function savePostModalChanges() {
-            const idx = parseInt(document.getElementById('edit-post-index').value);
-            const p = postsData[idx];
-
-            p.sector = document.getElementById('ep-sector').value;
-            p.plot = document.getElementById('ep-plot').value;
-            p.id = document.getElementById('ep-id').value;
-            p.name = document.getElementById('ep-name').value;
-            p.s1 = document.getElementById('ep-s1').value;
-            p.s2 = document.getElementById('ep-s2').value;
-            p.s3 = document.getElementById('ep-s3').value;
-            p.reliever = document.getElementById('ep-reliever').value;
-
-            if (p.s1 === "UNASSIGNED" || p.s2 === "UNASSIGNED" || p.s3 === "UNASSIGNED") {
-                p.status = "COVERAGE GAP";
-            } else if (p.reliever === "UNASSIGNED") {
-                p.status = "Reliever Deficit";
-            } else {
-                p.status = "Full Coverage";
-            }
-
-            localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-            closeModal('edit-post-modal');
-            renderAll();
-        }
-
-        function deleteCurrentPost() {
-            const idx = parseInt(document.getElementById('edit-post-index').value);
-            if (confirm(`Are you sure you want to delete post ${postsData[idx].id}?`)) {
-                postsData.splice(idx, 1);
-                localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-                closeModal('edit-post-modal');
-                renderAll();
-            }
-        }
-
-        function handleExcelUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const parsedRows = XLSX.utils.sheet_to_json(firstSheet);
-
-                    if (parsedRows.length === 0) {
-                        alert("The uploaded Excel file is empty.");
-                        return;
-                    }
-
-                    postsData = parsedRows.map(row => {
-                        const s1 = row["Shift 1"] || row["S1"] || row["Shift1"] || "UNASSIGNED";
-                        const s2 = row["Shift 2"] || row["S2"] || row["Shift2"] || "UNASSIGNED";
-                        const s3 = row["Shift 3"] || row["S3"] || row["Shift3"] || "UNASSIGNED";
-                        const reliever = row["Reliever"] || row["RELIEVER"] || "UNASSIGNED";
-
-                        let status = "Full Coverage";
-                        if (s1 === "UNASSIGNED" || s2 === "UNASSIGNED" || s3 === "UNASSIGNED") {
-                            status = "COVERAGE GAP";
-                        } else if (reliever === "UNASSIGNED") {
-                            status = "Reliever Deficit";
-                        }
-
-                        return {
-                            sector: row["Sector"] || "North",
-                            plot: row["Plot"] || "Plot A",
-                            id: row["Post ID"] || row["ID"] || "NEW-01",
-                            name: row["Post Name"] || row["Name"] || "Imported Post",
-                            type: row["Type"] || "Gate",
-                            s1: s1, s2: s2, s3: s3, reliever: reliever, status: status
-                        };
-                    });
-
-                    localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-                    renderAll();
-                    alert(`✅ Imported ${postsData.length} posts from Excel!`);
-                } catch (err) {
-                    alert("Error parsing Excel file.");
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function downloadExcelTemplate() {
-            const templateData = [
-                { "Sector": "North", "Plot": "Plot A", "Post ID": "A01", "Post Name": "Gate A01 Access Post", "Type": "Gate", "Shift 1": "Ahmad Suleiman", "Shift 2": "Sami Ruwaili", "Shift 3": "Bader Mutairi", "Reliever": "Ziyad Mutairi" }
-            ];
-            const ws = XLSX.utils.json_to_sheet(templateData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Deployment Template");
-            XLSX.writeFile(wb, "New_Murabba_Deployment_Template.xlsx");
-        }
-
-        function autoScheduleFillAndSort() {
-            const fallbackStaff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi", "Majed Al-Ghamdi"];
-            let staffIdx = 0;
-
-            postsData.forEach(p => {
-                if (!p.s1 || p.s1 === "UNASSIGNED") { p.s1 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                if (!p.s2 || p.s2 === "UNASSIGNED") { p.s2 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                if (!p.s3 || p.s3 === "UNASSIGNED") { p.s3 = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                if (!p.reliever || p.reliever === "UNASSIGNED") { p.reliever = fallbackStaff[staffIdx % fallbackStaff.length]; staffIdx++; }
-                p.status = "Full Coverage";
-            });
-
-            postsData.sort((a, b) => a.sector.localeCompare(b.sector) || a.plot.localeCompare(b.plot));
-            localStorage.setItem('nm_deployment_v3', JSON.stringify(postsData));
-            renderAll();
-            alert("✅ Smart Auto-Schedule Completed!");
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        function switchTab(tabId) {
-            ['roster', 'handover', 'incidents', 'schedule', 'north', 'south', 'west'].forEach(id => {
-                const sec = document.getElementById(`tab-${id}`);
-                const nav = document.getElementById(`nav-${id}`);
-                if (sec) sec.classList.add('hidden');
-                if (nav) {
-                    nav.classList.remove('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
-                    nav.classList.add('text-slate-400');
-                }
-            });
-
-            const activeSec = document.getElementById(`tab-${tabId}`);
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            if (activeSec) activeSec.classList.remove('hidden');
-            if (activeNav) {
-                activeNav.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
-                activeNav.classList.remove('text-slate-400');
-            }
-        }
-
-        function toggleLanguage() {
-            const dir = document.documentElement.dir === 'rtl' ? 'ltr' : 'rtl';
-            document.documentElement.dir = dir;
-            document.getElementById('lang-btn-text').innerText = dir === 'rtl' ? 'English' : 'العربية';
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderAll();
-        });
-    </script>
-</body>
-</html>
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl
