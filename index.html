@@ -425,7 +425,7 @@
                 <div>
                     <label class="text-slate-400 block mb-1" data-i18n="lbl_operating_hours">Operating Hours</label>
                     <select id="p-hours" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                        <option value="24 hrs">24 hrs (3 Shifts)</option>
+                        <option value="24 hrs">24 hrs (3 Shifts + Reliever)</option>
                         <option value="16 hrs">16 hrs (2 Shifts)</option>
                         <option value="8 hrs">8 hrs (1 Shift)</option>
                     </select>
@@ -446,8 +446,8 @@
                     <label class="text-slate-400 block mb-1" data-i18n="lbl_post_type">Post Type</label>
                     <select id="p-type" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                         <option value="Gate">Gate Access</option>
-                        <option value="External Patrol Vehicle">External Patrol Vehicle</option>
-                        <option value="Internal Patrol Vehicle">Internal Patrol Vehicle</option>
+                        <option value="External Patrol Vehicle">External Patrol Vehicle (3 Shifts + Reliever)</option>
+                        <option value="Internal Patrol Vehicle">Internal Patrol Vehicle (3 Shifts + Reliever)</option>
                         <option value="Project Supervisor">Project Supervisor</option>
                         <option value="General Supervisor">General Supervisor</option>
                         <option value="Gate Supervisor">Gate Supervisor</option>
@@ -518,7 +518,7 @@
 
     <!-- MODAL: EDIT POST & SHIFT STAFF MANAGEMENT -->
     <div id="edit-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-sm text-slate-100" data-i18n="m_edit_post_title">Edit Post Personnel & Shift Allocation</h3>
                 <button onclick="closeModal('edit-post-modal')" class="text-slate-400 hover:text-slate-200">
@@ -540,7 +540,7 @@
                     <div>
                         <label class="text-slate-400 block mb-1" data-i18n="lbl_operating_hours">Operating Hours</label>
                         <select id="ep-hours" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                            <option value="24 hrs">24 hrs (3 Shifts)</option>
+                            <option value="24 hrs">24 hrs (3 Shifts + Reliever)</option>
                             <option value="16 hrs">16 hrs (2 Shifts)</option>
                             <option value="8 hrs">8 hrs (1 Shift)</option>
                         </select>
@@ -556,8 +556,8 @@
                         <label class="text-slate-400 block mb-1" data-i18n="lbl_post_type">Post Type</label>
                         <select id="ep-type" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                             <option value="Gate">Gate Access</option>
-                            <option value="External Patrol Vehicle">External Patrol Vehicle</option>
-                            <option value="Internal Patrol Vehicle">Internal Patrol Vehicle</option>
+                            <option value="External Patrol Vehicle">External Patrol Vehicle (3 Shifts + Reliever)</option>
+                            <option value="Internal Patrol Vehicle">Internal Patrol Vehicle (3 Shifts + Reliever)</option>
                             <option value="Project Supervisor">Project Supervisor</option>
                             <option value="General Supervisor">General Supervisor</option>
                             <option value="Gate Supervisor">Gate Supervisor</option>
@@ -984,8 +984,8 @@
             }
         };
 
-        // INITIAL DATA STORES
-        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v5')) || [
+        // INITIAL DATA STORES (Patrol Vehicles and 24-hour posts updated to support 3 shifts + reliever by default)
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v6')) || [
             { sector: "North", plot: "Plot A", id: "A01", name: "Gate A01 Access Post", type: "Gate Supervisor", hours: "24 hrs", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
             { sector: "North", plot: "Plot A", id: "AX1", name: "Plot A External Patrol", type: "External Patrol Vehicle", hours: "24 hrs", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
             { sector: "North", plot: "Plot B", id: "B01", name: "Gate B01 Access Post", type: "Gate", hours: "16 hrs", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "N/A", reliever: "Anas Ghamdi", status: "Full Coverage" },
@@ -993,7 +993,7 @@
             { sector: "West", plot: "Plot E", id: "E01", name: "Gate E01 Access Post", type: "Shift Supervisor", hours: "24 hrs", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
         ];
 
-        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v2')) || [
+        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v3')) || [
             { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", driver: "Tariq Mansoor", status: "On Duty", fuel: 85 },
             { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", driver: "Emad Hazmi", status: "On Duty", fuel: 60 },
             { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", driver: "Waleed Ruwaili", status: "Maintenance", fuel: 20 },
@@ -1012,7 +1012,7 @@
         function calculatePostStatus(p) {
             const h = p.hours || "24 hrs";
             if (h === "24 hrs") {
-                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED" || !p.s3 || p.s3 === "UNASSIGNED") {
+                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED" || !p.s3 || p.s3 === "UNASSIGNED" || !p.reliever || p.reliever === "UNASSIGNED") {
                     return "COVERAGE GAP";
                 }
             } else if (h === "16 hrs") {
@@ -1081,9 +1081,8 @@
                 
                 if (h === "24 hrs") {
                     if (!p.s3 || p.s3 === "UNASSIGNED") gaps++; else if (p.s3 !== "N/A") assignedCount++;
+                    if (!p.reliever || p.reliever === "UNASSIGNED") gaps++; else if (p.reliever !== "N/A") assignedCount++;
                 }
-
-                if (p.reliever && p.reliever !== "UNASSIGNED" && p.reliever !== "N/A") assignedCount++;
             });
 
             const activeFleet = fleetData.filter(v => v.status === "On Duty").length;
@@ -1105,7 +1104,8 @@
                        p.plot.toLowerCase().includes(searchQuery) ||
                        p.s1.toLowerCase().includes(searchQuery) ||
                        p.s2.toLowerCase().includes(searchQuery) ||
-                       p.s3.toLowerCase().includes(searchQuery);
+                       p.s3.toLowerCase().includes(searchQuery) ||
+                       p.reliever.toLowerCase().includes(searchQuery);
             });
 
             body.innerHTML = filtered.map((p) => {
@@ -1139,9 +1139,11 @@
                             ${hrs === '8 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</span>`}
                         </td>
                         <td class="p-3">
-                            ${(hrs === '8 hrs' || hrs === '16 hrs') ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span>`}
+                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span>`}
                         </td>
-                        <td class="p-3"><span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span></td>
+                        <td class="p-3">
+                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A</span>' : `<span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span>`}
+                        </td>
                         <td class="p-3">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse'}">${p.status}</span>
                         </td>
@@ -1213,7 +1215,7 @@
 
         function updateVehicleStatus(idx, newStatus) {
             fleetData[idx].status = newStatus;
-            localStorage.setItem('nm_fleet_v2', JSON.stringify(fleetData));
+            localStorage.setItem('nm_fleet_v3', JSON.stringify(fleetData));
             renderFleetDashboard();
             updateMetrics();
         }
@@ -1261,7 +1263,7 @@
                 });
             }
 
-            localStorage.setItem('nm_fleet_v2', JSON.stringify(fleetData));
+            localStorage.setItem('nm_fleet_v3', JSON.stringify(fleetData));
             closeModal('add-vehicle-modal');
             renderFleetDashboard();
             updateMetrics();
@@ -1270,7 +1272,7 @@
         function deleteVehicle(idx) {
             if (confirm(currentLang === 'ar' ? "هل أنت ألكيد من حذف وحدة الدورية هذه؟" : "Are you sure you want to delete this patrol vehicle unit?")) {
                 fleetData.splice(idx, 1);
-                localStorage.setItem('nm_fleet_v2', JSON.stringify(fleetData));
+                localStorage.setItem('nm_fleet_v3', JSON.stringify(fleetData));
                 renderFleetDashboard();
                 updateMetrics();
             }
@@ -1360,6 +1362,7 @@
                 if (p.s1 && p.s1 !== "N/A") scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)" });
                 if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)" });
                 if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)" });
+                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Reliever (5:2)" });
             });
 
             // Dynamic Sorting
@@ -1391,7 +1394,10 @@
             postsData.forEach(p => {
                 exportData.push({ Guard: p.s1, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 1", Hours: p.hours });
                 if (p.hours !== "8 hrs") exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Hours: p.hours });
-                if (p.hours === "24 hrs") exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Hours: p.hours });
+                if (p.hours === "24 hrs") {
+                    exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Hours: p.hours });
+                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Reliever", Hours: p.hours });
+                }
             });
             const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
@@ -1442,7 +1448,7 @@
             postsData[idxA][slotA] = postsData[idxB][slotB];
             postsData[idxB][slotB] = temp;
 
-            localStorage.setItem('nm_deployment_v5', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
             closeModal('swap-guards-modal');
             renderAll();
         }
@@ -1529,12 +1535,12 @@
                 sector, hours, plot, id, name, type,
                 s1: "UNASSIGNED",
                 s2: hours === "8 hrs" ? "N/A" : "UNASSIGNED",
-                s3: (hours === "8 hrs" || hours === "16 hrs") ? "N/A" : "UNASSIGNED",
-                reliever: "UNASSIGNED",
+                s3: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
+                reliever: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
                 status: "COVERAGE GAP"
             });
 
-            localStorage.setItem('nm_deployment_v5', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
             closeModal('add-post-modal');
             renderAll();
         }
@@ -1567,12 +1573,12 @@
             p.type = document.getElementById('ep-type').value;
             p.s1 = document.getElementById('ep-s1').value;
             p.s2 = document.getElementById('ep-s2').value;
-            p.s3 = document.getElementById('ep-s3').value;
-            p.reliever = document.getElementById('ep-reliever').value;
+            p.s3 = p.hours === "24 hrs" ? document.getElementById('ep-s3').value : "N/A";
+            p.reliever = p.hours === "24 hrs" ? document.getElementById('ep-reliever').value : "N/A";
 
             p.status = calculatePostStatus(p);
 
-            localStorage.setItem('nm_deployment_v5', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1580,22 +1586,25 @@
         function deleteCurrentPost() {
             const idx = parseInt(document.getElementById('edit-post-index').value);
             postsData.splice(idx, 1);
-            localStorage.setItem('nm_deployment_v5', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
 
         function autoScheduleFillAndSort() {
-            const staff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi"];
+            const staff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi", "Ziyad Mutairi"];
             let sIdx = 0;
             postsData.forEach(p => {
                 const h = p.hours || "24 hrs";
                 if (!p.s1 || p.s1 === "UNASSIGNED") p.s1 = staff[sIdx++ % staff.length];
                 if (h !== "8 hrs" && (!p.s2 || p.s2 === "UNASSIGNED")) p.s2 = staff[sIdx++ % staff.length];
-                if (h === "24 hrs" && (!p.s3 || p.s3 === "UNASSIGNED")) p.s3 = staff[sIdx++ % staff.length];
+                if (h === "24 hrs") {
+                    if (!p.s3 || p.s3 === "UNASSIGNED") p.s3 = staff[sIdx++ % staff.length];
+                    if (!p.reliever || p.reliever === "UNASSIGNED") p.reliever = staff[sIdx++ % staff.length];
+                }
                 p.status = calculatePostStatus(p);
             });
-            localStorage.setItem('nm_deployment_v5', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
             renderAll();
         }
 
@@ -1619,12 +1628,12 @@
                             hours: hours,
                             s1: r["Shift 1"] || "UNASSIGNED",
                             s2: hours === "8 hrs" ? "N/A" : (r["Shift 2"] || "UNASSIGNED"),
-                            s3: (hours === "8 hrs" || hours === "16 hrs") ? "N/A" : (r["Shift 3"] || "UNASSIGNED"),
-                            reliever: r.Reliever || "UNASSIGNED",
+                            s3: hours !== "24 hrs" ? "N/A" : (r["Shift 3"] || "UNASSIGNED"),
+                            reliever: hours !== "24 hrs" ? "N/A" : (r["Reliever"] || "UNASSIGNED"),
                             status: "Full Coverage"
                         };
                     });
-                    localStorage.setItem('nm_deployment_v5', JSON.stringify(postsData));
+                    localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
                     renderAll();
                 }
             };
