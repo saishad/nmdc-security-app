@@ -984,13 +984,14 @@
             }
         };
 
-        // INITIAL DATA STORES (Patrol Vehicles and 24-hour posts updated to support 3 shifts + reliever by default)
-        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v6')) || [
-            { sector: "North", plot: "Plot A", id: "A01", name: "Gate A01 Access Post", type: "Gate Supervisor", hours: "24 hrs", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
-            { sector: "North", plot: "Plot A", id: "AX1", name: "Plot A External Patrol", type: "External Patrol Vehicle", hours: "24 hrs", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
-            { sector: "North", plot: "Plot B", id: "B01", name: "Gate B01 Access Post", type: "Gate", hours: "16 hrs", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "N/A", reliever: "Anas Ghamdi", status: "Full Coverage" },
-            { sector: "Project", plot: "Main HQ", id: "PS01", name: "Project Security Ops", type: "Project Supervisor", hours: "8 hrs", s1: "Youssef Ibrahim", s2: "N/A", s3: "N/A", reliever: "Sami Shammari", status: "Full Coverage" },
-            { sector: "West", plot: "Plot E", id: "E01", name: "Gate E01 Access Post", type: "Shift Supervisor", hours: "24 hrs", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
+        // FIXED INITIAL DATA (Hardcoded default guard names so team members see the exact same names on first load)
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v7')) || [
+            { sector: "Project", plot: "Project", id: "SM1", name: "SECURITY MANAGER PATROL", type: "External Patrol Vehicle", hours: "24 hrs", s1: "علي الغامدي", s2: "وليد العقيدي", s3: "سامي الشمري", reliever: "فهد الدوسري", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AD1", name: "POLT A INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AX1", name: "POLT A EXTIRNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BX1", name: "POLT B EXTIRNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Emad Hazmi", reliever: "Anas Ghamdi", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BD1", name: "POLT B INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", s1: "Youssef Ibrahim", s2: "Bandar Ghamdi", s3: "Omar Ghamdi", reliever: "Sami Shammari", status: "Full Coverage" },
+            { sector: "South", plot: "C", id: "CD1", name: "POLT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
         ];
 
         let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v3')) || [
@@ -1448,7 +1449,7 @@
             postsData[idxA][slotA] = postsData[idxB][slotB];
             postsData[idxB][slotB] = temp;
 
-            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v7', JSON.stringify(postsData));
             closeModal('swap-guards-modal');
             renderAll();
         }
@@ -1540,7 +1541,7 @@
                 status: "COVERAGE GAP"
             });
 
-            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v7', JSON.stringify(postsData));
             closeModal('add-post-modal');
             renderAll();
         }
@@ -1578,7 +1579,7 @@
 
             p.status = calculatePostStatus(p);
 
-            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v7', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1586,7 +1587,7 @@
         function deleteCurrentPost() {
             const idx = parseInt(document.getElementById('edit-post-index').value);
             postsData.splice(idx, 1);
-            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v7', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1604,7 +1605,7 @@
                 }
                 p.status = calculatePostStatus(p);
             });
-            localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v7', JSON.stringify(postsData));
             renderAll();
         }
 
@@ -1633,7 +1634,7 @@
                             status: "Full Coverage"
                         };
                     });
-                    localStorage.setItem('nm_deployment_v6', JSON.stringify(postsData));
+                    localStorage.setItem('nm_deployment_v7', JSON.stringify(postsData));
                     renderAll();
                 }
             };
