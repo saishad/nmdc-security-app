@@ -105,26 +105,22 @@
 
             <!-- Admin-Only Action Buttons -->
             <div id="admin-actions-group" class="flex items-center space-x-2 rtl:space-x-reverse">
-                <!-- Excel Upload Button -->
                 <label class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse cursor-pointer shadow-lg shadow-emerald-600/20 transition-all">
                     <i data-lucide="file-up" class="w-4 h-4"></i>
                     <span data-i18n="btn_upload">Upload Excel</span>
                     <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" onchange="handleExcelUpload(event)" class="hidden">
                 </label>
 
-                <!-- Download Template Button -->
                 <button onclick="downloadExcelTemplate()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 transition-colors flex items-center space-x-1 rtl:space-x-reverse">
                     <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
                     <span data-i18n="btn_template">Template</span>
                 </button>
 
-                <!-- Add Post Button -->
                 <button onclick="openAddPostModal()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-blue-600/20 transition-all">
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     <span data-i18n="btn_add_post">Add Post</span>
                 </button>
 
-                <!-- Auto-Fill & Sort Button -->
                 <button onclick="autoScheduleFillAndSort()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-amber-500/20 transition-all">
                     <i data-lucide="wand-2" class="w-4 h-4"></i>
                     <span data-i18n="btn_autofill">Auto-Fill</span>
@@ -270,7 +266,7 @@
                             <i data-lucide="car" class="w-4 h-4"></i>
                             <span data-i18n="fleet_heading">Security Fleet & Patrol Vehicles Operations Command</span>
                         </h2>
-                        <p class="text-xs text-slate-400" data-i18n="fleet_subheading">Live tracking of active patrol units, maintenance schedules, driver duty logs, and full CRUD control</p>
+                        <p class="text-xs text-slate-400" data-i18n="fleet_subheading">Live tracking of active patrol units, maintenance schedules, driver duty logs, multi-shift configurations and full CRUD control</p>
                     </div>
                     <button id="btn-add-vehicle-container" onclick="openAddVehicleModal()" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-cyan-600/20">
                         <i data-lucide="plus" class="w-4 h-4"></i>
@@ -510,9 +506,9 @@
         </div>
     </div>
 
-    <!-- MODAL: ADD/EDIT PATROL VEHICLE -->
+    <!-- MODAL: ADD/EDIT PATROL VEHICLE (UPDATED WITH SHIFT MODES & MULTI-DRIVER ASSIGNMENT) -->
     <div id="add-vehicle-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-sm text-slate-100" id="m-veh-modal-title" data-i18n="m_add_veh_title">Add Patrol Unit</h3>
                 <button onclick="closeModal('add-vehicle-modal')" class="text-slate-400 hover:text-slate-200">
@@ -534,10 +530,37 @@
                         <option value="Project">Project</option>
                     </select>
                 </div>
+                
+                <!-- SHIFT CONFIGURATION SELECTOR -->
                 <div>
-                    <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_driver">Assigned Driver / Officer</label>
-                    <input id="v-driver" type="text" placeholder="Officer Name" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                    <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_shifts">Operating Shift Mode</label>
+                    <select id="v-shift-mode" onchange="toggleVehicleDriverInputs()" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-400 font-bold">
+                        <option value="1">1 Shift (8 Hours - Single Driver)</option>
+                        <option value="2">2 Shifts (16 Hours - 2 Drivers)</option>
+                        <option value="3" selected>3 Shifts (24 Hours - 3 Drivers)</option>
+                    </select>
                 </div>
+
+                <!-- DYNAMIC DRIVERS INPUT FIELDS BASED ON SHIFT SELECTION -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2">
+                    <label class="font-bold text-slate-300 block mb-1" data-i18n="lbl_veh_drivers_group">Shift Drivers Assignment</label>
+                    
+                    <div id="v-driver-s1-container">
+                        <label class="text-slate-400 block mb-1 text-[11px]" data-i18n="lbl_veh_driver_s1">Shift 1 Driver (06:00 - 14:00)</label>
+                        <input id="v-driver-s1" type="text" placeholder="Driver Name (Shift 1)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
+                    </div>
+                    
+                    <div id="v-driver-s2-container">
+                        <label class="text-slate-400 block mb-1 text-[11px]" data-i18n="lbl_veh_driver_s2">Shift 2 Driver (14:00 - 22:00)</label>
+                        <input id="v-driver-s2" type="text" placeholder="Driver Name (Shift 2)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
+                    </div>
+                    
+                    <div id="v-driver-s3-container">
+                        <label class="text-slate-400 block mb-1 text-[11px]" data-i18n="lbl_veh_driver_s3">Shift 3 Driver (22:00 - 06:00)</label>
+                        <input id="v-driver-s3" type="text" placeholder="Driver Name (Shift 3)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_status">Operational Status</label>
@@ -842,13 +865,11 @@
             badge.innerText = isAdmin ? "ADMIN" : "OFFICER";
             badge.className = isAdmin ? "bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-mono" : "bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[9px] font-mono";
 
-            // Hide/show admin-only action buttons in top header
             const adminActions = document.getElementById('admin-actions-group');
             if (adminActions) {
                 adminActions.style.display = isAdmin ? 'flex' : 'none';
             }
 
-            // Hide Swap Guards button for standard users (or restrict as needed)
             const swapBtn = document.getElementById('btn-swap-guards');
             if (swapBtn) {
                 swapBtn.style.display = isAdmin ? 'flex' : 'none';
@@ -905,7 +926,7 @@
                 th_health_status: "Health Status",
                 th_actions: "Actions",
                 fleet_heading: "Security Fleet & Patrol Vehicles Operations Command",
-                fleet_subheading: "Live tracking of active patrol units, maintenance schedules, driver duty logs, and full CRUD control",
+                fleet_subheading: "Live tracking of active patrol units, maintenance schedules, driver duty logs, multi-shift configurations and full CRUD control",
                 btn_add_vehicle: "Add Patrol Unit",
                 fleet_stat_onduty: "On Duty Patrols",
                 fleet_stat_offduty: "Off Duty / Standby",
@@ -941,6 +962,11 @@
                 lbl_veh_driver: "Assigned Driver / Officer",
                 lbl_veh_status: "Operational Status",
                 lbl_veh_fuel: "Fuel Level (%)",
+                lbl_veh_shifts: "Operating Shift Mode",
+                lbl_veh_drivers_group: "Shift Drivers Assignment",
+                lbl_veh_driver_s1: "Shift 1 Driver (06:00 - 14:00)",
+                lbl_veh_driver_s2: "Shift 2 Driver (14:00 - 22:00)",
+                lbl_veh_driver_s3: "Shift 3 Driver (22:00 - 06:00)",
                 m_edit_post_title: "Edit Post Personnel & Shift Allocation",
                 lbl_shift_assignments: "Guard Shift Relocation & Assignments",
                 lbl_shift_1_officer: "Shift 1 Guard / Driver (06:00 - 14:00)",
@@ -1018,7 +1044,7 @@
                 th_health_status: "حالة التغطية",
                 th_actions: "الإجراءات",
                 fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات",
-                fleet_subheading: "متابعة فورية لدوريات الأمن، جداول الصيانة، سجلات السائقين والتحكم الكامل بالمركبات",
+                fleet_subheading: "متابعة فورية لدوريات الأمن، جداول الصيانة، سجلات السائقين لكل وردية والتحكم الكامل بالمركبات",
                 btn_add_vehicle: "إضافة دورية",
                 fleet_stat_onduty: "على رأس العمل",
                 fleet_stat_offduty: "خارج الخدمة / احتياط",
@@ -1054,6 +1080,11 @@
                 lbl_veh_driver: "السائق / الضابط المخصص",
                 lbl_veh_status: "الحالة التشغيلية",
                 lbl_veh_fuel: "مستوى الوقود (%)",
+                lbl_veh_shifts: "نظام ورديات الدورية",
+                lbl_veh_drivers_group: "توزيع سائقي الورديات",
+                lbl_veh_driver_s1: "سائق الوردية الأولى (06:00 - 14:00)",
+                lbl_veh_driver_s2: "سائق الوردية الثانية (14:00 - 22:00)",
+                lbl_veh_driver_s3: "سائق الوردية الثالثة (22:00 - 06:00)",
                 m_edit_post_title: "تعديل أفراد النقطة وتوزيع الورديات",
                 lbl_shift_assignments: "تعيينات وإعادة نقل الحراس",
                 lbl_shift_1_officer: "حارس/سائق الوردية 1 (06:00 - 14:00)",
@@ -1095,12 +1126,13 @@
             { sector: "South", plot: "C", id: "CD1", name: "POLT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
         ];
 
-        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v3')) || [
-            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", driver: "Tariq Mansoor", status: "On Duty", fuel: 85 },
-            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", driver: "Emad Hazmi", status: "On Duty", fuel: 60 },
-            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", driver: "Waleed Ruwaili", status: "Maintenance", fuel: 20 },
-            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", driver: "Omar Ghamdi", status: "Refueling", fuel: 10 },
-            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", driver: "Bandar Ghamdi", status: "Off Duty", fuel: 95 }
+        // UPDATED FLEET DATA WITH MULTI-SHIFT DRIVER LOGIC
+        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v4')) || [
+            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", shiftMode: 3, drivers: { s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi" }, status: "On Duty", fuel: 85 },
+            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", shiftMode: 2, drivers: { s1: "Emad Hazmi", s2: "Sultan Otaibi", s3: "N/A" }, status: "On Duty", fuel: 60 },
+            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", shiftMode: 1, drivers: { s1: "Waleed Ruwaili", s2: "N/A", s3: "N/A" }, status: "Maintenance", fuel: 20 },
+            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", shiftMode: 3, drivers: { s1: "Omar Ghamdi", s2: "Bandar Ghamdi", s3: "Sami Shammari" }, status: "Refueling", fuel: 10 },
+            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", shiftMode: 2, drivers: { s1: "Youssef Ibrahim", s2: "Ziyad Mutairi", s3: "N/A" }, status: "Off Duty", fuel: 95 }
         ];
 
         let handoverLogs = JSON.parse(localStorage.getItem('nm_handovers_v2')) || [
@@ -1187,6 +1219,14 @@
                 }
             });
 
+            // Count drivers from fleet vehicles into personnel metrics
+            fleetData.forEach(v => {
+                const mode = parseInt(v.shiftMode || 3);
+                if (v.drivers?.s1 && v.drivers.s1 !== 'Unassigned' && v.drivers.s1 !== 'N/A') assignedCount++;
+                if (mode >= 2 && v.drivers?.s2 && v.drivers.s2 !== 'Unassigned' && v.drivers.s2 !== 'N/A') assignedCount++;
+                if (mode >= 3 && v.drivers?.s3 && v.drivers.s3 !== 'Unassigned' && v.drivers.s3 !== 'N/A') assignedCount++;
+            });
+
             const activeFleet = fleetData.filter(v => v.status === "On Duty").length;
 
             document.getElementById('m-gaps-count').innerText = `${gaps} ${currentLang === 'ar' ? 'ثغرة' : 'Gaps'}`;
@@ -1259,6 +1299,7 @@
             }).join('');
         }
 
+        // FLEET DASHBOARD RENDERING WITH MULTI-SHIFT DISPLAY
         function renderFleetDashboard() {
             const grid = document.getElementById('fleet-cards-grid');
             if (!grid) return;
@@ -1280,10 +1321,17 @@
             document.getElementById('f-stat-maint').innerText = maint;
             document.getElementById('f-stat-refuel').innerText = refuel;
 
-            grid.innerHTML = fleetData.map((v, idx) => `
+            grid.innerHTML = fleetData.map((v, idx) => {
+                const mode = parseInt(v.shiftMode || 3);
+                const shiftBadge = mode === 1 ? '1 Shift (8h)' : (mode === 2 ? '2 Shifts (16h)' : '3 Shifts (24h)');
+                
+                return `
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 relative group">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                        <span class="font-bold text-sm text-cyan-400 font-mono">${v.id}</span>
+                        <div>
+                            <span class="font-bold text-sm text-cyan-400 font-mono">${v.id}</span>
+                            <span class="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">${shiftBadge}</span>
+                        </div>
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                             <select onchange="updateVehicleStatus(${idx}, this.value)" ${!isAdmin ? 'disabled' : ''} class="bg-slate-950 border border-slate-800 text-[11px] rounded px-2 py-0.5 ${v.status === 'On Duty' ? 'text-emerald-400' : (v.status === 'Maintenance' ? 'text-rose-400' : 'text-amber-400')} font-bold">
                                 <option value="On Duty" ${v.status === 'On Duty' ? 'selected' : ''}>On Duty</option>
@@ -1294,8 +1342,27 @@
                         </div>
                     </div>
                     <div class="text-xs text-slate-300 font-bold">${v.callsign}</div>
-                    <div class="text-xs text-slate-400">Sector: <strong class="text-slate-200">${v.sector} Side</strong></div>
-                    <div class="text-xs text-slate-400">Driver: <strong class="text-slate-200">${v.driver}</strong></div>
+                    <div class="text-xs text-slate-400">${currentLang === 'ar' ? 'القطاع' : 'Sector'}: <strong class="text-slate-200">${v.sector} Side</strong></div>
+                    
+                    <!-- SHIFT DRIVER ALLOCATION BREAKDOWN -->
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1 text-xs">
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">${currentLang === 'ar' ? 'سائقو الورديات المخصصين' : 'Assigned Shift Drivers'}</div>
+                        <div class="flex justify-between items-center text-[11px]">
+                            <span class="text-slate-400">Shift 1 (06-14):</span>
+                            <strong class="text-emerald-400">${v.drivers?.s1 || 'Unassigned'}</strong>
+                        </div>
+                        ${mode >= 2 ? `
+                        <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
+                            <span class="text-slate-400">Shift 2 (14-22):</span>
+                            <strong class="text-emerald-400">${v.drivers?.s2 || 'Unassigned'}</strong>
+                        </div>` : ''}
+                        ${mode >= 3 ? `
+                        <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
+                            <span class="text-slate-400">Shift 3 (22-06):</span>
+                            <strong class="text-emerald-400">${v.drivers?.s3 || 'Unassigned'}</strong>
+                        </div>` : ''}
+                    </div>
+
                     <div class="space-y-1">
                         <div class="flex justify-between text-[10px] text-slate-400">
                             <span>Fuel Level</span>
@@ -1309,7 +1376,7 @@
                     <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800/80 text-xs">
                         <button onclick="openEditVehicleModal(${idx})" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded flex items-center space-x-1 rtl:space-x-reverse">
                             <i data-lucide="edit-3" class="w-3 h-3"></i>
-                            <span>Edit</span>
+                            <span>Edit Unit</span>
                         </button>
                         <button onclick="deleteVehicle(${idx})" class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded flex items-center space-x-1 rtl:space-x-reverse">
                             <i data-lucide="trash-2" class="w-3 h-3"></i>
@@ -1317,7 +1384,7 @@
                         </button>
                     </div>` : '<div class="text-right text-[10px] text-slate-500 italic pt-2 border-t border-slate-800/80">Read-Only</div>'}
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function updateVehicleStatus(idx, newStatus) {
@@ -1327,9 +1394,30 @@
                 return;
             }
             fleetData[idx].status = newStatus;
-            localStorage.setItem('nm_fleet_v3', JSON.stringify(fleetData));
+            localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
             renderFleetDashboard();
             updateMetrics();
+        }
+
+        function toggleVehicleDriverInputs() {
+            const mode = parseInt(document.getElementById('v-shift-mode').value);
+            const s1Box = document.getElementById('v-driver-s1-container');
+            const s2Box = document.getElementById('v-driver-s2-container');
+            const s3Box = document.getElementById('v-driver-s3-container');
+
+            if (mode === 1) {
+                s1Box.style.display = 'block';
+                s2Box.style.display = 'none';
+                s3Box.style.display = 'none';
+            } else if (mode === 2) {
+                s1Box.style.display = 'block';
+                s2Box.style.display = 'block';
+                s3Box.style.display = 'none';
+            } else {
+                s1Box.style.display = 'block';
+                s2Box.style.display = 'block';
+                s3Box.style.display = 'block';
+            }
         }
 
         function openAddVehicleModal() {
@@ -1338,9 +1426,13 @@
             document.getElementById('m-veh-modal-title').innerText = i18n[currentLang].m_add_veh_title || "Add Patrol Unit";
             document.getElementById('v-callsign').value = "";
             document.getElementById('v-sector').value = "North";
-            document.getElementById('v-driver').value = "";
+            document.getElementById('v-shift-mode').value = "3";
+            document.getElementById('v-driver-s1').value = "";
+            document.getElementById('v-driver-s2').value = "";
+            document.getElementById('v-driver-s3').value = "";
             document.getElementById('v-status').value = "On Duty";
             document.getElementById('v-fuel').value = 100;
+            toggleVehicleDriverInputs();
             document.getElementById('add-vehicle-modal').classList.remove('hidden');
         }
 
@@ -1351,9 +1443,13 @@
             document.getElementById('m-veh-modal-title').innerText = currentLang === 'ar' ? "تعديل وحدة الدورية" : "Edit Patrol Unit";
             document.getElementById('v-callsign').value = v.callsign;
             document.getElementById('v-sector').value = v.sector;
-            document.getElementById('v-driver').value = v.driver;
+            document.getElementById('v-shift-mode').value = v.shiftMode || 3;
+            document.getElementById('v-driver-s1').value = v.drivers?.s1 || "";
+            document.getElementById('v-driver-s2').value = v.drivers?.s2 || "";
+            document.getElementById('v-driver-s3').value = v.drivers?.s3 || "";
             document.getElementById('v-status').value = v.status;
             document.getElementById('v-fuel').value = v.fuel;
+            toggleVehicleDriverInputs();
             document.getElementById('add-vehicle-modal').classList.remove('hidden');
         }
 
@@ -1361,17 +1457,31 @@
             const editIdx = parseInt(document.getElementById('v-edit-index').value);
             const callsign = document.getElementById('v-callsign').value || "PATROL-UNIT";
             const sector = document.getElementById('v-sector').value;
-            const driver = document.getElementById('v-driver').value || "Unassigned Driver";
+            const shiftMode = parseInt(document.getElementById('v-shift-mode').value);
+            
+            const driverS1 = document.getElementById('v-driver-s1').value.trim() || "Unassigned";
+            const driverS2 = shiftMode >= 2 ? (document.getElementById('v-driver-s2').value.trim() || "Unassigned") : "N/A";
+            const driverS3 = shiftMode >= 3 ? (document.getElementById('v-driver-s3').value.trim() || "Unassigned") : "N/A";
+            
             const status = document.getElementById('v-status').value;
             const fuel = parseInt(document.getElementById('v-fuel').value) || 100;
 
+            const vehiclePayload = {
+                callsign, 
+                sector, 
+                shiftMode,
+                drivers: { s1: driverS1, s2: driverS2, s3: driverS3 },
+                status, 
+                fuel 
+            };
+
             if (editIdx >= 0) {
-                fleetData[editIdx] = { ...fleetData[editIdx], callsign, sector, driver, status, fuel };
+                fleetData[editIdx] = { ...fleetData[editIdx], ...vehiclePayload };
             } else {
-                fleetData.push({ id: `PATROL-0${fleetData.length + 1}`, callsign, sector, driver, status, fuel });
+                fleetData.push({ id: `PATROL-0${fleetData.length + 1}`, ...vehiclePayload });
             }
 
-            localStorage.setItem('nm_fleet_v3', JSON.stringify(fleetData));
+            localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
             closeModal('add-vehicle-modal');
             renderFleetDashboard();
             updateMetrics();
@@ -1381,7 +1491,7 @@
             if (!currentUser || currentUser.role !== 'admin') return;
             if (confirm(currentLang === 'ar' ? "هل أنت ألكيد من حذف وحدة الدورية هذه؟" : "Are you sure you want to delete this patrol vehicle unit?")) {
                 fleetData.splice(idx, 1);
-                localStorage.setItem('nm_fleet_v3', JSON.stringify(fleetData));
+                localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
                 renderFleetDashboard();
                 updateMetrics();
             }
@@ -1470,6 +1580,20 @@
                 if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)" });
                 if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)" });
                 if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Reliever (5:2)" });
+            });
+
+            // Include drivers in the schedule matrix
+            fleetData.forEach(v => {
+                const mode = parseInt(v.shiftMode || 3);
+                if (v.drivers?.s1 && v.drivers.s1 !== "Unassigned" && v.drivers.s1 !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.s1, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S1 (06-14)" });
+                }
+                if (mode >= 2 && v.drivers?.s2 && v.drivers.s2 !== "Unassigned" && v.drivers.s2 !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.s2, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S2 (14-22)" });
+                }
+                if (mode >= 3 && v.drivers?.s3 && v.drivers.s3 !== "Unassigned" && v.drivers.s3 !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.s3, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S3 (22-06)" });
+                }
             });
 
             scheduleRows.sort((a, b) => {
