@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- SheetJS (xlsx) for Excel Upload/Parse -->
+    <!-- SheetJS (xlsx) for Excel Upload/Parse/Export -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
@@ -19,9 +19,14 @@
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
         @media print {
             aside, header, .no-print { display: none !important; }
-            main { padding: 0 !important; overflow: visible !important; }
+            main { padding: 0 !important; overflow: visible !important; background: white !important; }
             body { background: white !important; color: black !important; }
+            .print-only { display: block !important; }
+            table { width: 100% !important; border-collapse: collapse !important; color: black !important; }
+            th, td { border: 1px solid #cbd5e1 !important; padding: 6px !important; font-size: 11px !important; color: black !important; }
+            thead { background: #f1f5f9 !important; color: black !important; }
         }
+        .print-only { display: none; }
     </style>
 </head>
 <body class="h-full flex flex-col overflow-hidden bg-slate-950 text-slate-100">
@@ -97,9 +102,15 @@
                 <span data-i18n="btn_fleet">Fleet Dashboard</span>
             </button>
 
+            <!-- Generate Report Button -->
+            <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-indigo-600/20 transition-all">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+                <span>Report Center</span>
+            </button>
+
             <!-- Swap Guards Quick Trigger -->
-            <button onclick="openSwapModal()" id="btn-swap-guards" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-indigo-600/20 transition-all">
-                <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+            <button onclick="openSwapModal()" id="btn-swap-guards" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse border border-slate-700 transition-all">
+                <i data-lucide="arrow-left-right" class="w-4 h-4 text-indigo-400"></i>
                 <span data-i18n="btn_swap">Swap Guards</span>
             </button>
 
@@ -199,8 +210,22 @@
         <!-- Main Workspace Render Panels -->
         <main class="flex-1 overflow-y-auto p-5 bg-slate-950 relative space-y-5">
             
+            <!-- Printable Header for Security Reports -->
+            <div class="print-only mb-6 space-y-2">
+                <div class="flex justify-between items-border border-b-2 border-black pb-3">
+                    <div>
+                        <h1 class="text-xl font-bold text-black">NEW MURABBA SECURITY OPERATIONS</h1>
+                        <p class="text-xs text-slate-700">Official Security Deployment & Post List Report • Riyadh HQ</p>
+                    </div>
+                    <div class="text-right text-xs">
+                        <p id="print-timestamp" class="font-bold"></p>
+                        <p>Classification: RESTRICTED / INTERNAL</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Summary Metric Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 no-print">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400" data-i18n="m_posts_title">Total Active Posts</div>
                     <div class="text-2xl font-black text-slate-100" id="m-total-posts">0 Posts</div>
@@ -225,7 +250,7 @@
 
             <!-- TAB 0: MASTER ACTIVITY DASHBOARD -->
             <section id="tab-dashboard" class="space-y-5">
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center no-print">
                     <div>
                         <h2 class="text-sm font-bold text-amber-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
@@ -235,7 +260,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print">
                     <!-- Quick Health Overview Card -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
@@ -272,10 +297,16 @@
 
                 <!-- Complete Activity Stream Table -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
-                    <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
-                        <i data-lucide="list-tree" class="w-4 h-4 text-indigo-400"></i>
-                        <span data-i18n="dash_card_stream">All Active Operations & Post Assignments Stream</span>
-                    </h3>
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
+                            <i data-lucide="list-tree" class="w-4 h-4 text-indigo-400"></i>
+                            <span data-i18n="dash_card_stream">All Active Operations & Post Assignments Stream</span>
+                        </h3>
+                        <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded text-xs font-bold flex items-center space-x-1 no-print">
+                            <i data-lucide="printer" class="w-3 h-3"></i>
+                            <span>Print Posts List</span>
+                        </button>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs rtl:text-right">
                             <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
@@ -299,13 +330,17 @@
 
             <!-- TAB 1: SMART ROSTER ENGINE TABLE -->
             <section id="tab-roster" class="hidden space-y-4">
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center no-print">
                     <div>
                         <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_heading">Interactive Smart Deployment Roster Matrix</h2>
                         <p class="text-xs text-slate-400" data-i18n="roster_subheading">Real-time gap detection, operating hours management, and staff re-location</p>
                     </div>
                     <div class="flex items-center space-x-2 text-xs">
-                        <span class="text-slate-400" data-i18n="lbl_sort_by">Sort By:</span>
+                        <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1 rounded-lg flex items-center space-x-1">
+                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                            <span>Print & Report Center</span>
+                        </button>
+                        <span class="text-slate-400 ml-2" data-i18n="lbl_sort_by">Sort By:</span>
                         <select id="roster-sort" onchange="sortRoster(this.value)" class="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2.5 py-1 text-xs">
                             <option value="sector" data-i18n="opt_sector">Sector & Plot</option>
                             <option value="id" data-i18n="opt_post_id">Post ID</option>
@@ -326,7 +361,7 @@
                                 <th class="p-3" data-i18n="th_shift_3">Shift 3 (22:00 - 06:00)</th>
                                 <th class="p-3" data-i18n="th_reliever">Reliever (5:2)</th>
                                 <th class="p-3" data-i18n="th_health_status">Health Status</th>
-                                <th class="p-3 text-right rtl:text-left admin-only-col" data-i18n="th_actions">Actions</th>
+                                <th class="p-3 text-right rtl:text-left admin-only-col no-print" data-i18n="th_actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300" id="roster-table-body">
@@ -433,7 +468,7 @@
 
             <!-- TAB 5: WORK SCHEDULE (5:2 ROTATION) -->
             <section id="tab-schedule" class="hidden space-y-4">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 no-print">
                     <div>
                         <h2 class="text-sm font-bold text-indigo-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="calendar" class="w-4 h-4"></i>
@@ -520,6 +555,56 @@
             </section>
 
         </main>
+    </div>
+
+    <!-- MODAL: REPORT GENERATION & PRINTING CENTER -->
+    <div id="report-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-5 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-sm text-slate-100 flex items-center space-x-2 rtl:space-x-reverse">
+                    <i data-lucide="file-text" class="w-4 h-4 text-amber-400"></i>
+                    <span>Security Operations Report & Printing Center</span>
+                </h3>
+                <button onclick="closeModal('report-modal')" class="text-slate-400 hover:text-slate-200">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="text-slate-400 block mb-1 font-bold">Select Report Scope</label>
+                    <select id="report-scope" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                        <option value="all">Complete Post List & All Sectors (Full Deployment)</option>
+                        <option value="North">North Side Sector (Plot A & B)</option>
+                        <option value="South">South Side Sector (Plot C & D)</option>
+                        <option value="West">West Side Sector (Plot E)</option>
+                        <option value="Project">Project Area Sector</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-slate-400 block mb-1 font-bold">Report Format Options</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="exportPostsListExcel()" class="bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1 text-emerald-300 font-bold transition-all">
+                            <i data-lucide="file-spreadsheet" class="w-5 h-5 text-emerald-400"></i>
+                            <span>Export Posts to Excel</span>
+                        </button>
+                        <button onclick="executePrintReport()" class="bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1 text-indigo-300 font-bold transition-all">
+                            <i data-lucide="printer" class="w-5 h-5 text-indigo-400"></i>
+                            <span>Print / Save as PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1">
+                    <div>📌 <strong class="text-slate-300">Team Briefing Note:</strong> Printing includes post IDs, names, vehicle assignments, and shift officer allocations for the security operations team.</div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-800">
+                <button onclick="closeModal('report-modal')" class="px-4 py-2 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold">Close Center</button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL: ADD NEW POST (WITH FLEET VEHICLE ASSIGNMENT) -->
@@ -1274,6 +1359,7 @@
             renderIncidentLogs();
             renderScheduleTable();
             updateMetrics();
+            document.getElementById('print-timestamp').innerText = "Generated: " + new Date().toLocaleString();
             if (window.lucide) { lucide.createIcons(); }
         }
 
@@ -1338,9 +1424,47 @@
             document.getElementById('m-personnel-count').innerText = `${assignedCount} ${currentLang === 'ar' ? 'فرد' : 'Personnel'}`;
         }
 
+        // REPORT CENTER FUNCTIONS
+        function openReportModal() {
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
+        function executePrintReport() {
+            closeModal('report-modal');
+            window.print();
+        }
+
+        function exportPostsListExcel() {
+            const scope = document.getElementById('report-scope').value;
+            let targetPosts = postsData;
+            if (scope !== 'all') {
+                targetPosts = postsData.filter(p => p.sector === scope);
+            }
+
+            const exportRows = targetPosts.map(p => ({
+                "Sector": p.sector,
+                "Plot Location": p.plot,
+                "Post ID": p.id,
+                "Post Name": p.name,
+                "Post Type": p.type,
+                "Hours": p.hours,
+                "Patrol Vehicle": p.assignedVehicle || "None",
+                "Shift 1 Officer": p.s1,
+                "Shift 2 Officer": p.s2,
+                "Shift 3 Officer": p.s3,
+                "Reliever": p.reliever,
+                "Coverage Status": calculatePostStatus(p)
+            }));
+
+            const ws = XLSX.utils.json_to_sheet(exportRows);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Security Posts Report");
+            XLSX.writeFile(wb, `New_Murabba_Security_Posts_${scope}_Report.xlsx`);
+            closeModal('report-modal');
+        }
+
         // MASTER DASHBOARD RENDERER
         function renderDashboard() {
-            // Health Stats
             const healthBox = document.getElementById('dash-health-stats');
             if (healthBox) {
                 let fullCov = postsData.filter(p => calculatePostStatus(p) === 'Full Coverage').length;
@@ -1361,7 +1485,6 @@
                 `;
             }
 
-            // Fleet Summary
             const fleetBox = document.getElementById('dash-fleet-summary');
             if (fleetBox) {
                 fleetBox.innerHTML = fleetData.map(v => `
@@ -1375,7 +1498,6 @@
                 `).join('');
             }
 
-            // Incidents Feed
             const incBox = document.getElementById('dash-incidents-feed');
             if (incBox) {
                 incBox.innerHTML = incidentLogs.slice(0, 3).map(i => `
@@ -1389,7 +1511,6 @@
                 `).join('');
             }
 
-            // Stream Table Body
             const streamBody = document.getElementById('dash-activity-stream-body');
             if (streamBody) {
                 streamBody.innerHTML = postsData.map(p => `
@@ -1466,7 +1587,7 @@
                         <td class="p-3">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse'}">${p.status}</span>
                         </td>
-                        <td class="p-3 text-right rtl:text-left">
+                        <td class="p-3 text-right rtl:text-left no-print">
                             ${isAdmin ? `<button onclick="openEditPostModal(${originalIndex})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit</button>` : `<span class="text-slate-500 text-[10px] italic">Read-Only</span>`}
                         </td>
                     </tr>
@@ -1559,7 +1680,7 @@
                         </button>
                     </div>` : '<div class="text-right text-[10px] text-slate-500 italic pt-2 border-t border-slate-800/80">Read-Only</div>'}
                 </div>
-            `}).join('');
+            `).join('');
         }
 
         function updateVehicleStatus(idx, newStatus) {
@@ -2047,7 +2168,6 @@
                 const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                 if (rows.length) {
                     postsData = rows.map(r => {
-                        // Helper function to extract properties safely across multiple possible casing/naming patterns
                         const getVal = (possibleKeys) => {
                             for (let key of Object.keys(r)) {
                                 const cleanKey = key.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -2066,16 +2186,13 @@
                         const name = getVal(["Post Name", "PostName", "Name", "Title"]) || "Imported Post";
                         const type = getVal(["Type", "Post Type", "Category"]) || "Gate";
                         
-                        // Extract patrol vehicle information flexible lookup
                         const vehicle = getVal(["Vehicle", "Patrol Vehicle", "Assigned Vehicle", "Car", "Unit"]) || "None";
                         
-                        // Extract shift allocations flexible lookup
                         const s1 = getVal(["Shift 1", "Shift1", "1st Shift", "S1", "Officer 1", "Guard 1"]) || "UNASSIGNED";
                         const s2_raw = getVal(["Shift 2", "Shift2", "2nd Shift", "S2", "Officer 2", "Guard 2"]);
                         const s3_raw = getVal(["Shift 3", "Shift3", "3rd Shift", "S3", "Officer 3", "Guard 3"]);
                         const reliever_raw = getVal(["Reliever", "Reliver", "Relief Guard", "Reliever Guard", "5:2 Reliever"]);
 
-                        // Extract or deduce operating hours
                         let rawHours = getVal(["Hours", "Operating Hours", "Shift Hours", "Duration"]);
                         let hours = "24 hrs";
                         if (rawHours) {
@@ -2093,7 +2210,6 @@
                         const s3 = hours !== "24 hrs" ? "N/A" : (s3_raw || "UNASSIGNED");
                         const reliever = hours !== "24 hrs" ? "N/A" : (reliever_raw || "UNASSIGNED");
 
-                        // Auto-register patrol vehicle if not exists in fleet command
                         if (vehicle && vehicle !== "None" && String(vehicle).trim() !== "") {
                             const vehClean = String(vehicle).trim();
                             const existing = fleetData.find(v => v.id.toLowerCase() === vehClean.toLowerCase() || v.callsign.toLowerCase().includes(vehClean.toLowerCase()));
