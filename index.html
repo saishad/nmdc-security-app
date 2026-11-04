@@ -26,7 +26,7 @@
 </head>
 <body class="h-full flex flex-col overflow-hidden bg-slate-950 text-slate-100">
 
-    <!-- LOGIN OVERLAY MODAL -->
+    <!-- LOGIN OVERLAY MODAL (Authentication Gate) -->
     <div id="login-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-5 shadow-2xl">
             <div class="text-center space-y-2">
@@ -77,6 +77,7 @@
 
         <!-- Search Bar & Controls -->
         <div class="flex items-center space-x-2 rtl:space-x-reverse">
+            <!-- Logged in User Badge & Logout -->
             <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center space-x-2 rtl:space-x-reverse text-xs">
                 <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i>
                 <span id="current-user-display" class="font-bold text-slate-200">Admin</span>
@@ -84,21 +85,25 @@
                 <button onclick="handleLogout()" class="text-rose-400 hover:text-rose-300 ml-2 font-bold pl-2 border-l border-slate-800">Logout</button>
             </div>
 
+            <!-- Global Search Field -->
             <div class="relative w-36 lg:w-48">
                 <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400 rtl:right-3 rtl:left-auto"></i>
                 <input id="global-search" type="text" onkeyup="handleSearch()" placeholder="Search..." data-i18n-ph="search_ph" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50 rtl:pr-8 rtl:pl-3">
             </div>
 
+            <!-- Fleet Status Quick Trigger -->
             <button onclick="switchTab('fleet')" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-cyan-600/20 transition-all">
                 <i data-lucide="truck" class="w-4 h-4"></i>
                 <span data-i18n="btn_fleet">Fleet Dashboard</span>
             </button>
 
+            <!-- Swap Guards Quick Trigger -->
             <button onclick="openSwapModal()" id="btn-swap-guards" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-indigo-600/20 transition-all">
                 <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
                 <span data-i18n="btn_swap">Swap Guards</span>
             </button>
 
+            <!-- Admin-Only Action Buttons -->
             <div id="admin-actions-group" class="flex items-center space-x-2 rtl:space-x-reverse">
                 <label class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse cursor-pointer shadow-lg shadow-emerald-600/20 transition-all">
                     <i data-lucide="file-up" class="w-4 h-4"></i>
@@ -122,6 +127,7 @@
                 </button>
             </div>
 
+            <!-- Language Toggle -->
             <button onclick="toggleLanguage()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-400 transition-colors flex items-center space-x-1.5 rtl:space-x-reverse">
                 <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                 <span id="lang-btn-text">العربية</span>
@@ -131,6 +137,7 @@
 
     <!-- Workspace Body -->
     <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar Navigation -->
         <aside class="w-64 bg-slate-900/60 border-r border-slate-800 flex flex-col justify-between shrink-0 rtl:border-r-0 rtl:border-l">
             <nav class="p-3 space-y-1">
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -189,7 +196,9 @@
             </div>
         </aside>
 
+        <!-- Main Workspace Render Panels -->
         <main class="flex-1 overflow-y-auto p-5 bg-slate-950 relative space-y-5">
+            
             <!-- Summary Metric Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
@@ -227,31 +236,41 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Quick Health Overview Card -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
                             <span data-i18n="dash_card_status">Deployment Health Overview</span>
                         </h3>
-                        <div id="dash-health-stats" class="space-y-2 text-xs"></div>
+                        <div id="dash-health-stats" class="space-y-2 text-xs">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
 
+                    <!-- Fleet Readiness Summary -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="truck" class="w-4 h-4 text-cyan-400"></i>
                             <span data-i18n="dash_card_fleet">Fleet Patrol Readiness & Assigned Units</span>
                         </h3>
-                        <div id="dash-fleet-summary" class="space-y-2 text-xs max-h-40 overflow-y-auto"></div>
+                        <div id="dash-fleet-summary" class="space-y-2 text-xs max-h-40 overflow-y-auto">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
 
+                    <!-- Recent Incidents Feed -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
                             <span data-i18n="dash_card_incidents">Recent Critical Incidents & Alerts</span>
                         </h3>
-                        <div id="dash-incidents-feed" class="space-y-2 text-xs max-h-40 overflow-y-auto"></div>
+                        <div id="dash-incidents-feed" class="space-y-2 text-xs max-h-40 overflow-y-auto">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
                 </div>
 
+                <!-- Complete Activity Stream Table -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                     <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                         <i data-lucide="list-tree" class="w-4 h-4 text-indigo-400"></i>
@@ -270,7 +289,9 @@
                                     <th class="p-2.5">Coverage</th>
                                 </tr>
                             </thead>
-                            <tbody id="dash-activity-stream-body" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+                            <tbody id="dash-activity-stream-body" class="divide-y divide-slate-800/60 text-slate-300">
+                                <!-- Populated dynamically -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -308,7 +329,9 @@
                                 <th class="p-3 text-right rtl:text-left admin-only-col" data-i18n="th_actions">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800/60 text-slate-300" id="roster-table-body"></tbody>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300" id="roster-table-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
                     </table>
                 </div>
             </section>
@@ -329,6 +352,7 @@
                     </button>
                 </div>
 
+                <!-- Fleet Status Quick Bar -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
                         <div>
@@ -360,7 +384,9 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="fleet-cards-grid"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="fleet-cards-grid">
+                    <!-- Dynamic Fleet Cards -->
+                </div>
             </section>
 
             <!-- TAB 3: POST HANDOVER PROCESS -->
@@ -379,10 +405,12 @@
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="handover-logs-grid"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="handover-logs-grid">
+                    <!-- Dynamic Handover Cards -->
+                </div>
             </section>
 
-            <!-- TAB 4: INCIDENT REPORTING -->
+            <!-- TAB 4: INCIDENT REPORTING & WRITING -->
             <section id="tab-incidents" class="hidden space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
@@ -398,7 +426,9 @@
                     </button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3" id="incidents-container"></div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3" id="incidents-container">
+                    <!-- Dynamic Incidents List -->
+                </div>
             </section>
 
             <!-- TAB 5: WORK SCHEDULE (5:2 ROTATION) -->
@@ -412,6 +442,7 @@
                         <p class="text-xs text-slate-400" data-i18n="schedule_subheading">Automated 5 Days Work / 2 Days Off schedule view per guard</p>
                     </div>
 
+                    <!-- Sorting & Report Options -->
                     <div class="flex flex-wrap items-center gap-2 text-xs no-print">
                         <span class="text-slate-400" data-i18n="lbl_sort_by">Sort By:</span>
                         <select id="schedule-sort-key" onchange="renderScheduleTable()" class="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2 py-1">
@@ -448,7 +479,9 @@
                                 <th class="p-3 text-amber-400">Sat (Rest)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800/60 text-slate-300" id="schedule-table-body"></tbody>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300" id="schedule-table-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
                     </table>
                 </div>
             </section>
@@ -485,10 +518,11 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="project-cards-grid"></div>
             </section>
+
         </main>
     </div>
 
-    <!-- MODAL: ADD NEW POST -->
+    <!-- MODAL: ADD NEW POST (WITH FLEET VEHICLE ASSIGNMENT) -->
     <div id="add-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -542,6 +576,7 @@
                         <option value="Area Supervisor">Area Supervisor</option>
                     </select>
                 </div>
+                <!-- Patrol Vehicle Linkage Selector -->
                 <div>
                     <label class="text-cyan-400 block mb-1 font-bold" data-i18n="lbl_assign_vehicle">Assign Patrol Vehicle from Fleet Command</label>
                     <select id="p-assigned-vehicle" class="w-full bg-slate-950 border border-cyan-500/40 px-3 py-2 rounded-lg text-cyan-300 font-mono">
@@ -581,6 +616,7 @@
                     </select>
                 </div>
                 
+                <!-- SHIFT CONFIGURATION SELECTOR -->
                 <div>
                     <label class="text-slate-400 block mb-1" data-i18n="lbl_veh_shifts">Operating Shift Mode</label>
                     <select id="v-shift-mode" onchange="toggleVehicleDriverInputs()" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-400 font-bold">
@@ -590,6 +626,7 @@
                     </select>
                 </div>
 
+                <!-- DYNAMIC DRIVERS INPUT FIELDS -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2">
                     <label class="font-bold text-slate-300 block mb-1" data-i18n="lbl_veh_drivers_group">Shift Drivers Assignment</label>
                     <div id="v-driver-s1-container">
@@ -629,7 +666,7 @@
         </div>
     </div>
 
-    <!-- MODAL: EDIT POST -->
+    <!-- MODAL: EDIT POST & SHIFT STAFF MANAGEMENT -->
     <div id="edit-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -693,6 +730,7 @@
                     </div>
                 </div>
 
+                <!-- Assigned Vehicle Linkage -->
                 <div>
                     <label class="text-cyan-400 block mb-1 font-bold" data-i18n="lbl_assign_vehicle">Assign Patrol Vehicle from Fleet Command</label>
                     <select id="ep-assigned-vehicle" class="w-full bg-slate-950 border border-cyan-500/40 px-3 py-2 rounded-lg text-cyan-300 font-mono">
@@ -731,7 +769,7 @@
         </div>
     </div>
 
-    <!-- MODAL: SWAP GUARDS -->
+    <!-- MODAL: SWAP GUARDS / RELOCATE -->
     <div id="swap-guards-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -850,6 +888,7 @@
                     <textarea id="inc-details" rows="3" oninput="handleLiveTranslation()" placeholder="Describe what happened..." class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-lg text-slate-100 focus:outline-none focus:border-rose-500/50"></textarea>
                 </div>
 
+                <!-- LIVE AI TRANSLATION BOX -->
                 <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1">
                     <div class="flex items-center space-x-2 rtl:space-x-reverse text-[10px] text-amber-400 font-semibold">
                         <i data-lucide="languages" class="w-3.5 h-3.5"></i>
@@ -872,8 +911,10 @@
     <script>
         let searchQuery = "";
         let currentLang = 'en';
-        let currentUser = null; 
 
+        // AUTHENTICATION & USERS DATABASE STATE
+        let currentUser = null; 
+        
         const registeredUsers = [
             { username: "admin", pin: "Password123", role: "admin", name: "Chief Security Admin" },
             { username: "user", pin: "Password123", role: "user", name: "Sector Officer" }
@@ -915,12 +956,17 @@
             badge.className = isAdmin ? "bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-mono" : "bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[9px] font-mono";
 
             const adminActions = document.getElementById('admin-actions-group');
-            if (adminActions) adminActions.style.display = isAdmin ? 'flex' : 'none';
+            if (adminActions) {
+                adminActions.style.display = isAdmin ? 'flex' : 'none';
+            }
 
             const swapBtn = document.getElementById('btn-swap-guards');
-            if (swapBtn) swapBtn.style.display = isAdmin ? 'flex' : 'none';
+            if (swapBtn) {
+                swapBtn.style.display = isAdmin ? 'flex' : 'none';
+            }
         }
 
+        // BILINGUAL DICTIONARY
         const i18n = {
             en: {
                 app_title: "New Murabba Delivery Security Operations",
@@ -1039,3 +1085,1084 @@
                 lbl_handover_notes: "Shift Handover Briefing / Remarks",
                 btn_save_handover: "Save Handover",
                 m_incident_title: "Write Security Incident Report",
+                lbl_inc_title: "Incident Title",
+                lbl_inc_plot: "Plot Location",
+                lbl_inc_severity: "Severity Level",
+                lbl_inc_reporter: "Reporting Officer",
+                lbl_inc_details: "Incident Details & Immediate Action Taken",
+                lbl_ai_translation: "AI Live English/Arabic Translation Preview",
+                btn_submit_report: "Submit Report"
+            },
+            ar: {
+                app_title: "عمليات أمن المربع الجديد",
+                hq_badge: "مقر الرياض",
+                app_subtitle: "خطة الانتشار الذكية • إدارة المركبات • الترجمة الفورية • جدول 5:2",
+                search_ph: "بحث عن حارس، موقع، أرض...",
+                btn_fleet: "لوحة الدوريات",
+                btn_swap: "تبديل الحراس",
+                btn_upload: "رفع إكسل",
+                btn_template: "القالب",
+                btn_add_post: "إضافة نقطة",
+                btn_autofill: "تعبئة تلقائية",
+                nav_dashboard: "لوحة تحكم النشاط الشاملة",
+                nav_roster: "محرك الجدول الذكي",
+                nav_fleet: "إدارة العمليات والدوريات",
+                nav_handover: "عملية التسليم والاستلام",
+                nav_incidents: "تقارير البلاغات والحوادث",
+                nav_schedule: "جدول العمل الأسبوعي (5:2)",
+                nav_north: "القطاع الشمالي (أرض A و B)",
+                nav_south: "القطاع الجنوبي (أرض C و D)",
+                nav_west: "القطاع الغربي (أرض E)",
+                nav_project: "منطقة المشروع",
+                dash_heading: "لوحة تحكم عمليات الأنشطة والانتشار الشاملة",
+                dash_subheading: "حالة فورية ومجمعة للنقاط الأمنية، الدوريات النشطة، تسليم المناوبات وسجلات الحوادث",
+                dash_card_status: "نظرة عامة على صحة الانتشار",
+                dash_card_fleet: "جاهزية دوريات الأسطول والمركبات المعينة",
+                dash_card_incidents: "البلاغات والتنبيهات الأمنية الحرجة",
+                dash_card_stream: "تدفق جميع العمليات النشطة وتعيينات النقاط",
+                sidebar_shift_cycle: "نظام المناوبات",
+                sidebar_shift_val: "ساعات مرنة",
+                sidebar_rotation: "قاعدة التناوب",
+                sidebar_rotation_val: "5 أيام عمل / 2 راحة",
+                m_posts_title: "إجمالي النقاط النشطة",
+                m_posts_sub: "ساعات التشغيل المحددة",
+                m_gaps_title: "نقص التغطية المكتشف",
+                m_gaps_sub: "خانات الشواغر المطلوبة",
+                m_fleet_title: "مركبات الدوريات النشطة",
+                m_fleet_sub: "على رأس العمل / الصيانة",
+                m_personnel_title: "إجمالي الأفراد المخصصين",
+                m_personnel_sub: "حراس، سائقون ومشرّفون",
+                roster_heading: "مصفوفة جدول الانتشار الذكي التفاعلي",
+                roster_subheading: "اكتشاف الفجوات الفوري، إدارة ساعات التشغيل، وإعادة توزيع الكادر",
+                lbl_sort_by: "ترتيب حسب:",
+                opt_sector: "القطاع والأرض",
+                opt_post_id: "رمز النقطة",
+                opt_health: "حالة التغطية",
+                th_sector_plot: "القطاع والأرض",
+                th_post_id_name: "رمز، اسم ونوع النقطة",
+                th_operating_hours: "الساعات",
+                th_shift_1: "الوردية 1 (06:00 - 14:00)",
+                th_shift_2: "الوردية 2 (14:00 - 22:00)",
+                th_shift_3: "الوردية 3 (22:00 - 06:00)",
+                th_reliever: "الحارس البديل (5:2)",
+                th_health_status: "حالة التغطية",
+                th_actions: "الإجراءات",
+                fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات",
+                fleet_subheading: "متابعة فورية لدوريات الأمن، جداول الصيانة، سجلات السائقين لكل وردية والتحكم الكامل بالمركبات",
+                btn_add_vehicle: "إضافة دورية",
+                fleet_stat_onduty: "على رأس العمل",
+                fleet_stat_offduty: "خارج الخدمة / احتياط",
+                fleet_stat_maint: "تحت الصيانة",
+                fleet_stat_refuel: "مطلوب تزويد وقود",
+                handover_heading: "سجل عملية تسليم واستلام النقاط والورديات",
+                handover_subheading: "توثيق تسليم المناوبات بين الضباط والحراس، المعدات والتعليمات",
+                btn_new_handover: "إدخال تسليم جديد",
+                incidents_heading: "سجل بلاغات الحوادث والأحداث الأمنية",
+                incidents_subheading: "تقديم تقارير الحوادث الرسمية مع ترجمة فورية بين العربية والإنجليزية",
+                btn_write_incident: "كتابة بلاغ أمني",
+                schedule_heading: "مصفوفة جدول العمل 5:2 (تقرير التدوير الأسبوعي)",
+                schedule_subheading: "عرض جدول 5 أيام عمل / يومين راحة المعتمد لكل حارس",
+                opt_sort_post: "رمز النقطة",
+                opt_sort_side: "القطاع / الجانب",
+                opt_sort_plot: "موقع الأرض",
+                opt_sort_shift: "مناوبة العمل",
+                btn_print_report: "طباعة التقرير",
+                btn_export_schedule: "تصدير إكسل",
+                th_guard_driver: "اسم الحارس / السائق",
+                th_assigned_post: "النقطة والمهمة المخصصة",
+                m_add_post_title: "إضافة نقطة أمنية جديدة",
+                lbl_sector_side: "جانب القطاع",
+                lbl_operating_hours: "ساعات التشغيل",
+                lbl_plot_location: "موقع الأرض",
+                lbl_post_id: "رمز النقطة",
+                lbl_post_name: "اسم النقطة",
+                lbl_post_type: "نوع النقطة",
+                lbl_assign_vehicle: "ربط دورية من قيادة الأسطول",
+                btn_cancel: "إلغاء",
+                btn_save: "حفظ",
+                m_add_veh_title: "إضافة وحدة دورية",
+                lbl_veh_callsign: "رمز / لوحة الدورية",
+                lbl_veh_status: "الحالة التشغيلية",
+                lbl_veh_fuel: "مستوى الوقود (%)",
+                lbl_veh_shifts: "نظام ورديات الدورية",
+                lbl_veh_drivers_group: "توزيع سائقي الورديات",
+                lbl_veh_driver_s1: "سائق الوردية الأولى (06:00 - 14:00)",
+                lbl_veh_driver_s2: "سائق الوردية الثانية (14:00 - 22:00)",
+                lbl_veh_driver_s3: "سائق الوردية الثالثة (22:00 - 06:00)",
+                m_edit_post_title: "تعديل أفراد النقطة وتوزيع الورديات",
+                lbl_shift_assignments: "تعيينات وإعادة نقل الحراس",
+                lbl_shift_1_officer: "حارس/سائق الوردية 1 (06:00 - 14:00)",
+                lbl_shift_2_officer: "حارس/سائق الوردية 2 (14:00 - 22:00)",
+                lbl_shift_3_officer: "حارس/سائق الوردية 3 (22:00 - 06:00)",
+                lbl_reliever_officer: "الحارس البديل (تداول 5:2)",
+                btn_delete: "حذف النقطة",
+                btn_save_changes: "حفظ التغييرات",
+                m_swap_title: "تبديل الحراس / إعادة التوزيع",
+                lbl_officer_a: "الحارس المصدر A",
+                lbl_swap_with: "تبديل مع",
+                lbl_officer_b: "الحارس الهدف B",
+                btn_confirm_swap: "تأكيد التبديل",
+                m_handover_title: "سجل تسليم واستلام النقطة",
+                lbl_select_post: "اختر النقطة",
+                lbl_outgoing_guard: "الحارس المغادر",
+                lbl_incoming_guard: "الحارس المستلم",
+                lbl_key_equip: "فحص العهدة والمفاتيح",
+                lbl_handover_notes: "ملاحظات وتعليمات المناوبة",
+                btn_save_handover: "حفظ التسليم",
+                m_incident_title: "كتابة تقرير بلاغ أمني",
+                lbl_inc_title: "عنوان البلاغ",
+                lbl_inc_plot: "موقع الأرض",
+                lbl_inc_severity: "مستوى الأهمية",
+                lbl_inc_reporter: "الضابط المبلغ",
+                lbl_inc_details: "تفاصيل حادثة والإجراء الفوري المتخذ",
+                lbl_ai_translation: "معاينة الترجمة الفورية بالذكاء الاصطناعي",
+                btn_submit_report: "إرسال التقرير"
+            }
+        };
+
+        // FIXED INITIAL DATA WITH ASSIGNED VEHICLES
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v8')) || [
+            { sector: "Project", plot: "Project", id: "SM1", name: "SECURITY MANAGER PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-04", s1: "علي الغامدي", s2: "وليد العقيدي", s3: "سامي الشمري", reliever: "فهد الدوسري", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AD1", name: "POLT A INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-01", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AX1", name: "POLT A EXTIRNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-02", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BX1", name: "POLT B EXTIRNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-05", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Emad Hazmi", reliever: "Anas Ghamdi", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BD1", name: "POLT B INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "None", s1: "Youssef Ibrahim", s2: "Bandar Ghamdi", s3: "Omar Ghamdi", reliever: "Sami Shammari", status: "Full Coverage" },
+            { sector: "South", plot: "C", id: "CD1", name: "POLT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-03", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
+        ];
+
+        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v4')) || [
+            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", shiftMode: 3, drivers: { s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi" }, status: "On Duty", fuel: 85 },
+            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", shiftMode: 2, drivers: { s1: "Emad Hazmi", s2: "Sultan Otaibi", s3: "N/A" }, status: "On Duty", fuel: 60 },
+            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", shiftMode: 1, drivers: { s1: "Waleed Ruwaili", s2: "N/A", s3: "N/A" }, status: "Maintenance", fuel: 20 },
+            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", shiftMode: 3, drivers: { s1: "Omar Ghamdi", s2: "Bandar Ghamdi", s3: "Sami Shammari" }, status: "Refueling", fuel: 10 },
+            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", shiftMode: 2, drivers: { s1: "Youssef Ibrahim", s2: "Ziyad Mutairi", s3: "N/A" }, status: "Off Duty", fuel: 95 }
+        ];
+
+        let handoverLogs = JSON.parse(localStorage.getItem('nm_handovers_v2')) || [
+            { post: "A01", outgoing: "Ahmad Suleiman", incoming: "Sami Ruwaili", time: "14:00 AST", eq: "Radio #01 OK, Gate Remote Functional", notes: "No security issues reported during Shift 1." }
+        ];
+
+        let incidentLogs = JSON.parse(localStorage.getItem('nm_incidents_v2')) || [
+            { id: "INC-2026-001", title: "ملاحظة دخول شاحنة غير مصرحة / Unauthorized Truck Attempt", plot: "Plot A / Gate A01", severity: "Medium", reporter: "Ahmad Suleiman", time: "08:15 AST", details: "حاولت شاحنة خرسانة الدخول بدون تصريح رقمي وتم توجيهها للخارج بحذر.\n(AI Trans: Concrete truck attempted entry without digital permit and was safely turned away.)" }
+        ];
+
+        function calculatePostStatus(p) {
+            const h = p.hours || "24 hrs";
+            if (h === "24 hrs") {
+                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED" || !p.s3 || p.s3 === "UNASSIGNED" || !p.reliever || p.reliever === "UNASSIGNED") {
+                    return "COVERAGE GAP";
+                }
+            } else if (h === "16 hrs") {
+                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED") {
+                    return "COVERAGE GAP";
+                }
+            } else if (h === "8 hrs") {
+                if (!p.s1 || p.s1 === "UNASSIGNED") {
+                    return "COVERAGE GAP";
+                }
+            }
+            return "Full Coverage";
+        }
+
+        function renderAll() {
+            applyLanguageTranslations();
+            renderDashboard();
+            renderRosterTable();
+            renderFleetDashboard();
+            renderSectorCards();
+            renderHandoverLogs();
+            renderIncidentLogs();
+            renderScheduleTable();
+            updateMetrics();
+            if (window.lucide) { lucide.createIcons(); }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('lang-btn-text').innerText = currentLang === 'ar' ? 'English' : 'العربية';
+            renderAll();
+        }
+
+        function applyLanguageTranslations() {
+            const dictionary = i18n[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dictionary[key]) el.innerText = dictionary[key];
+            });
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dictionary[key]) el.placeholder = dictionary[key];
+            });
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('global-search').value.toLowerCase().trim();
+            renderRosterTable();
+            renderFleetDashboard();
+            renderHandoverLogs();
+            renderDashboard();
+        }
+
+        function updateMetrics() {
+            document.getElementById('m-total-posts').innerText = `${postsData.length} ${currentLang === 'ar' ? 'نقاط' : 'Posts'}`;
+
+            let gaps = 0;
+            let assignedCount = 0;
+
+            postsData.forEach(p => {
+                const h = p.hours || "24 hrs";
+                if (!p.s1 || p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
+                
+                if (h === "24 hrs" || h === "16 hrs") {
+                    if (!p.s2 || p.s2 === "UNASSIGNED") gaps++; else if (p.s2 !== "N/A") assignedCount++;
+                }
+                
+                if (h === "24 hrs") {
+                    if (!p.s3 || p.s3 === "UNASSIGNED") gaps++; else if (p.s3 !== "N/A") assignedCount++;
+                    if (!p.reliever || p.reliever === "UNASSIGNED") gaps++; else if (p.reliever !== "N/A") assignedCount++;
+                }
+            });
+
+            fleetData.forEach(v => {
+                const mode = parseInt(v.shiftMode || 3);
+                if (v.drivers?.s1 && v.drivers.s1 !== 'Unassigned' && v.drivers.s1 !== 'N/A') assignedCount++;
+                if (mode >= 2 && v.drivers?.s2 && v.drivers.s2 !== 'Unassigned' && v.drivers.s2 !== 'N/A') assignedCount++;
+                if (mode >= 3 && v.drivers?.s3 && v.drivers.s3 !== 'Unassigned' && v.drivers.s3 !== 'N/A') assignedCount++;
+            });
+
+            const activeFleet = fleetData.filter(v => v.status === "On Duty").length;
+
+            document.getElementById('m-gaps-count').innerText = `${gaps} ${currentLang === 'ar' ? 'ثغرة' : 'Gaps'}`;
+            document.getElementById('m-fleet-count').innerText = `${activeFleet} / ${fleetData.length}`;
+            document.getElementById('m-personnel-count').innerText = `${assignedCount} ${currentLang === 'ar' ? 'فرد' : 'Personnel'}`;
+        }
+
+        // MASTER DASHBOARD RENDERER
+        function renderDashboard() {
+            // Health Stats
+            const healthBox = document.getElementById('dash-health-stats');
+            if (healthBox) {
+                let fullCov = postsData.filter(p => calculatePostStatus(p) === 'Full Coverage').length;
+                let gapCov = postsData.length - fullCov;
+                healthBox.innerHTML = `
+                    <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-slate-300">Fully Covered Posts:</span>
+                        <span class="font-bold text-emerald-400">${fullCov} / ${postsData.length}</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-slate-300">Coverage Gaps:</span>
+                        <span class="font-bold text-rose-400">${gapCov} Posts</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-slate-300">Total Handovers Logged:</span>
+                        <span class="font-bold text-indigo-400">${handoverLogs.length} Entries</span>
+                    </div>
+                `;
+            }
+
+            // Fleet Summary
+            const fleetBox = document.getElementById('dash-fleet-summary');
+            if (fleetBox) {
+                fleetBox.innerHTML = fleetData.map(v => `
+                    <div class="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                        <div>
+                            <span class="font-mono font-bold text-cyan-400">${v.id}</span>
+                            <span class="text-[10px] text-slate-400 block">${v.callsign}</span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${v.status === 'On Duty' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${v.status}</span>
+                    </div>
+                `).join('');
+            }
+
+            // Incidents Feed
+            const incBox = document.getElementById('dash-incidents-feed');
+            if (incBox) {
+                incBox.innerHTML = incidentLogs.slice(0, 3).map(i => `
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800 space-y-1">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-rose-400 text-[11px]">${i.id}</span>
+                            <span class="text-[10px] text-slate-500">${i.time}</span>
+                        </div>
+                        <p class="text-slate-300 truncate">${i.title}</p>
+                    </div>
+                `).join('');
+            }
+
+            // Stream Table Body
+            const streamBody = document.getElementById('dash-activity-stream-body');
+            if (streamBody) {
+                streamBody.innerHTML = postsData.map(p => `
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="p-2.5 font-bold text-amber-400 font-mono">${p.id} <span class="text-slate-300 font-normal block text-[11px]">${p.name}</span></td>
+                        <td class="p-2.5"><span class="text-slate-300 uppercase">${p.sector}</span> (${p.plot})</td>
+                        <td class="p-2.5"><span class="font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/40">${p.assignedVehicle || 'None'}</span></td>
+                        <td class="p-2.5 text-slate-300">${p.s1 || 'UNASSIGNED'}</td>
+                        <td class="p-2.5 text-slate-300">${p.s2 || 'N/A'}</td>
+                        <td class="p-2.5 text-slate-300">${p.s3 || 'N/A'}</td>
+                        <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${calculatePostStatus(p) === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${calculatePostStatus(p)}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderRosterTable() {
+            const body = document.getElementById('roster-table-body');
+            if (!body) return;
+
+            const isAdmin = currentUser && currentUser.role === 'admin';
+
+            const filtered = postsData.filter(p => {
+                if (!searchQuery) return true;
+                return p.id.toLowerCase().includes(searchQuery) ||
+                       p.name.toLowerCase().includes(searchQuery) ||
+                       (p.type && p.type.toLowerCase().includes(searchQuery)) ||
+                       p.plot.toLowerCase().includes(searchQuery) ||
+                       p.s1.toLowerCase().includes(searchQuery) ||
+                       p.s2.toLowerCase().includes(searchQuery) ||
+                       p.s3.toLowerCase().includes(searchQuery) ||
+                       p.reliever.toLowerCase().includes(searchQuery);
+            });
+
+            body.innerHTML = filtered.map((p) => {
+                const originalIndex = postsData.indexOf(p);
+                const hrs = p.hours || "24 hrs";
+                p.status = calculatePostStatus(p);
+
+                const getSectorBadgeColor = (sec) => {
+                    if (sec === 'North') return 'text-amber-400';
+                    if (sec === 'South') return 'text-blue-400';
+                    if (sec === 'West') return 'text-purple-400';
+                    return 'text-teal-400';
+                };
+
+                return `
+                    <tr class="hover:bg-slate-800/40 transition-colors">
+                        <td class="p-3 font-semibold text-slate-300">
+                            <span class="text-[10px] uppercase block font-mono ${getSectorBadgeColor(p.sector)}">${p.sector}</span>
+                            ${p.plot}
+                        </td>
+                        <td class="p-3">
+                            <span class="font-bold text-amber-400 font-mono block">${p.id}</span>
+                            <span class="text-xs text-slate-200 block">${p.name}</span>
+                            <div class="flex items-center space-x-1 rtl:space-x-reverse mt-1">
+                                <span class="text-[10px] text-cyan-400 bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-800/40">${p.type || 'Gate'}</span>
+                                ${p.assignedVehicle && p.assignedVehicle !== 'None' ? `<span class="text-[10px] text-amber-300 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-800/40 font-mono">🚗 ${p.assignedVehicle}</span>` : ''}
+                            </div>
+                        </td>
+                        <td class="p-3">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-slate-800 text-amber-300 border border-slate-700">${hrs}</span>
+                        </td>
+                        <td class="p-3"><span class="${!p.s1 || p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1 || 'UNASSIGNED'}</span></td>
+                        <td class="p-3">
+                            ${hrs === '8 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</span>`}
+                        </td>
+                        <td class="p-3">
+                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span>`}
+                        </td>
+                        <td class="p-3">
+                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A</span>' : `<span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span>`}
+                        </td>
+                        <td class="p-3">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse'}">${p.status}</span>
+                        </td>
+                        <td class="p-3 text-right rtl:text-left">
+                            ${isAdmin ? `<button onclick="openEditPostModal(${originalIndex})" class="text-xs px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded">Edit</button>` : `<span class="text-slate-500 text-[10px] italic">Read-Only</span>`}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // FLEET DASHBOARD RENDERING WITH MULTI-SHIFT DISPLAY
+        function renderFleetDashboard() {
+            const grid = document.getElementById('fleet-cards-grid');
+            if (!grid) return;
+
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            const addVehBtn = document.getElementById('btn-add-vehicle-container');
+            if (addVehBtn) addVehBtn.style.display = isAdmin ? 'flex' : 'none';
+
+            let onDuty = 0, offDuty = 0, maint = 0, refuel = 0;
+            fleetData.forEach(v => {
+                if (v.status === 'On Duty') onDuty++;
+                else if (v.status === 'Off Duty') offDuty++;
+                else if (v.status === 'Maintenance') maint++;
+                else if (v.status === 'Refueling') refuel++;
+            });
+
+            document.getElementById('f-stat-onduty').innerText = onDuty;
+            document.getElementById('f-stat-offduty').innerText = offDuty;
+            document.getElementById('f-stat-maint').innerText = maint;
+            document.getElementById('f-stat-refuel').innerText = refuel;
+
+            grid.innerHTML = fleetData.map((v, idx) => {
+                const mode = parseInt(v.shiftMode || 3);
+                const shiftBadge = mode === 1 ? '1 Shift (8h)' : (mode === 2 ? '2 Shifts (16h)' : '3 Shifts (24h)');
+                
+                return `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 relative group">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <div>
+                            <span class="font-bold text-sm text-cyan-400 font-mono">${v.id}</span>
+                            <span class="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">${shiftBadge}</span>
+                        </div>
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                            <select onchange="updateVehicleStatus(${idx}, this.value)" ${!isAdmin ? 'disabled' : ''} class="bg-slate-950 border border-slate-800 text-[11px] rounded px-2 py-0.5 ${v.status === 'On Duty' ? 'text-emerald-400' : (v.status === 'Maintenance' ? 'text-rose-400' : 'text-amber-400')} font-bold">
+                                <option value="On Duty" ${v.status === 'On Duty' ? 'selected' : ''}>On Duty</option>
+                                <option value="Off Duty" ${v.status === 'Off Duty' ? 'selected' : ''}>Off Duty</option>
+                                <option value="Maintenance" ${v.status === 'Maintenance' ? 'selected' : ''}>Maintenance</option>
+                                <option value="Refueling" ${v.status === 'Refueling' ? 'selected' : ''}>Refueling</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-300 font-bold">${v.callsign}</div>
+                    <div class="text-xs text-slate-400">${currentLang === 'ar' ? 'القطاع' : 'Sector'}: <strong class="text-slate-200">${v.sector} Side</strong></div>
+                    
+                    <!-- SHIFT DRIVER ALLOCATION BREAKDOWN -->
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1 text-xs">
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">${currentLang === 'ar' ? 'سائقو الورديات المخصصين' : 'Assigned Shift Drivers'}</div>
+                        <div class="flex justify-between items-center text-[11px]">
+                            <span class="text-slate-400">Shift 1 (06-14):</span>
+                            <strong class="text-emerald-400">${v.drivers?.s1 || 'Unassigned'}</strong>
+                        </div>
+                        ${mode >= 2 ? `
+                        <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
+                            <span class="text-slate-400">Shift 2 (14-22):</span>
+                            <strong class="text-emerald-400">${v.drivers?.s2 || 'Unassigned'}</strong>
+                        </div>` : ''}
+                        ${mode >= 3 ? `
+                        <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
+                            <span class="text-slate-400">Shift 3 (22-06):</span>
+                            <strong class="text-emerald-400">${v.drivers?.s3 || 'Unassigned'}</strong>
+                        </div>` : ''}
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[10px] text-slate-400">
+                            <span>Fuel Level</span>
+                            <span class="font-mono font-bold text-slate-200">${v.fuel}%</span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div class="h-1.5 ${v.fuel < 25 ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${v.fuel}%"></div>
+                        </div>
+                    </div>
+                    ${isAdmin ? `
+                    <div class="flex justify-end space-x-2 rtl:space-x-reverse pt-2 border-t border-slate-800/80 text-xs">
+                        <button onclick="openEditVehicleModal(${idx})" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded flex items-center space-x-1 rtl:space-x-reverse">
+                            <i data-lucide="edit-3" class="w-3 h-3"></i>
+                            <span>Edit Unit</span>
+                        </button>
+                        <button onclick="deleteVehicle(${idx})" class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded flex items-center space-x-1 rtl:space-x-reverse">
+                            <i data-lucide="trash-2" class="w-3 h-3"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>` : '<div class="text-right text-[10px] text-slate-500 italic pt-2 border-t border-slate-800/80">Read-Only</div>'}
+                </div>
+            `}).join('');
+        }
+
+        function updateVehicleStatus(idx, newStatus) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert("Restricted: Only administrators can modify vehicle status.");
+                renderFleetDashboard();
+                return;
+            }
+            fleetData[idx].status = newStatus;
+            localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+            renderFleetDashboard();
+            updateMetrics();
+            renderDashboard();
+        }
+
+        function toggleVehicleDriverInputs() {
+            const mode = parseInt(document.getElementById('v-shift-mode').value);
+            const s1Box = document.getElementById('v-driver-s1-container');
+            const s2Box = document.getElementById('v-driver-s2-container');
+            const s3Box = document.getElementById('v-driver-s3-container');
+
+            if (mode === 1) {
+                s1Box.style.display = 'block';
+                s2Box.style.display = 'none';
+                s3Box.style.display = 'none';
+            } else if (mode === 2) {
+                s1Box.style.display = 'block';
+                s2Box.style.display = 'block';
+                s3Box.style.display = 'none';
+            } else {
+                s1Box.style.display = 'block';
+                s2Box.style.display = 'block';
+                s3Box.style.display = 'block';
+            }
+        }
+
+        function openAddVehicleModal() {
+            if (!currentUser || currentUser.role !== 'admin') return alert("Access Denied: Admin rights required.");
+            document.getElementById('v-edit-index').value = "-1";
+            document.getElementById('m-veh-modal-title').innerText = i18n[currentLang].m_add_veh_title || "Add Patrol Unit";
+            document.getElementById('v-callsign').value = "";
+            document.getElementById('v-sector').value = "North";
+            document.getElementById('v-shift-mode').value = "3";
+            document.getElementById('v-driver-s1').value = "";
+            document.getElementById('v-driver-s2').value = "";
+            document.getElementById('v-driver-s3').value = "";
+            document.getElementById('v-status').value = "On Duty";
+            document.getElementById('v-fuel').value = 100;
+            toggleVehicleDriverInputs();
+            document.getElementById('add-vehicle-modal').classList.remove('hidden');
+        }
+
+        function openEditVehicleModal(idx) {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            const v = fleetData[idx];
+            document.getElementById('v-edit-index').value = idx;
+            document.getElementById('m-veh-modal-title').innerText = currentLang === 'ar' ? "تعديل وحدة الدورية" : "Edit Patrol Unit";
+            document.getElementById('v-callsign').value = v.callsign;
+            document.getElementById('v-sector').value = v.sector;
+            document.getElementById('v-shift-mode').value = v.shiftMode || 3;
+            document.getElementById('v-driver-s1').value = v.drivers?.s1 || "";
+            document.getElementById('v-driver-s2').value = v.drivers?.s2 || "";
+            document.getElementById('v-driver-s3').value = v.drivers?.s3 || "";
+            document.getElementById('v-status').value = v.status;
+            document.getElementById('v-fuel').value = v.fuel;
+            toggleVehicleDriverInputs();
+            document.getElementById('add-vehicle-modal').classList.remove('hidden');
+        }
+
+        function savePatrolVehicle() {
+            const editIdx = parseInt(document.getElementById('v-edit-index').value);
+            const callsign = document.getElementById('v-callsign').value || "PATROL-UNIT";
+            const sector = document.getElementById('v-sector').value;
+            const shiftMode = parseInt(document.getElementById('v-shift-mode').value);
+            
+            const driverS1 = document.getElementById('v-driver-s1').value.trim() || "Unassigned";
+            const driverS2 = shiftMode >= 2 ? (document.getElementById('v-driver-s2').value.trim() || "Unassigned") : "N/A";
+            const driverS3 = shiftMode >= 3 ? (document.getElementById('v-driver-s3').value.trim() || "Unassigned") : "N/A";
+            
+            const status = document.getElementById('v-status').value;
+            const fuel = parseInt(document.getElementById('v-fuel').value) || 100;
+
+            const vehiclePayload = {
+                callsign, 
+                sector, 
+                shiftMode,
+                drivers: { s1: driverS1, s2: driverS2, s3: driverS3 },
+                status, 
+                fuel 
+            };
+
+            if (editIdx >= 0) {
+                fleetData[editIdx] = { ...fleetData[editIdx], ...vehiclePayload };
+            } else {
+                fleetData.push({ id: `PATROL-0${fleetData.length + 1}`, ...vehiclePayload });
+            }
+
+            localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+            closeModal('add-vehicle-modal');
+            renderFleetDashboard();
+            updateMetrics();
+            renderDashboard();
+        }
+
+        function deleteVehicle(idx) {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            if (confirm(currentLang === 'ar' ? "هل أنت ألكيد من حذف وحدة الدورية هذه؟" : "Are you sure you want to delete this patrol vehicle unit?")) {
+                fleetData.splice(idx, 1);
+                localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+                renderFleetDashboard();
+                updateMetrics();
+                renderDashboard();
+            }
+        }
+
+        function populateVehicleSelect(selectId, currentVal) {
+            const sel = document.getElementById(selectId);
+            if (!sel) return;
+            sel.innerHTML = `<option value="None">None (Fixed Post)</option>` + 
+                fleetData.map(v => `<option value="${v.id}" ${v.id === currentVal ? 'selected' : ''}>${v.id} - ${v.callsign} (${v.sector})</option>`).join('');
+        }
+
+        function openAddPostModal() {
+            if (!currentUser || currentUser.role !== 'admin') return alert("Access Denied: Admin rights required.");
+            populateVehicleSelect('p-assigned-vehicle', 'None');
+            document.getElementById('add-post-modal').classList.remove('hidden');
+        }
+
+        function saveNewPost() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            const sector = document.getElementById('p-sector').value;
+            const hours = document.getElementById('p-hours').value;
+            const plot = document.getElementById('p-plot').value || "Plot A";
+            const id = document.getElementById('p-id').value || "NEW-01";
+            const name = document.getElementById('p-name').value || "New Security Post";
+            const type = document.getElementById('p-type').value;
+            const assignedVehicle = document.getElementById('p-assigned-vehicle').value;
+
+            postsData.push({
+                sector, hours, plot, id, name, type, assignedVehicle,
+                s1: "UNASSIGNED",
+                s2: hours === "8 hrs" ? "N/A" : "UNASSIGNED",
+                s3: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
+                reliever: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
+                status: "COVERAGE GAP"
+            });
+
+            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            closeModal('add-post-modal');
+            renderAll();
+        }
+
+        function openEditPostModal(idx) {
+            if (!currentUser || currentUser.role !== 'admin') return alert("Access Denied: Standard officers have read-only roster access.");
+            const p = postsData[idx];
+            document.getElementById('edit-post-index').value = idx;
+            document.getElementById('ep-sector').value = p.sector || "North";
+            document.getElementById('ep-hours').value = p.hours || "24 hrs";
+            document.getElementById('ep-plot').value = p.plot;
+            document.getElementById('ep-id').value = p.id;
+            document.getElementById('ep-name').value = p.name;
+            document.getElementById('ep-type').value = p.type || "Gate";
+            document.getElementById('ep-s1').value = p.s1 || "UNASSIGNED";
+            document.getElementById('ep-s2').value = p.s2 || "UNASSIGNED";
+            document.getElementById('ep-s3').value = p.s3 || "UNASSIGNED";
+            document.getElementById('ep-reliever').value = p.reliever || "UNASSIGNED";
+            populateVehicleSelect('ep-assigned-vehicle', p.assignedVehicle || 'None');
+            document.getElementById('edit-post-modal').classList.remove('hidden');
+        }
+
+        function savePostModalChanges() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            const idx = parseInt(document.getElementById('edit-post-index').value);
+            const p = postsData[idx];
+
+            p.sector = document.getElementById('ep-sector').value;
+            p.hours = document.getElementById('ep-hours').value;
+            p.plot = document.getElementById('ep-plot').value;
+            p.id = document.getElementById('ep-id').value;
+            p.name = document.getElementById('ep-name').value;
+            p.type = document.getElementById('ep-type').value;
+            p.assignedVehicle = document.getElementById('ep-assigned-vehicle').value;
+            p.s1 = document.getElementById('ep-s1').value;
+            p.s2 = document.getElementById('ep-s2').value;
+            p.s3 = p.hours === "24 hrs" ? document.getElementById('ep-s3').value : "N/A";
+            p.reliever = p.hours === "24 hrs" ? document.getElementById('ep-reliever').value : "N/A";
+
+            p.status = calculatePostStatus(p);
+
+            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            closeModal('edit-post-modal');
+            renderAll();
+        }
+
+        function deleteCurrentPost() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            const idx = parseInt(document.getElementById('edit-post-index').value);
+            postsData.splice(idx, 1);
+            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            closeModal('edit-post-modal');
+            renderAll();
+        }
+
+        function openIncidentModal() {
+            document.getElementById('incident-modal').classList.remove('hidden');
+        }
+
+        function handleLiveTranslation() {
+            const title = document.getElementById('inc-title').value;
+            const details = document.getElementById('inc-details').value;
+            const preview = document.getElementById('inc-translation-preview');
+
+            const fullText = (title + " " + details).trim();
+            if (!fullText) {
+                preview.innerText = "Translation will appear live as you type in Arabic or English...";
+                return;
+            }
+
+            const containsArabic = /[\u0600-\u06FF]/.test(fullText);
+            if (containsArabic) {
+                preview.innerText = "🇬🇧 Live English AI Preview: Incident recorded at plot location with immediate site officer intervention.";
+            } else {
+                preview.innerText = "🇸🇦 معاينة الترجمة العربية الفورية: تم تسجيل البلاغ الأمني في موقع الأرض مع اتخاذ الإجراء الفوري من قبل الضابط.";
+            }
+        }
+
+        function saveIncidentReport() {
+            const title = document.getElementById('inc-title').value;
+            const plot = document.getElementById('inc-plot').value;
+            const severity = document.getElementById('inc-severity').value;
+            const reporter = document.getElementById('inc-reporter').value || (currentUser ? currentUser.name : "Officer");
+            const details = document.getElementById('inc-details').value;
+
+            if (!title || !details) {
+                alert("Please complete the incident title and details fields.");
+                return;
+            }
+
+            incidentLogs.unshift({
+                id: `INC-2026-00${incidentLogs.length + 1}`,
+                title: title,
+                plot: plot || "General Perimeter",
+                severity: severity,
+                reporter: reporter,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " AST",
+                details: details
+            });
+
+            localStorage.setItem('nm_incidents_v2', JSON.stringify(incidentLogs));
+            closeModal('incident-modal');
+            document.getElementById('incident-form').reset();
+            renderIncidentLogs();
+            renderDashboard();
+        }
+
+        function renderIncidentLogs() {
+            const container = document.getElementById('incidents-container');
+            if (!container) return;
+
+            container.innerHTML = incidentLogs.map(i => `
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${i.severity === 'High' ? 'bg-rose-500/20 text-rose-400' : (i.severity === 'Medium' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400')}">${i.severity}</span>
+                            <span class="font-bold text-xs text-slate-200">${i.id}: ${i.title}</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-mono">${i.time}</span>
+                    </div>
+                    <div class="text-xs text-slate-400">${i.plot} • Reported by <strong class="text-slate-300">${i.reporter}</strong></div>
+                    <p class="text-xs text-slate-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800/80 whitespace-pre-line">${i.details}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderScheduleTable() {
+            const body = document.getElementById('schedule-table-body');
+            if (!body) return;
+
+            const sortKey = document.getElementById('schedule-sort-key')?.value || 'post';
+
+            let scheduleRows = [];
+            postsData.forEach(p => {
+                const h = p.hours || "24 hrs";
+                if (p.s1 && p.s1 !== "N/A") scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)" });
+                if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)" });
+                if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)" });
+                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Reliever (5:2)" });
+            });
+
+            fleetData.forEach(v => {
+                const mode = parseInt(v.shiftMode || 3);
+                if (v.drivers?.s1 && v.drivers.s1 !== "Unassigned" && v.drivers.s1 !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.s1, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S1 (06-14)" });
+                }
+                if (mode >= 2 && v.drivers?.s2 && v.drivers.s2 !== "Unassigned" && v.drivers.s2 !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.s2, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S2 (14-22)" });
+                }
+                if (mode >= 3 && v.drivers?.s3 && v.drivers.s3 !== "Unassigned" && v.drivers.s3 !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.s3, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S3 (22-06)" });
+                }
+            });
+
+            scheduleRows.sort((a, b) => {
+                if (sortKey === 'side') return a.side.localeCompare(b.side);
+                if (sortKey === 'plot') return a.plot.localeCompare(b.plot);
+                if (sortKey === 'shift') return a.shift.localeCompare(b.shift);
+                return a.post.localeCompare(b.post);
+            });
+
+            body.innerHTML = scheduleRows.map(s => `
+                <tr class="hover:bg-slate-800/40 transition-colors">
+                    <td class="p-3 font-semibold text-slate-200">${s.name || 'UNASSIGNED'}</td>
+                    <td class="p-3 text-slate-300 font-mono"><strong class="text-amber-400">${s.post}</strong> • ${s.shift}</td>
+                    <td class="p-3 text-slate-400">${s.side} Side (${s.plot})</td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
+                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function exportScheduleExcel() {
+            let exportData = [];
+            postsData.forEach(p => {
+                exportData.push({ Guard: p.s1, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 1", Hours: p.hours, Vehicle: p.assignedVehicle });
+                if (p.hours !== "8 hrs") exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Hours: p.hours, Vehicle: p.assignedVehicle });
+                if (p.hours === "24 hrs") {
+                    exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Hours: p.hours, Vehicle: p.assignedVehicle });
+                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Reliever", Hours: p.hours, Vehicle: p.assignedVehicle });
+                }
+            });
+            const ws = XLSX.utils.json_to_sheet(exportData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "5-2 Work Schedule");
+            XLSX.writeFile(wb, "New_Murabba_Work_Schedule_Report.xlsx");
+        }
+
+        function switchTab(tabId) {
+            ['dashboard', 'roster', 'fleet', 'handover', 'incidents', 'schedule', 'north', 'south', 'west', 'project'].forEach(id => {
+                const sec = document.getElementById(`tab-${id}`);
+                const nav = document.getElementById(`nav-${id}`);
+                if (sec) sec.classList.add('hidden');
+                if (nav) {
+                    nav.classList.remove('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
+                    nav.classList.add('text-slate-400');
+                }
+            });
+
+            const activeSec = document.getElementById(`tab-${tabId}`);
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeSec) activeSec.classList.remove('hidden');
+            if (activeNav) {
+                activeNav.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
+                activeNav.classList.remove('text-slate-400');
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function openSwapModal() {
+            if (!currentUser || currentUser.role !== 'admin') return alert("Restricted: Only administrators can swap guards.");
+            const selA = document.getElementById('swap-post-a');
+            const selB = document.getElementById('swap-post-b');
+            selA.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
+            selB.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
+            document.getElementById('swap-guards-modal').classList.remove('hidden');
+        }
+
+        function executeGuardSwap() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            const idxA = parseInt(document.getElementById('swap-post-a').value);
+            const slotA = document.getElementById('swap-slot-a').value;
+            const idxB = parseInt(document.getElementById('swap-post-b').value);
+            const slotB = document.getElementById('swap-slot-b').value;
+
+            const temp = postsData[idxA][slotA];
+            postsData[idxA][slotA] = postsData[idxB][slotB];
+            postsData[idxB][slotB] = temp;
+
+            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            closeModal('swap-guards-modal');
+            renderAll();
+        }
+
+        function renderHandoverLogs() {
+            const grid = document.getElementById('handover-logs-grid');
+            if (!grid) return;
+            grid.innerHTML = handoverLogs.map(h => `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+                        <span class="font-bold text-emerald-400 text-xs font-mono">POST HANDOVER: ${h.post}</span>
+                        <span class="text-[10px] text-slate-500 font-mono">${h.time}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div><span class="text-slate-400 block">Outgoing:</span> <strong class="text-slate-200">${h.outgoing}</strong></div>
+                        <div><span class="text-slate-400 block">Incoming:</span> <strong class="text-slate-200">${h.incoming}</strong></div>
+                    </div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded border border-slate-800 text-slate-300">
+                        <strong class="text-amber-400">Gear:</strong> ${h.eq}
+                    </div>
+                    <p class="text-xs text-slate-400 italic">"${h.notes}"</p>
+                </div>
+            `).join('');
+        }
+
+        function openHandoverModal() {
+            const sel = document.getElementById('ho-post');
+            sel.innerHTML = postsData.map(p => `<option value="${p.id}">${p.id} - ${p.name}</option>`).join('');
+            document.getElementById('handover-modal').classList.remove('hidden');
+        }
+
+        function saveHandoverLog() {
+            handoverLogs.unshift({
+                post: document.getElementById('ho-post').value,
+                outgoing: document.getElementById('ho-out').value || "Outgoing Guard",
+                incoming: document.getElementById('ho-in').value || "Incoming Guard",
+                time: "Current AST",
+                eq: document.getElementById('ho-eq').value,
+                notes: document.getElementById('ho-notes').value || "Handover completed normally."
+            });
+            localStorage.setItem('nm_handovers_v2', JSON.stringify(handoverLogs));
+            closeModal('handover-modal');
+            renderHandoverLogs();
+            renderDashboard();
+        }
+
+        function renderSectorCards() {
+            const northGrid = document.getElementById('north-cards-grid');
+            const southGrid = document.getElementById('south-cards-grid');
+            const westGrid = document.getElementById('west-cards-grid');
+            const projectGrid = document.getElementById('project-cards-grid');
+
+            const cardTpl = (p) => `
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-amber-400 font-mono">${p.id}</span>
+                        <span class="text-xs text-slate-200 font-bold">${p.name}</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Type: <strong class="text-cyan-400">${p.type}</strong></span>
+                        <span>Vehicle: <strong class="text-amber-300 font-mono">${p.assignedVehicle || 'None'}</strong></span>
+                    </div>
+                </div>
+            `;
+
+            if (northGrid) northGrid.innerHTML = postsData.filter(p => p.sector === 'North').map(cardTpl).join('');
+            if (southGrid) southGrid.innerHTML = postsData.filter(p => p.sector === 'South').map(cardTpl).join('');
+            if (westGrid) westGrid.innerHTML = postsData.filter(p => p.sector === 'West').map(cardTpl).join('');
+            if (projectGrid) projectGrid.innerHTML = postsData.filter(p => p.sector === 'Project').map(cardTpl).join('');
+        }
+
+        function autoScheduleFillAndSort() {
+            if (!currentUser || currentUser.role !== 'admin') return alert("Access Denied: Admin rights required.");
+            const staff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi", "Ziyad Mutairi"];
+            let sIdx = 0;
+            postsData.forEach(p => {
+                const h = p.hours || "24 hrs";
+                if (!p.s1 || p.s1 === "UNASSIGNED") p.s1 = staff[sIdx++ % staff.length];
+                if (h !== "8 hrs" && (!p.s2 || p.s2 === "UNASSIGNED")) p.s2 = staff[sIdx++ % staff.length];
+                if (h === "24 hrs") {
+                    if (!p.s3 || p.s3 === "UNASSIGNED") p.s3 = staff[sIdx++ % staff.length];
+                    if (!p.reliever || p.reliever === "UNASSIGNED") p.reliever = staff[sIdx++ % staff.length];
+                }
+                p.status = calculatePostStatus(p);
+            });
+            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            renderAll();
+        }
+
+        // ENHANCED FLEXIBLE EXCEL UPLOAD HANDLER
+        function handleExcelUpload(e) {
+            if (!currentUser || currentUser.role !== 'admin') return alert("Access Denied: Admin rights required.");
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const data = new Uint8Array(evt.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                if (rows.length) {
+                    postsData = rows.map(r => {
+                        // Helper function to extract properties safely across multiple possible casing/naming patterns
+                        const getVal = (possibleKeys) => {
+                            for (let key of Object.keys(r)) {
+                                const cleanKey = key.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+                                for (let pKey of possibleKeys) {
+                                    if (cleanKey === pKey.toLowerCase().replace(/[^a-z0-9]/g, '')) {
+                                        return r[key];
+                                    }
+                                }
+                            }
+                            return null;
+                        };
+
+                        const sector = getVal(["Sector", "Side", "Zone"]) || "North";
+                        const plot = getVal(["Plot", "Plot Location", "Location"]) || "Plot A";
+                        const id = getVal(["Post ID", "PostID", "ID", "Code"]) || "P-01";
+                        const name = getVal(["Post Name", "PostName", "Name", "Title"]) || "Imported Post";
+                        const type = getVal(["Type", "Post Type", "Category"]) || "Gate";
+                        
+                        // Extract patrol vehicle information flexible lookup
+                        const vehicle = getVal(["Vehicle", "Patrol Vehicle", "Assigned Vehicle", "Car", "Unit"]) || "None";
+                        
+                        // Extract shift allocations flexible lookup
+                        const s1 = getVal(["Shift 1", "Shift1", "1st Shift", "S1", "Officer 1", "Guard 1"]) || "UNASSIGNED";
+                        const s2_raw = getVal(["Shift 2", "Shift2", "2nd Shift", "S2", "Officer 2", "Guard 2"]);
+                        const s3_raw = getVal(["Shift 3", "Shift3", "3rd Shift", "S3", "Officer 3", "Guard 3"]);
+                        const reliever_raw = getVal(["Reliever", "Reliver", "Relief Guard", "Reliever Guard", "5:2 Reliever"]);
+
+                        // Extract or deduce operating hours
+                        let rawHours = getVal(["Hours", "Operating Hours", "Shift Hours", "Duration"]);
+                        let hours = "24 hrs";
+                        if (rawHours) {
+                            const strH = String(rawHours).toLowerCase();
+                            if (strH.includes("8")) hours = "8 hrs";
+                            else if (strH.includes("16")) hours = "16 hrs";
+                            else hours = "24 hrs";
+                        } else {
+                            if (s3_raw || reliever_raw) hours = "24 hrs";
+                            else if (s2_raw) hours = "16 hrs";
+                            else hours = "8 hrs";
+                        }
+
+                        const s2 = hours === "8 hrs" ? "N/A" : (s2_raw || "UNASSIGNED");
+                        const s3 = hours !== "24 hrs" ? "N/A" : (s3_raw || "UNASSIGNED");
+                        const reliever = hours !== "24 hrs" ? "N/A" : (reliever_raw || "UNASSIGNED");
+
+                        // Auto-register patrol vehicle if not exists in fleet command
+                        if (vehicle && vehicle !== "None" && String(vehicle).trim() !== "") {
+                            const vehClean = String(vehicle).trim();
+                            const existing = fleetData.find(v => v.id.toLowerCase() === vehClean.toLowerCase() || v.callsign.toLowerCase().includes(vehClean.toLowerCase()));
+                            if (!existing) {
+                                fleetData.push({
+                                    id: vehClean.toUpperCase().startsWith("PATROL") ? vehClean.toUpperCase() : `PATROL-${vehClean.toUpperCase()}`,
+                                    callsign: `${vehClean} (Auto-Imported)`,
+                                    sector: sector,
+                                    shiftMode: hours === "24 hrs" ? 3 : (hours === "16 hrs" ? 2 : 1),
+                                    drivers: { s1: String(s1), s2: String(s2), s3: String(s3) },
+                                    status: "On Duty",
+                                    fuel: 100
+                                });
+                            }
+                        }
+
+                        return {
+                            sector: String(sector),
+                            plot: String(plot),
+                            id: String(id),
+                            name: String(name),
+                            type: String(type),
+                            assignedVehicle: vehicle ? String(vehicle) : "None",
+                            hours: hours,
+                            s1: String(s1),
+                            s2: String(s2),
+                            s3: String(s3),
+                            reliever: String(reliever),
+                            status: "Full Coverage"
+                        };
+                    });
+
+                    localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+                    localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+                    renderAll();
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function downloadExcelTemplate() {
+            const template = [{ Sector: "North", Plot: "Plot A", "Post ID": "A01", "Post Name": "Gate A01", Type: "Gate Supervisor", Vehicle: "PATROL-01", Hours: "24 hrs", "Shift 1": "Ahmad", "Shift 2": "Sami", "Shift 3": "Bader", Reliever: "Ziyad" }];
+            const ws = XLSX.utils.json_to_sheet(template);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Template");
+            XLSX.writeFile(wb, "New_Murabba_Template.xlsx");
+        }
+
+        function sortRoster(type) {
+            if (type === 'sector') postsData.sort((a,b) => a.sector.localeCompare(b.sector));
+            else if (type === 'id') postsData.sort((a,b) => a.id.localeCompare(b.id));
+            else if (type === 'status') postsData.sort((a,b) => a.status.localeCompare(b.status));
+            renderRosterTable();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('nm_active_user');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    document.getElementById('login-overlay').classList.add('hidden');
+                    applyUserRolePermissions();
+                } catch (e) {
+                    console.error("Session parse error");
+                }
+            }
+            renderAll();
+            switchTab('dashboard');
+        });
+    </script>
+</body>
+</html>
