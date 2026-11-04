@@ -939,7 +939,7 @@
         let currentLang = 'en';
 
         // DIRECT ACCESS - DEFAULT TO FULL ADMIN CLEARANCE
-        const currentUser = { role: "admin", clearance: "Chief Security Admin Clearance" }; 
+        let currentUser = { role: "admin", clearance: "Chief Security Admin Clearance" }; 
 
         // BILINGUAL DICTIONARY
         const i18n = {
@@ -1316,6 +1316,7 @@
 
         function openReportModal() {
             document.getElementById('report-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function executePrintReport() {
@@ -1413,6 +1414,7 @@
                     </tr>
                 `).join('');
             }
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function renderRosterTable() {
@@ -1479,6 +1481,7 @@
                     </tr>
                 `;
             }).join('');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function renderFleetDashboard() {
@@ -1560,7 +1563,9 @@
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function updateVehicleStatus(idx, newStatus) {
@@ -1605,6 +1610,7 @@
             document.getElementById('v-fuel').value = 100;
             toggleVehicleDriverInputs();
             document.getElementById('add-vehicle-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function openEditVehicleModal(idx) {
@@ -1621,6 +1627,7 @@
             document.getElementById('v-fuel').value = v.fuel;
             toggleVehicleDriverInputs();
             document.getElementById('add-vehicle-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function savePatrolVehicle() {
@@ -1678,6 +1685,7 @@
         function openAddPostModal() {
             populateVehicleSelect('p-assigned-vehicle', 'None');
             document.getElementById('add-post-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function saveNewPost() {
@@ -1718,6 +1726,7 @@
             document.getElementById('ep-reliever').value = p.reliever || "UNASSIGNED";
             populateVehicleSelect('ep-assigned-vehicle', p.assignedVehicle || 'None');
             document.getElementById('edit-post-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function savePostModalChanges() {
@@ -1753,6 +1762,7 @@
 
         function openIncidentModal() {
             document.getElementById('incident-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function handleLiveTranslation() {
@@ -1820,6 +1830,7 @@
                     <p class="text-xs text-slate-300 bg-slate-900 p-2.5 rounded-lg border border-slate-800/80 whitespace-pre-line">${i.details}</p>
                 </div>
             `).join('');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function renderScheduleTable() {
@@ -1871,6 +1882,7 @@
                     <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
                 </tr>
             `).join('');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function exportScheduleExcel() {
@@ -1907,6 +1919,7 @@
                 activeNav.classList.add('bg-amber-500/10', 'text-amber-400', 'border', 'border-amber-500/20');
                 activeNav.classList.remove('text-slate-400');
             }
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function closeModal(modalId) {
@@ -1919,6 +1932,7 @@
             selA.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
             selB.innerHTML = postsData.map((p, i) => `<option value="${i}">${p.id} - ${p.name}</option>`).join('');
             document.getElementById('swap-guards-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function executeGuardSwap() {
@@ -1955,12 +1969,14 @@
                     <p class="text-xs text-slate-400 italic">"${h.notes}"</p>
                 </div>
             `).join('');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function openHandoverModal() {
             const sel = document.getElementById('ho-post');
             sel.innerHTML = postsData.map(p => `<option value="${p.id}">${p.id} - ${p.name}</option>`).join('');
             document.getElementById('handover-modal').classList.remove('hidden');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function saveHandoverLog() {
@@ -2001,6 +2017,7 @@
             if (southGrid) southGrid.innerHTML = postsData.filter(p => p.sector === 'South').map(cardTpl).join('');
             if (westGrid) westGrid.innerHTML = postsData.filter(p => p.sector === 'West').map(cardTpl).join('');
             if (projectGrid) projectGrid.innerHTML = postsData.filter(p => p.sector === 'Project').map(cardTpl).join('');
+            if (window.lucide) { lucide.createIcons(); }
         }
 
         function autoScheduleFillAndSort() {
