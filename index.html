@@ -1006,11 +1006,11 @@
         ];
 
         function handleLogin() {
-            const uInput = document.getElementById('login-username').value.trim();
+            const uInput = document.getElementById('login-username').value.trim().toLowerCase();
             const pInput = document.getElementById('login-password').value.trim();
             const errDiv = document.getElementById('login-error');
 
-            const found = registeredUsers.find(u => u.username === uInput && u.pin === pInput);
+            const found = registeredUsers.find(u => u.username.toLowerCase() === uInput && u.pin === pInput);
             if (found) {
                 currentUser = { username: found.username, role: found.role, name: found.name };
                 localStorage.setItem('nm_active_user', JSON.stringify(currentUser));
