@@ -3,120 +3,477 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Operations Dashboard</title>
+    <title>Giga-Project Security Deployment & Operations System</title>
     <!-- Lucide Icons Library -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; margin: 20px; background-color: #f8fafc; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        .icon-container { display: flex; align-items: center; gap: 8px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; }
-        th { background-color: #f1f5f9; }
+        :root {
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        /* Sidebar Navigation */
+        .sidebar { width: 260px; background: var(--primary); color: #fff; display: flex; flex-direction: column; padding: 20px 0; }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .sidebar-menu { list-style: none; margin-top: 20px; flex: 1; }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; transition: 0.2s; }
+        .sidebar-menu li a:hover, .sidebar-menu li.active a { background: rgba(255,255,255,0.08); color: #fff; }
+
+        /* Main Workspace */
+        .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .content { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+
+        /* Metrics Row */
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .metric-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); display: flex; align-items: center; gap: 16px; }
+        .metric-icon { width: 48px; height: 48px; border-radius: 8px; background: #eff6ff; color: var(--accent); display: flex; align-items: center; justify-content: center; }
+        .metric-val { font-size: 24px; font-weight: 700; }
+        .metric-label { font-size: 13px; color: var(--text-muted); }
+
+        /* Content Sections */
+        .card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 20px; }
+        .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+        /* Sector Cards Grid */
+        .sector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .sector-card { background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+        .sector-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 600; }
+        .status-badge { font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
+        .badge-active { background: #dcfce7; color: #15803d; }
+        .badge-warning { background: #fef3c7; color: #b45309; }
+
+        /* Data Tables */
+        .table-controls { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+        input, select, button { padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; outline: none; }
+        input:focus, select:focus { border-color: var(--accent); }
+        .btn { background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:hover { background: var(--accent-hover); }
+        .btn-secondary { background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: #e2e8f0; }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th, td { padding: 12px; border-bottom: 1px solid var(--border); }
+        th { background: #f8fafc; font-weight: 600; color: var(--text-muted); }
+        tr:hover { background: #f8fafc; }
+
+        /* Two Column Layout */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal { background: white; padding: 24px; border-radius: 10px; width: 100%; max-width: 500px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="card icon-container">
-        <i data-lucide="shield-check" style="width: 24px; height: 24px; color: #2563eb;"></i>
-        <h2>Security Deployment System</h2>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i data-lucide="shield-check" style="width: 32px; height: 32px; color: #60a5fa;"></i>
+            <div>
+                <h3 style="font-size: 16px; font-weight: 600;">SecOps Pro</h3>
+                <span style="font-size: 11px; color: #94a3b8;">Giga-Project Command</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active"><a href="#dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+            <li><a href="#roster"><i data-lucide="users"></i> Guard Roster</a></li>
+            <li><a href="#sectors"><i data-lucide="map-pin"></i> Sectors & Posts</a></li>
+            <li><a href="#fleet"><i data-lucide="car"></i> Fleet Patrol</a></li>
+            <li><a href="#logs"><i data-lucide="file-text"></i> Handover & Incidents</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+        <header>
+            <h2 id="page-title">Operations Command Center</h2>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span id="print-timestamp" style="font-size: 12px; color: var(--text-muted);"></span>
+                <button class="btn btn-secondary" onclick="renderAll()"><i data-lucide="refresh-cw"></i> Sync</button>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Metrics Bar -->
+            <div class="metrics-grid" id="metrics-container"></div>
+
+            <!-- Sector Coverage Cards -->
+            <div class="card">
+                <div class="card-title"><i data-lucide="map-pin"></i> Sector Coverage & Live Guard Deployment</div>
+                <div class="sector-grid" id="sector-container"></div>
+            </div>
+
+            <!-- Main Roster Section -->
+            <div class="card" id="roster-section">
+                <div class="card-title"><i data-lucide="users"></i> Active Guard Roster & Assignment Control</div>
+                <div class="table-controls">
+                    <input type="text" id="roster-search" placeholder="Search guard name, ID, or post..." oninput="renderRosterTable()" style="width: 280px;">
+                    <div style="display: flex; gap: 8px;">
+                        <select id="role-filter" onchange="renderRosterTable()">
+                            <option value="ALL">All Roles</option>
+                            <option value="Sector Commander">Sector Commander</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Guard">Guard</option>
+                        </select>
+                        <button class="btn" onclick="openAddGuardModal()"><i data-lucide="user-plus"></i> Add Guard</button>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Guard ID</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Assigned Sector</th>
+                                <th>Post / Location</th>
+                                <th>Shift</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roster-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Fleet & Incidents Grid -->
+            <div class="grid-2">
+                <!-- Fleet Control -->
+                <div class="card">
+                    <div class="card-title"><i data-lucide="car"></i> Operational Patrol Fleet</div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Unit ID</th>
+                                    <th>Type</th>
+                                    <th>Sector</th>
+                                    <th>Driver / Patrol Lead</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fleet-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Shift Handover & Incidents -->
+                <div class="card">
+                    <div class="card-title" style="justify-content: space-between;">
+                        <span><i data-lucide="alert-triangle"></i> Recent Incident & Shift Logs</span>
+                        <button class="btn btn-secondary" onclick="openLogModal()"><i data-lucide="plus"></i> Log Event</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Type</th>
+                                    <th>Sector</th>
+                                    <th>Details</th>
+                                    <th>Severity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- UI Containers -->
-    <div id="dashboard-container" class="card"></div>
-    <div id="roster-container" class="card"></div>
-    <div id="fleet-container" class="card"></div>
-    <div id="sector-container" class="card"></div>
-    <div id="handover-container" class="card"></div>
-    <div id="incident-container" class="card"></div>
-    <div id="schedule-container" class="card"></div>
-    <div id="metrics-container" class="card"></div>
-    
-    <div class="card">
-        <span id="print-timestamp"></span>
+    <!-- Modal Form: Add Guard -->
+    <div class="modal-overlay" id="guard-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Guard Record</h3>
+                <button class="btn-secondary" onclick="closeModal('guard-modal')">✕</button>
+            </div>
+            <form id="guard-form" onsubmit="saveGuard(event)">
+                <div class="form-group">
+                    <label>Guard ID</label>
+                    <input type="text" id="g-id" required placeholder="SEC-010">
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="g-name" required placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="g-role">
+                        <option value="Guard">Guard</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="Sector Commander">Sector Commander</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Assigned Sector</label>
+                    <select id="g-sector">
+                        <option value="Sector 1 - Main Gate">Sector 1 - Main Gate</option>
+                        <option value="Sector 2 - West Perimeter">Sector 2 - West Perimeter</option>
+                        <option value="Sector 3 - High Risk Hub">Sector 3 - High Risk Hub</option>
+                        <option value="Sector 4 - Logistics Yard">Sector 4 - Logistics Yard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Post Name</label>
+                    <input type="text" id="g-post" required placeholder="Post Alpha / Gate 2">
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('guard-modal')">Cancel</button>
+                    <button type="submit" class="btn">Save Record</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Safe Helper Function to render content without breaking the loop
+        // Data Stores with Initial Fallbacks
+        const initialGuards = [
+            { id: "SEC-101", name: "Ahmed Al-Mansoor", role: "Sector Commander", sector: "Sector 1 - Main Gate", post: "Command Post 1", shift: "Day (06:00 - 18:00)", status: "On Duty" },
+            { id: "SEC-102", name: "Tariq Mahmood", role: "Supervisor", sector: "Sector 2 - West Perimeter", post: "Mobile Patrol 2", shift: "Day (06:00 - 18:00)", status: "On Duty" },
+            { id: "SEC-103", name: "Sultan Ibrahim", role: "Guard", sector: "Sector 3 - High Risk Hub", post: "Access Checkpoint B", shift: "Night (18:00 - 06:00)", status: "On Duty" },
+            { id: "SEC-104", name: "Fahad Hassan", role: "Guard", sector: "Sector 4 - Logistics Yard", post: "Gate 4 Duty", shift: "Day (06:00 - 18:00)", status: "Standby" }
+        ];
+
+        const initialFleet = [
+            { unit: "PATROL-01", type: "Toyota Hilux 4x4", sector: "Sector 1", driver: "A. Al-Mansoor", status: "Active" },
+            { unit: "PATROL-02", type: "Isuzu D-Max", sector: "Sector 2", driver: "T. Mahmood", status: "Active" },
+            { unit: "PATROL-03", type: "Ford F-150", sector: "Sector 3", driver: "Unassigned", status: "Maintenance" }
+        ];
+
+        const initialLogs = [
+            { time: "10:15 AM", type: "Perimeter Check", sector: "Sector 2", details: "Routine fence line inspection complete. No breaches.", severity: "Low" },
+            { time: "08:30 AM", type: "Access Verification", sector: "Sector 1", details: "Unauthorized vehicle turned away at main gate.", severity: "Medium" }
+        ];
+
+        let rosterData = JSON.parse(localStorage.getItem("sec_roster")) || initialGuards;
+        let fleetData = JSON.parse(localStorage.getItem("sec_fleet")) || initialFleet;
+        let logData = JSON.parse(localStorage.getItem("sec_logs")) || initialLogs;
+
+        // Safe Error Isolation Wrapper
         function safeExecute(fn, name) {
             try {
                 fn();
             } catch (error) {
-                console.error(`Error in ${name}:`, error);
+                console.error(`Execution error in [${name}]:`, error);
             }
         }
 
         // Render Functions
-        function applyLanguageTranslations() {
-            // Language logic implementation
-        }
+        function updateMetrics() {
+            const container = document.getElementById('metrics-container');
+            if (!container) return;
 
-        function renderDashboard() {
-            const el = document.getElementById('dashboard-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="layout-dashboard"></i> Dashboard Overview</h3><p>Status: All sectors active</p>';
-        }
+            const totalGuards = rosterData.length;
+            const onDuty = rosterData.filter(g => g.status === 'On Duty').length;
+            const activeFleet = fleetData.filter(f => f.status === 'Active').length;
 
-        function renderRosterTable() {
-            const el = document.getElementById('roster-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="users"></i> Active Roster</h3><p>Total Guard Force: Dynamic Deployment Active</p>';
-        }
-
-        function renderFleetDashboard() {
-            const el = document.getElementById('fleet-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="car"></i> Fleet Status</h3><p>Patrol Units Operational</p>';
+            container.innerHTML = `
+                <div class="metric-card">
+                    <div class="metric-icon"><i data-lucide="users"></i></div>
+                    <div>
+                        <div class="metric-val">${totalGuards}</div>
+                        <div class="metric-label">Total Guard Force</div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="background: #dcfce7; color: #16a34a;"><i data-lucide="shield-check"></i></div>
+                    <div>
+                        <div class="metric-val">${onDuty}</div>
+                        <div class="metric-label">Deployed On Duty</div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="background: #fef3c7; color: #d97706;"><i data-lucide="car"></i></div>
+                    <div>
+                        <div class="metric-val">${activeFleet}</div>
+                        <div class="metric-label">Active Patrol Units</div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon" style="background: #f1f5f9; color: #475569;"><i data-lucide="clock"></i></div>
+                    <div>
+                        <div class="metric-val">12h</div>
+                        <div class="metric-label">Current Shift Cycle</div>
+                    </div>
+                </div>
+            `;
         }
 
         function renderSectorCards() {
-            const el = document.getElementById('sector-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="map-pin"></i> Sector Coverage</h3><p>Sectors 1-4 Monitored</p>';
+            const container = document.getElementById('sector-container');
+            if (!container) return;
+
+            const sectors = [
+                { name: "Sector 1 - Main Gate", guards: 0, status: "Optimal" },
+                { name: "Sector 2 - West Perimeter", guards: 0, status: "Optimal" },
+                { name: "Sector 3 - High Risk Hub", guards: 0, status: "Attention" },
+                { name: "Sector 4 - Logistics Yard", guards: 0, status: "Optimal" }
+            ];
+
+            sectors.forEach(sec => {
+                sec.guards = rosterData.filter(g => g.sector === sec.name && g.status === 'On Duty').length;
+            });
+
+            container.innerHTML = sectors.map(sec => `
+                <div class="sector-card">
+                    <div class="sector-header">
+                        <span>${sec.name}</span>
+                        <span class="status-badge ${sec.status === 'Optimal' ? 'badge-active' : 'badge-warning'}">${sec.status}</span>
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+                        <span><i data-lucide="user-check" style="width: 14px; height: 14px; display: inline;"></i> Active Guards: <strong>${sec.guards}</strong></span>
+                        <button class="btn btn-secondary" style="font-size: 11px; padding: 4px 8px;" onclick="filterBySector('${sec.name}')">View</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function renderHandoverLogs() {
-            const el = document.getElementById('handover-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="file-text"></i> Shift Handovers</h3><p>Logs updated</p>';
+        function renderRosterTable() {
+            const tbody = document.getElementById('roster-tbody');
+            if (!tbody) return;
+
+            const searchVal = (document.getElementById('roster-search')?.value || '').toLowerCase();
+            const roleFilter = document.getElementById('role-filter')?.value || 'ALL';
+
+            const filtered = rosterData.filter(g => {
+                const matchesSearch = g.name.toLowerCase().includes(searchVal) || g.id.toLowerCase().includes(searchVal) || g.post.toLowerCase().includes(searchVal);
+                const matchesRole = roleFilter === 'ALL' || g.role === roleFilter;
+                return matchesSearch && matchesRole;
+            });
+
+            tbody.innerHTML = filtered.map(g => `
+                <tr>
+                    <td><strong>${g.id}</strong></td>
+                    <td>${g.name}</td>
+                    <td>${g.role}</td>
+                    <td>${g.sector}</td>
+                    <td>${g.post}</td>
+                    <td>${g.shift}</td>
+                    <td><span class="status-badge ${g.status === 'On Duty' ? 'badge-active' : 'badge-warning'}">${g.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="toggleGuardStatus('${g.id}')">Toggle Status</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderFleetDashboard() {
+            const tbody = document.getElementById('fleet-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = fleetData.map(f => `
+                <tr>
+                    <td><strong>${f.unit}</strong></td>
+                    <td>${f.type}</td>
+                    <td>${f.sector}</td>
+                    <td>${f.driver}</td>
+                    <td><span class="status-badge ${f.status === 'Active' ? 'badge-active' : 'badge-warning'}">${f.status}</span></td>
+                </tr>
+            `).join('');
         }
 
         function renderIncidentLogs() {
-            const el = document.getElementById('incident-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="alert-triangle"></i> Incident Logs</h3><p>Zero critical incidents reported</p>';
+            const tbody = document.getElementById('logs-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = logData.map(l => `
+                <tr>
+                    <td>${l.time}</td>
+                    <td><strong>${l.type}</strong></td>
+                    <td>${l.sector}</td>
+                    <td>${l.details}</td>
+                    <td><span class="status-badge ${l.severity === 'Low' ? 'badge-active' : 'badge-warning'}">${l.severity}</span></td>
+                </tr>
+            `).join('');
         }
 
-        function renderScheduleTable() {
-            const el = document.getElementById('schedule-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="calendar"></i> Master Schedule</h3><p>Shift rotations synchronized</p>';
+        // Actions & Data Handlers
+        function openAddGuardModal() {
+            document.getElementById('guard-modal').style.display = 'flex';
         }
 
-        function updateMetrics() {
-            const el = document.getElementById('metrics-container');
-            if (el) el.innerHTML = '<h3><i data-lucide="activity"></i> Performance Metrics</h3><p>100% On-Duty Compliance</p>';
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
 
-        // Main Orchestrator Function
+        function saveGuard(e) {
+            e.preventDefault();
+            const newGuard = {
+                id: document.getElementById('g-id').value,
+                name: document.getElementById('g-name').value,
+                role: document.getElementById('g-role').value,
+                sector: document.getElementById('g-sector').value,
+                post: document.getElementById('g-post').value,
+                shift: "Day (06:00 - 18:00)",
+                status: "On Duty"
+            };
+
+            rosterData.push(newGuard);
+            localStorage.setItem("sec_roster", JSON.stringify(rosterData));
+            closeModal('guard-modal');
+            renderAll();
+        }
+
+        function toggleGuardStatus(id) {
+            rosterData = rosterData.map(g => {
+                if (g.id === id) {
+                    g.status = g.status === 'On Duty' ? 'Standby' : 'On Duty';
+                }
+                return g;
+            });
+            localStorage.setItem("sec_roster", JSON.stringify(rosterData));
+            renderAll();
+        }
+
+        function filterBySector(sectorName) {
+            const searchInput = document.getElementById('roster-search');
+            if (searchInput) {
+                searchInput.value = sectorName;
+                renderRosterTable();
+                document.getElementById('roster-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Master Orchestrator
         function renderAll() {
-            // Run all sub-renders inside safe error wrappers
-            safeExecute(applyLanguageTranslations, 'applyLanguageTranslations');
-            safeExecute(renderDashboard, 'renderDashboard');
+            safeExecute(updateMetrics, 'updateMetrics');
+            safeExecute(renderSectorCards, 'renderSectorCards');
             safeExecute(renderRosterTable, 'renderRosterTable');
             safeExecute(renderFleetDashboard, 'renderFleetDashboard');
-            safeExecute(renderSectorCards, 'renderSectorCards');
-            safeExecute(renderHandoverLogs, 'renderHandoverLogs');
             safeExecute(renderIncidentLogs, 'renderIncidentLogs');
-            safeExecute(renderScheduleTable, 'renderScheduleTable');
-            safeExecute(updateMetrics, 'updateMetrics');
 
-            // Update timestamp
-            const ts = document.getElementById('print-timestamp');
-            if (ts) {
-                ts.innerText = "Generated: " + new Date().toLocaleString();
+            const timestamp = document.getElementById('print-timestamp');
+            if (timestamp) {
+                timestamp.innerText = "Synced: " + new Date().toLocaleTimeString();
             }
 
-            // Re-initialize Lucide Icons after DOM updates
+            // Guaranteed Lucide Icon Initialization
             if (window.lucide && typeof window.lucide.createIcons === 'function') {
                 window.lucide.createIcons();
             }
         }
 
-        // Execute rendering once DOM is fully loaded
+        // Bootstrapping
         document.addEventListener('DOMContentLoaded', () => {
             renderAll();
         });
