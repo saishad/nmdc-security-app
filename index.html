@@ -31,31 +31,27 @@
 </head>
 <body class="h-full flex flex-col overflow-hidden bg-slate-950 text-slate-100">
 
-    <!-- LOGIN OVERLAY MODAL (Authentication Gate) -->
+    <!-- LOGIN OVERLAY MODAL (Authentication Gate - PIN Only) -->
     <div id="login-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-5 shadow-2xl">
             <div class="text-center space-y-2">
                 <div class="bg-amber-500/10 text-amber-400 border border-amber-500/20 w-12 h-12 rounded-2xl mx-auto flex items-center justify-center">
                     <i data-lucide="shield-alert" class="w-6 h-6"></i>
                 </div>
-                <h2 class="text-base font-bold text-slate-100">New Murabba Security Portal Login</h2>
-                <p class="text-xs text-slate-400">Enter your assigned username and security clearance credentials.</p>
+                <h2 class="text-base font-bold text-slate-100">New Murabba Security Portal</h2>
+                <p class="text-xs text-slate-400">Enter your security clearance access code to authenticate.</p>
             </div>
             
             <form onsubmit="event.preventDefault(); handleLogin();" class="space-y-4 text-xs">
                 <div>
-                    <label class="text-slate-400 block mb-1">Username</label>
-                    <input id="login-username" type="text" placeholder="e.g. admin or user" required class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 focus:outline-none focus:border-amber-500">
+                    <label class="text-slate-400 block mb-1">Access Passcode / PIN</label>
+                    <input id="login-pin" type="password" placeholder="••••••••" required class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 text-center font-mono text-base tracking-widest focus:outline-none focus:border-amber-500">
                 </div>
-                <div>
-                    <label class="text-slate-400 block mb-1">Password</label>
-                    <input id="login-password" type="password" placeholder="••••••••" required class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200 focus:outline-none focus:border-amber-500">
-                </div>
-                <div id="login-error" class="text-rose-400 text-center font-semibold hidden">Invalid username or password.</div>
+                <div id="login-error" class="text-rose-400 text-center font-semibold hidden">Invalid access passcode.</div>
                 
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1">
-                    <div>🔑 <strong class="text-slate-300">Admin Account:</strong> admin / Password123</div>
-                    <div>👤 <strong class="text-slate-300">Standard User:</strong> user / Password123</div>
+                    <div>🔑 <strong class="text-slate-300">Admin Clearance Code:</strong> 1234</div>
+                    <div>👤 <strong class="text-slate-300">Standard Officer Code:</strong> 5678</div>
                 </div>
 
                 <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-lg transition-all shadow-lg shadow-amber-500/20">
@@ -82,10 +78,9 @@
 
         <!-- Search Bar & Controls -->
         <div class="flex items-center space-x-2 rtl:space-x-reverse">
-            <!-- Logged in User Badge & Logout -->
+            <!-- Logged in Role Badge & Logout -->
             <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center space-x-2 rtl:space-x-reverse text-xs">
                 <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-                <span id="current-user-display" class="font-bold text-slate-200">Admin</span>
                 <span id="current-role-badge" class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-mono">ADMIN</span>
                 <button onclick="handleLogout()" class="text-rose-400 hover:text-rose-300 ml-2 font-bold pl-2 border-l border-slate-800">Logout</button>
             </div>
@@ -997,22 +992,21 @@
         let searchQuery = "";
         let currentLang = 'en';
 
-        // AUTHENTICATION & USERS DATABASE STATE
+        // AUTHENTICATION STATE (PIN / ACCESS PASSCODE ONLY)
         let currentUser = null; 
         
-        const registeredUsers = [
-            { username: "admin", pin: "Password123", role: "admin", name: "Chief Security Admin" },
-            { username: "user", pin: "Password123", role: "user", name: "Sector Officer" }
+        const accessCredentials = [
+            { pin: "1234", role: "admin", clearance: "Chief Security Admin Clearance" },
+            { pin: "5678", role: "user", clearance: "Standard Sector Officer Clearance" }
         ];
 
         function handleLogin() {
-            const uInput = document.getElementById('login-username').value.trim();
-            const pInput = document.getElementById('login-password').value.trim();
+            const pInput = document.getElementById('login-pin').value.trim();
             const errDiv = document.getElementById('login-error');
 
-            const found = registeredUsers.find(u => u.username === uInput && u.pin === pInput);
+            const found = accessCredentials.find(u => u.pin === pInput);
             if (found) {
-                currentUser = { username: found.username, role: found.role, name: found.name };
+                currentUser = { role: found.role, clearance: found.clearance };
                 localStorage.setItem('nm_active_user', JSON.stringify(currentUser));
                 document.getElementById('login-overlay').classList.add('hidden');
                 errDiv.classList.add('hidden');
@@ -1026,8 +1020,7 @@
         function handleLogout() {
             currentUser = null;
             localStorage.removeItem('nm_active_user');
-            document.getElementById('login-username').value = "";
-            document.getElementById('login-password').value = "";
+            document.getElementById('login-pin').value = "";
             document.getElementById('login-overlay').classList.remove('hidden');
         }
 
@@ -1035,7 +1028,6 @@
             if (!currentUser) return;
             const isAdmin = currentUser.role === 'admin';
 
-            document.getElementById('current-user-display').innerText = currentUser.username;
             const badge = document.getElementById('current-role-badge');
             badge.innerText = isAdmin ? "ADMIN" : "OFFICER";
             badge.className = isAdmin ? "bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-mono" : "bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded text-[9px] font-mono";
@@ -1911,7 +1903,7 @@
             const title = document.getElementById('inc-title').value;
             const plot = document.getElementById('inc-plot').value;
             const severity = document.getElementById('inc-severity').value;
-            const reporter = document.getElementById('inc-reporter').value || (currentUser ? currentUser.name : "Officer");
+            const reporter = document.getElementById('inc-reporter').value || "Duty Security Officer";
             const details = document.getElementById('inc-details').value;
 
             if (!title || !details) {
