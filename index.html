@@ -2267,6 +2267,8 @@
                 } catch (e) {
                     console.error("Session parse error");
                 }
+            } else {
+                document.getElementById('login-overlay').classList.remove('hidden');
             }
             renderAll();
             switchTab('dashboard');
