@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Murabba Security Operations - Deployment & Fleet Control</title>
+    <title>New Murabba Security Operations - 365/7/24 Deployment & Fleet Control</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -39,10 +39,10 @@
             </div>
             <div>
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <h1 class="text-base font-bold text-slate-100 leading-tight" data-i18n="app_title">New Murabba Delivery Security Operations</h1>
+                    <h1 class="text-base font-bold text-slate-100 leading-tight" data-i18n="app_title">New Murabba 365/7/24 Security Operations</h1>
                     <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-mono font-bold" data-i18n="hq_badge">RIYADH HQ</span>
                 </div>
-                <p class="text-xs text-slate-400" data-i18n="app_subtitle">Smart Deployment Plan • Fleet Command • AI Translation Handovers • 5:2 Schedule</p>
+                <p class="text-xs text-slate-400" data-i18n="app_subtitle">Continuous 365 Deployment • Fleet Command • 5:2 Rotation Matrix & Seamless Reliever Engine</p>
             </div>
         </div>
 
@@ -137,7 +137,7 @@
                 </button>
                 <button onclick="switchTab('schedule')" id="nav-schedule" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
                     <i data-lucide="calendar" class="w-4 h-4 text-indigo-400"></i>
-                    <span data-i18n="nav_schedule">Weekly Work Schedule (5:2)</span>
+                    <span data-i18n="nav_schedule">365/7/24 Schedule & Teams</span>
                 </button>
                 <hr class="border-slate-800/80 my-2">
                 <button onclick="switchTab('north')" id="nav-north" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
@@ -160,13 +160,13 @@
 
             <div class="p-3 m-3 bg-slate-950 border border-slate-800 rounded-xl space-y-2 text-xs">
                 <div class="flex items-center justify-between text-slate-400">
-                    <span data-i18n="sidebar_shift_cycle">Shift Cycle</span>
-                    <span class="text-emerald-400 font-semibold" data-i18n="sidebar_shift_val">Flexible Hours</span>
+                    <span data-i18n="sidebar_shift_cycle">Continuous Cover</span>
+                    <span class="text-emerald-400 font-semibold">365 Days / 24 Hours</span>
                 </div>
                 <div class="text-slate-500 font-mono text-[11px]">S1: 06-14 | S2: 14-22 | S3: 22-06</div>
                 <div class="pt-2 border-t border-slate-800 flex justify-between text-slate-400">
                     <span data-i18n="sidebar_rotation">Rotation Rule</span>
-                    <span class="text-amber-400 font-medium" data-i18n="sidebar_rotation_val">5 Days On / 2 Off</span>
+                    <span class="text-amber-400 font-medium">5 Days On / 2 Off (+Reliever)</span>
                 </div>
             </div>
         </aside>
@@ -178,8 +178,8 @@
             <div class="print-only mb-6 space-y-2">
                 <div class="flex justify-between items-border border-b-2 border-black pb-3">
                     <div>
-                        <h1 class="text-xl font-bold text-black">NEW MURABBA SECURITY OPERATIONS</h1>
-                        <p class="text-xs text-slate-700">Official Security Deployment & Post List Report • Riyadh HQ</p>
+                        <h1 class="text-xl font-bold text-black">NEW MURABBA 365/7/24 SECURITY OPERATIONS</h1>
+                        <p class="text-xs text-slate-700">Official Continuous Security Deployment & Post List Report • Riyadh HQ</p>
                     </div>
                     <div class="text-right text-xs">
                         <p id="print-timestamp" class="font-bold"></p>
@@ -193,7 +193,7 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400" data-i18n="m_posts_title">Total Active Posts</div>
                     <div class="text-2xl font-black text-slate-100" id="m-total-posts">0 Posts</div>
-                    <div class="text-[10px] text-slate-500" data-i18n="m_posts_sub">Configured Operating Hours</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_posts_sub">365/7/24 Continuous Coverage</div>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400" data-i18n="m_gaps_title">Coverage Gaps Detected</div>
@@ -203,12 +203,12 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400" data-i18n="m_fleet_title">Patrol Vehicles Active</div>
                     <div class="text-2xl font-black text-cyan-400" id="m-fleet-count">0 / 0 Vehicles</div>
-                    <div class="text-[10px] text-slate-500" data-i18n="m_fleet_sub">On Duty / Maintenance</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_fleet_sub">Covering 3 Shifts Seamlessly</div>
                 </div>
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400" data-i18n="m_personnel_title">Total Personnel Allocated</div>
                     <div class="text-2xl font-black text-emerald-400" id="m-personnel-count">0 Personnel</div>
-                    <div class="text-[10px] text-slate-500" data-i18n="m_personnel_sub">Guards, Drivers & Supervisors</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_personnel_sub">Guards, Drivers & Relievers</div>
                 </div>
             </div>
 
@@ -218,9 +218,9 @@
                     <div>
                         <h2 class="text-sm font-bold text-amber-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                            <span data-i18n="dash_heading">Complete Executive Activity & Operations Master Dashboard</span>
+                            <span data-i18n="dash_heading">Complete Executive 365/7/24 Activity & Operations Master Dashboard</span>
                         </h2>
-                        <p class="text-xs text-slate-400" data-i18n="dash_subheading">Real-time aggregate status of security posts, active fleet units, handovers, and incident logs</p>
+                        <p class="text-xs text-slate-400" data-i18n="dash_subheading">Real-time aggregate status of security posts, active fleet units, relievers, handovers, and incident logs</p>
                     </div>
                 </div>
 
@@ -258,7 +258,7 @@
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="list-tree" class="w-4 h-4 text-indigo-400"></i>
-                            <span data-i18n="dash_card_stream">All Active Operations & Post Assignments Stream</span>
+                            <span data-i18n="dash_card_stream">All Active Operations & Post Assignments Stream (365/7/24)</span>
                         </h3>
                         <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded text-xs font-bold flex items-center space-x-1 no-print">
                             <i data-lucide="printer" class="w-3 h-3"></i>
@@ -275,6 +275,7 @@
                                     <th class="p-2.5">Shift 1 Officer</th>
                                     <th class="p-2.5">Shift 2 Officer</th>
                                     <th class="p-2.5">Shift 3 Officer</th>
+                                    <th class="p-2.5">Reliever (5:2)</th>
                                     <th class="p-2.5">Coverage</th>
                                 </tr>
                             </thead>
@@ -288,8 +289,8 @@
             <section id="tab-roster" class="hidden space-y-4">
                 <div class="flex justify-between items-center no-print">
                     <div>
-                        <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_heading">Interactive Smart Deployment Roster Matrix</h2>
-                        <p class="text-xs text-slate-400" data-i18n="roster_subheading">Real-time gap detection, operating hours management, and staff re-location</p>
+                        <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_heading">Interactive Smart Deployment Roster Matrix (365/7/24)</h2>
+                        <p class="text-xs text-slate-400" data-i18n="roster_subheading">Real-time gap detection, continuous operating hours management, and reliever coverage</p>
                     </div>
                     <div class="flex items-center space-x-2 text-xs">
                         <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1 rounded-lg flex items-center space-x-1">
@@ -315,7 +316,7 @@
                                 <th class="p-3" data-i18n="th_shift_1">Shift 1 (06:00 - 14:00)</th>
                                 <th class="p-3" data-i18n="th_shift_2">Shift 2 (14:00 - 22:00)</th>
                                 <th class="p-3" data-i18n="th_shift_3">Shift 3 (22:00 - 06:00)</th>
-                                <th class="p-3" data-i18n="th_reliever">Reliever (5:2)</th>
+                                <th class="p-3" data-i18n="th_reliever">Reliever (5:2 Days Off Cover)</th>
                                 <th class="p-3" data-i18n="th_health_status">Health Status</th>
                                 <th class="p-3 text-right rtl:text-left admin-only-col no-print" data-i18n="th_actions">Actions</th>
                             </tr>
@@ -331,9 +332,9 @@
                     <div>
                         <h2 class="text-sm font-bold text-cyan-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="car" class="w-4 h-4"></i>
-                            <span data-i18n="fleet_heading">Security Fleet & Patrol Vehicles Operations Command</span>
+                            <span data-i18n="fleet_heading">Security Fleet & Patrol Vehicles Operations Command (365/7/24)</span>
                         </h2>
-                        <p class="text-xs text-slate-400" data-i18n="fleet_subheading">Live tracking of active patrol units, maintenance schedules, driver duty logs, multi-shift configurations and full CRUD control</p>
+                        <p class="text-xs text-slate-400" data-i18n="fleet_subheading">Live tracking of active patrol units, maintenance schedules, driver duty logs across 3 shifts and reliever rotation</p>
                     </div>
                     <button id="btn-add-vehicle-container" onclick="openAddVehicleModal()" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-cyan-600/20">
                         <i data-lucide="plus" class="w-4 h-4"></i>
@@ -414,15 +415,15 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3" id="incidents-container"></div>
             </section>
 
-            <!-- TAB 5: WORK SCHEDULE (5:2 ROTATION) -->
+            <!-- TAB 5: WORK SCHEDULE (365 / 7 / 24 ROTATION MATRIX) -->
             <section id="tab-schedule" class="hidden space-y-4">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 no-print">
                     <div>
                         <h2 class="text-sm font-bold text-indigo-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="calendar" class="w-4 h-4"></i>
-                            <span data-i18n="schedule_heading">5:2 Work Schedule Matrix (Weekly Rotation Report)</span>
+                            <span data-i18n="schedule_heading">365/7/24 Comprehensive Work Schedule & Reliever Rotation Matrix</span>
                         </h2>
-                        <p class="text-xs text-slate-400" data-i18n="schedule_subheading">Automated 5 Days Work / 2 Days Off schedule view per guard</p>
+                        <p class="text-xs text-slate-400" data-i18n="schedule_subheading">Automated 5 Days Work / 2 Days Off schedule view per guard with active 7-day calendar coverage</p>
                     </div>
 
                     <!-- Sorting & Report Options -->
@@ -450,16 +451,16 @@
                     <table class="w-full text-left text-xs rtl:text-right">
                         <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-3" data-i18n="th_guard_driver">Guard / Driver Name</th>
-                                <th class="p-3" data-i18n="th_assigned_post">Assigned Post & Duty</th>
+                                <th class="p-3" data-i18n="th_guard_driver">Assigned Personnel</th>
+                                <th class="p-3" data-i18n="th_assigned_post">Assigned Post & Duty / Role</th>
                                 <th class="p-3" data-i18n="th_sector_plot">Sector & Plot</th>
-                                <th class="p-3">Sun</th>
-                                <th class="p-3">Mon</th>
-                                <th class="p-3">Tue</th>
-                                <th class="p-3">Wed</th>
-                                <th class="p-3">Thu</th>
-                                <th class="p-3 text-amber-400">Fri (Rest)</th>
-                                <th class="p-3 text-amber-400">Sat (Rest)</th>
+                                <th class="p-3 text-center">Sun</th>
+                                <th class="p-3 text-center">Mon</th>
+                                <th class="p-3 text-center">Tue</th>
+                                <th class="p-3 text-center">Wed</th>
+                                <th class="p-3 text-center">Thu</th>
+                                <th class="p-3 text-center text-amber-400">Fri (Rest/Cover)</th>
+                                <th class="p-3 text-center text-amber-400">Sat (Rest/Cover)</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800/60 text-slate-300" id="schedule-table-body"></tbody>
@@ -543,7 +544,7 @@
                 </div>
 
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1">
-                    <div>📌 <strong class="text-slate-300">Team Briefing Note:</strong> Printing includes post IDs, names, vehicle assignments, and shift officer allocations for the security operations team.</div>
+                    <div>📌 <strong class="text-slate-300">Team Briefing Note:</strong> Printing includes post IDs, names, 365/7/24 vehicle assignments, and shift officer allocations for the security operations team.</div>
                 </div>
             </div>
 
@@ -557,7 +558,7 @@
     <div id="add-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-sm text-slate-100" data-i18n="m_add_post_title">Add New Security Post</h3>
+                <h3 class="font-bold text-sm text-slate-100" data-i18n="m_add_post_title">Add New Security Post (365/7/24)</h3>
                 <button onclick="closeModal('add-post-modal')" class="text-slate-400 hover:text-slate-200">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
@@ -575,7 +576,7 @@
                 <div>
                     <label class="text-slate-400 block mb-1" data-i18n="lbl_operating_hours">Operating Hours</label>
                     <select id="p-hours" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                        <option value="24 hrs">24 hrs (3 Shifts + Reliever)</option>
+                        <option value="24 hrs" selected>24 hrs (3 Shifts + Reliever - Full 365 Cover)</option>
                         <option value="16 hrs">16 hrs (2 Shifts)</option>
                         <option value="8 hrs">8 hrs (1 Shift)</option>
                     </select>
@@ -650,23 +651,27 @@
                     <select id="v-shift-mode" onchange="toggleVehicleDriverInputs()" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-400 font-bold">
                         <option value="1">1 Shift (8 Hours - Single Driver)</option>
                         <option value="2">2 Shifts (16 Hours - 2 Drivers)</option>
-                        <option value="3" selected>3 Shifts (24 Hours - 3 Drivers)</option>
+                        <option value="3" selected>3 Shifts (24 Hours - 3 Drivers + Reliever)</option>
                     </select>
                 </div>
 
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2">
-                    <label class="font-bold text-slate-300 block mb-1" data-i18n="lbl_veh_drivers_group">Shift Drivers Assignment</label>
+                    <label class="font-bold text-slate-300 block mb-1" data-i18n="lbl_veh_drivers_group">Shift Drivers & Reliever Assignment</label>
                     <div id="v-driver-s1-container">
-                        <label class="text-slate-400 block mb-1 text-[11px]" data-i18n="lbl_veh_driver_s1">Shift 1 Driver (06:00 - 14:00)</label>
+                        <label class="text-slate-400 block mb-1 text-[11px]">Shift 1 Driver (06:00 - 14:00)</label>
                         <input id="v-driver-s1" type="text" placeholder="Driver Name (Shift 1)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                     </div>
                     <div id="v-driver-s2-container">
-                        <label class="text-slate-400 block mb-1 text-[11px]" data-i18n="lbl_veh_driver_s2">Shift 2 Driver (14:00 - 22:00)</label>
+                        <label class="text-slate-400 block mb-1 text-[11px]">Shift 2 Driver (14:00 - 22:00)</label>
                         <input id="v-driver-s2" type="text" placeholder="Driver Name (Shift 2)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                     </div>
                     <div id="v-driver-s3-container">
-                        <label class="text-slate-400 block mb-1 text-[11px]" data-i18n="lbl_veh_driver_s3">Shift 3 Driver (22:00 - 06:00)</label>
+                        <label class="text-slate-400 block mb-1 text-[11px]">Shift 3 Driver (22:00 - 06:00)</label>
                         <input id="v-driver-s3" type="text" placeholder="Driver Name (Shift 3)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
+                    </div>
+                    <div id="v-driver-reliever-container">
+                        <label class="text-amber-400 block mb-1 text-[11px]">Reliever Driver (5:2 Days Off Cover)</label>
+                        <input id="v-driver-reliever" type="text" placeholder="Reliever Driver Name" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                     </div>
                 </div>
 
@@ -717,7 +722,7 @@
                     <div>
                         <label class="text-slate-400 block mb-1" data-i18n="lbl_operating_hours">Operating Hours</label>
                         <select id="ep-hours" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                            <option value="24 hrs">24 hrs (3 Shifts + Reliever)</option>
+                            <option value="24 hrs">24 hrs (3 Shifts + Reliever - Full 365 Cover)</option>
                             <option value="16 hrs">16 hrs (2 Shifts)</option>
                             <option value="8 hrs">8 hrs (1 Shift)</option>
                         </select>
@@ -765,22 +770,22 @@
                 </div>
 
                 <div class="border-t border-slate-800 pt-2 space-y-2">
-                    <label class="font-bold text-slate-200 block" data-i18n="lbl_shift_assignments">Guard Shift Relocation & Assignments</label>
+                    <label class="font-bold text-slate-200 block" data-i18n="lbl_shift_assignments">Guard Shift Relocation & Reliever Assignments (365/7/24)</label>
                     <div>
-                        <label class="text-slate-400 block mb-1" data-i18n="lbl_shift_1_officer">Shift 1 Guard / Driver (06:00 - 14:00)</label>
+                        <label class="text-slate-400 block mb-1">Shift 1 Guard / Driver (06:00 - 14:00)</label>
                         <input id="ep-s1" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1" data-i18n="lbl_shift_2_officer">Shift 2 Guard / Driver (14:00 - 22:00)</label>
+                        <label class="text-slate-400 block mb-1">Shift 2 Guard / Driver (14:00 - 22:00)</label>
                         <input id="ep-s2" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-slate-400 block mb-1" data-i18n="lbl_shift_3_officer">Shift 3 Guard / Driver (22:00 - 06:00)</label>
+                        <label class="text-slate-400 block mb-1">Shift 3 Guard / Driver (22:00 - 06:00)</label>
                         <input id="ep-s3" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-amber-400 block mb-1" data-i18n="lbl_reliever_officer">Reliever Guard / Driver (5:2 Rotation)</label>
-                        <input id="ep-reliever" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                        <label class="text-amber-400 block mb-1">Reliever Guard / Driver (5:2 Days Off Cover - Zero Gaps)</label>
+                        <input id="ep-reliever" type="text" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-300 font-bold">
                     </div>
                 </div>
             </div>
@@ -815,7 +820,7 @@
                         <option value="s1">Shift 1</option>
                         <option value="s2">Shift 2</option>
                         <option value="s3">Shift 3</option>
-                        <option value="reliever">Reliever</option>
+                        <option value="reliever">Reliever (5:2)</option>
                     </select>
                 </div>
                 <div class="text-center font-bold text-amber-400" data-i18n="lbl_swap_with">SWAP WITH</div>
@@ -826,7 +831,7 @@
                         <option value="s1">Shift 1</option>
                         <option value="s2">Shift 2</option>
                         <option value="s3">Shift 3</option>
-                        <option value="reliever">Reliever</option>
+                        <option value="reliever">Reliever (5:2)</option>
                     </select>
                 </div>
             </div>
@@ -944,9 +949,9 @@
         // BILINGUAL DICTIONARY
         const i18n = {
             en: {
-                app_title: "New Murabba Delivery Security Operations",
+                app_title: "New Murabba 365/7/24 Security Operations",
                 hq_badge: "RIYADH HQ",
-                app_subtitle: "Smart Deployment Plan • Fleet Command • AI Translation Handovers • 5:2 Schedule",
+                app_subtitle: "Continuous 365 Deployment • Fleet Command • 5:2 Rotation Matrix & Seamless Reliever Engine",
                 search_ph: "Search guard, post, plot...",
                 btn_fleet: "Fleet Dashboard",
                 btn_swap: "Swap Guards",
@@ -959,31 +964,31 @@
                 nav_fleet: "Operations & Fleet Command",
                 nav_handover: "Post Handover Process",
                 nav_incidents: "Incident Reporting & Logs",
-                nav_schedule: "Weekly Work Schedule (5:2)",
+                nav_schedule: "365/7/24 Schedule & Teams",
                 nav_north: "North Side (Plot A & B)",
                 nav_south: "South Side (Plot C & D)",
                 nav_west: "West Side (Plot E)",
                 nav_project: "Project Area",
-                dash_heading: "Complete Executive Activity & Operations Master Dashboard",
-                dash_subheading: "Real-time aggregate status of security posts, active fleet units, handovers, and incident logs",
+                dash_heading: "Complete Executive 365/7/24 Activity & Operations Master Dashboard",
+                dash_subheading: "Real-time aggregate status of security posts, active fleet units, relievers, handovers, and incident logs",
                 dash_card_status: "Deployment Health Overview",
                 dash_card_fleet: "Fleet Patrol Readiness & Assigned Units",
                 dash_card_incidents: "Recent Critical Incidents & Alerts",
-                dash_card_stream: "All Active Operations & Post Assignments Stream",
-                sidebar_shift_cycle: "Shift Cycle",
-                sidebar_shift_val: "Flexible Hours",
+                dash_card_stream: "All Active Operations & Post Assignments Stream (365/7/24)",
+                sidebar_shift_cycle: "Continuous Cover",
+                sidebar_shift_val: "365 Days / 24 Hours",
                 sidebar_rotation: "Rotation Rule",
-                sidebar_rotation_val: "5 Days On / 2 Off",
+                sidebar_rotation_val: "5 Days On / 2 Off (+Reliever)",
                 m_posts_title: "Total Active Posts",
-                m_posts_sub: "Configured Operating Hours",
+                m_posts_sub: "365/7/24 Continuous Coverage",
                 m_gaps_title: "Coverage Gaps Detected",
                 m_gaps_sub: "Unassigned Required Slots",
                 m_fleet_title: "Patrol Vehicles Active",
-                m_fleet_sub: "On Duty / Maintenance",
+                m_fleet_sub: "Covering 3 Shifts Seamlessly",
                 m_personnel_title: "Total Personnel Allocated",
-                m_personnel_sub: "Guards, Drivers & Supervisors",
-                roster_heading: "Interactive Smart Deployment Roster Matrix",
-                roster_subheading: "Real-time gap detection, operating hours management, and staff re-location",
+                m_personnel_sub: "Guards, Drivers & Relievers",
+                roster_heading: "Interactive Smart Deployment Roster Matrix (365/7/24)",
+                roster_subheading: "Real-time gap detection, continuous operating hours management, and reliever coverage",
                 lbl_sort_by: "Sort By:",
                 opt_sector: "Sector & Plot",
                 opt_post_id: "Post ID",
@@ -994,11 +999,11 @@
                 th_shift_1: "Shift 1 (06:00 - 14:00)",
                 th_shift_2: "Shift 2 (14:00 - 22:00)",
                 th_shift_3: "Shift 3 (22:00 - 06:00)",
-                th_reliever: "Reliever (5:2)",
+                th_reliever: "Reliever (5:2 Days Off Cover)",
                 th_health_status: "Health Status",
                 th_actions: "Actions",
-                fleet_heading: "Security Fleet & Patrol Vehicles Operations Command",
-                fleet_subheading: "Live tracking of active patrol units, maintenance schedules, driver duty logs, multi-shift configurations and full CRUD control",
+                fleet_heading: "Security Fleet & Patrol Vehicles Operations Command (365/7/24)",
+                fleet_subheading: "Live tracking of active patrol units, maintenance schedules, driver duty logs across 3 shifts and reliever rotation",
                 btn_add_vehicle: "Add Patrol Unit",
                 fleet_stat_onduty: "On Duty Patrols",
                 fleet_stat_offduty: "Off Duty / Standby",
@@ -1010,17 +1015,17 @@
                 incidents_heading: "Security Incident Reporting & Case Log",
                 incidents_subheading: "Submit formal incident reports, site breaches, or safety hazards with automatic translation",
                 btn_write_incident: "Write Incident Report",
-                schedule_heading: "5:2 Work Schedule Matrix (Weekly Rotation Report)",
-                schedule_subheading: "Automated 5 Days Work / 2 Days Off schedule view per guard",
+                schedule_heading: "365/7/24 Comprehensive Work Schedule & Reliever Rotation Matrix",
+                schedule_subheading: "Automated 5 Days Work / 2 Days Off schedule view per guard with active 7-day calendar coverage",
                 opt_sort_post: "Post ID",
                 opt_sort_side: "Sector / Side",
                 opt_sort_plot: "Plot Location",
                 opt_sort_shift: "Shift Duty",
                 btn_print_report: "Print Report",
                 btn_export_schedule: "Export Excel",
-                th_guard_driver: "Guard / Driver Name",
-                th_assigned_post: "Assigned Post & Duty",
-                m_add_post_title: "Add New Security Post",
+                th_guard_driver: "Assigned Personnel",
+                th_assigned_post: "Assigned Post & Duty / Role",
+                m_add_post_title: "Add New Security Post (365/7/24)",
                 lbl_sector_side: "Sector Side",
                 lbl_operating_hours: "Operating Hours",
                 lbl_plot_location: "Plot Location",
@@ -1035,16 +1040,9 @@
                 lbl_veh_status: "Operational Status",
                 lbl_veh_fuel: "Fuel Level (%)",
                 lbl_veh_shifts: "Operating Shift Mode",
-                lbl_veh_drivers_group: "Shift Drivers Assignment",
-                lbl_veh_driver_s1: "Shift 1 Driver (06:00 - 14:00)",
-                lbl_veh_driver_s2: "Shift 2 Driver (14:00 - 22:00)",
-                lbl_veh_driver_s3: "Shift 3 Driver (22:00 - 06:00)",
+                lbl_veh_drivers_group: "Shift Drivers & Reliever Assignment",
                 m_edit_post_title: "Edit Post Personnel & Shift Allocation",
-                lbl_shift_assignments: "Guard Shift Relocation & Assignments",
-                lbl_shift_1_officer: "Shift 1 Guard / Driver (06:00 - 14:00)",
-                lbl_shift_2_officer: "Shift 2 Guard / Driver (14:00 - 22:00)",
-                lbl_shift_3_officer: "Shift 3 Guard / Driver (22:00 - 06:00)",
-                lbl_reliever_officer: "Reliever Guard / Driver (5:2 Rotation)",
+                lbl_shift_assignments: "Guard Shift Relocation & Reliever Assignments (365/7/24)",
                 btn_delete: "Delete Post",
                 btn_save_changes: "Save Changes",
                 m_swap_title: "Swap Guards / Shift Relocation",
@@ -1069,9 +1067,9 @@
                 btn_submit_report: "Submit Report"
             },
             ar: {
-                app_title: "عمليات أمن المربع الجديد",
+                app_title: "عمليات أمن المربع الجديد 365/7/24",
                 hq_badge: "مقر الرياض",
-                app_subtitle: "خطة الانتشار الذكية • إدارة المركبات • الترجمة الفورية • جدول 5:2",
+                app_subtitle: "تشغيل مستمر 365 • قيادة الأسطول • مصفوفة تدوير 5:2 ونظام تغطية البدلاء الشامل",
                 search_ph: "بحث عن حارس، موقع، أرض...",
                 btn_fleet: "لوحة الدوريات",
                 btn_swap: "تبديل الحراس",
@@ -1084,31 +1082,31 @@
                 nav_fleet: "إدارة العمليات والدوريات",
                 nav_handover: "عملية التسليم والاستلام",
                 nav_incidents: "تقارير البلاغات والحوادث",
-                nav_schedule: "جدول العمل الأسبوعي (5:2)",
+                nav_schedule: "جدول 365/7/24 والفرق",
                 nav_north: "القطاع الشمالي (أرض A و B)",
                 nav_south: "القطاع الجنوبي (أرض C و D)",
                 nav_west: "القطاع الغربي (أرض E)",
                 nav_project: "منطقة المشروع",
-                dash_heading: "لوحة تحكم عمليات الأنشطة والانتشار الشاملة",
-                dash_subheading: "حالة فورية ومجمعة للنقاط الأمنية، الدوريات النشطة، تسليم المناوبات وسجلات الحوادث",
+                dash_heading: "لوحة تحكم عمليات الأنشطة والانتشار الشاملة (365/7/24)",
+                dash_subheading: "حالة فورية ومجمعة للنقاط الأمنية، دوريات الأسطول، البدلاء، تسليم المناوبات وسجلات الحوادث",
                 dash_card_status: "نظرة عامة على صحة الانتشار",
                 dash_card_fleet: "جاهزية دوريات الأسطول والمركبات المعينة",
                 dash_card_incidents: "البلاغات والتنبيهات الأمنية الحرجة",
-                dash_card_stream: "تدفق جميع العمليات النشطة وتعيينات النقاط",
-                sidebar_shift_cycle: "نظام المناوبات",
-                sidebar_shift_val: "ساعات مرنة",
+                dash_card_stream: "تدفق جميع العمليات النشطة وتعيينات النقاط (365/7/24)",
+                sidebar_shift_cycle: "تغطية مستمرة",
+                sidebar_shift_val: "365 يوم / 24 ساعة",
                 sidebar_rotation: "قاعدة التناوب",
-                sidebar_rotation_val: "5 أيام عمل / 2 راحة",
+                sidebar_rotation_val: "5 أيام عمل / 2 راحة (+بديل)",
                 m_posts_title: "إجمالي النقاط النشطة",
-                m_posts_sub: "ساعات التشغيل المحددة",
+                m_posts_sub: "تغطية مستمرة على مدار الساعة 365",
                 m_gaps_title: "نقص التغطية المكتشف",
                 m_gaps_sub: "خانات الشواغر المطلوبة",
                 m_fleet_title: "مركبات الدوريات النشطة",
-                m_fleet_sub: "على رأس العمل / الصيانة",
+                m_fleet_sub: "تغطية 3 ورديات بسلاسة",
                 m_personnel_title: "إجمالي الأفراد المخصصين",
-                m_personnel_sub: "حراس، سائقون ومشرّفون",
-                roster_heading: "مصفوفة جدول الانتشار الذكي التفاعلي",
-                roster_subheading: "اكتشاف الفجوات الفوري، إدارة ساعات التشغيل، وإعادة توزيع الكادر",
+                m_personnel_sub: "حراس، سائقون وبدلاء",
+                roster_heading: "مصفوفة جدول الانتشار الذكي التفاعلي (365/7/24)",
+                roster_subheading: "اكتشاف الفجوات الفوري، إدارة التشغيل المستمر، وتغطية الحراس البدلاء",
                 lbl_sort_by: "ترتيب حسب:",
                 opt_sector: "القطاع والأرض",
                 opt_post_id: "رمز النقطة",
@@ -1119,11 +1117,11 @@
                 th_shift_1: "الوردية 1 (06:00 - 14:00)",
                 th_shift_2: "الوردية 2 (14:00 - 22:00)",
                 th_shift_3: "الوردية 3 (22:00 - 06:00)",
-                th_reliever: "الحارس البديل (5:2)",
+                th_reliever: "الحارس البديل (تغطية أيام الراحة 5:2)",
                 th_health_status: "حالة التغطية",
                 th_actions: "الإجراءات",
-                fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات",
-                fleet_subheading: "متابعة فورية لدوريات الأمن، جداول الصيانة، سجلات السائقين لكل وردية والتحكم الكامل بالمركبات",
+                fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات (365/7/24)",
+                fleet_subheading: "متابعة فورية لدوريات الأمن، جداول الصيانة، سجلات السائقين للورديات الثلاث وبدلاء التدوير",
                 btn_add_vehicle: "إضافة دورية",
                 fleet_stat_onduty: "على رأس العمل",
                 fleet_stat_offduty: "خارج الخدمة / احتياط",
@@ -1135,17 +1133,17 @@
                 incidents_heading: "سجل بلاغات الحوادث والأحداث الأمنية",
                 incidents_subheading: "تقديم تقارير الحوادث الرسمية مع ترجمة فورية بين العربية والإنجليزية",
                 btn_write_incident: "كتابة بلاغ أمني",
-                schedule_heading: "مصفوفة جدول العمل 5:2 (تقرير التدوير الأسبوعي)",
-                schedule_subheading: "عرض جدول 5 أيام عمل / يومين راحة المعتمد لكل حارس",
+                schedule_heading: "جدول العمل الشامل (365/7/24) ومصفوفة تدوير البدلاء",
+                schedule_subheading: "عرض جدول 5 أيام عمل / يومين راحة المعتمد لكل حارس مع تغطية أيام الأسبوع السبعة كاملة",
                 opt_sort_post: "رمز النقطة",
                 opt_sort_side: "القطاع / الجانب",
                 opt_sort_plot: "موقع الأرض",
                 opt_sort_shift: "مناوبة العمل",
                 btn_print_report: "طباعة التقرير",
                 btn_export_schedule: "تصدير إكسل",
-                th_guard_driver: "اسم الحارس / السائق",
-                th_assigned_post: "النقطة والمهمة المخصصة",
-                m_add_post_title: "إضافة نقطة أمنية جديدة",
+                th_guard_driver: "الكوادر المخصصة",
+                th_assigned_post: "النقطة والمهمة / والدور",
+                m_add_post_title: "إضافة نقطة أمنية جديدة (365/7/24)",
                 lbl_sector_side: "جانب القطاع",
                 lbl_operating_hours: "ساعات التشغيل",
                 lbl_plot_location: "موقع الأرض",
@@ -1160,16 +1158,9 @@
                 lbl_veh_status: "الحالة التشغيلية",
                 lbl_veh_fuel: "مستوى الوقود (%)",
                 lbl_veh_shifts: "نظام ورديات الدورية",
-                lbl_veh_drivers_group: "توزيع سائقي الورديات",
-                lbl_veh_driver_s1: "سائق الوردية الأولى (06:00 - 14:00)",
-                lbl_veh_driver_s2: "سائق الوردية الثانية (14:00 - 22:00)",
-                lbl_veh_driver_s3: "سائق الوردية الثالثة (22:00 - 06:00)",
+                lbl_veh_drivers_group: "سائقو الورديات والبدلاء",
                 m_edit_post_title: "تعديل أفراد النقطة وتوزيع الورديات",
-                lbl_shift_assignments: "تعيينات وإعادة نقل الحراس",
-                lbl_shift_1_officer: "حارس/سائق الوردية 1 (06:00 - 14:00)",
-                lbl_shift_2_officer: "حارس/سائق الوردية 2 (14:00 - 22:00)",
-                lbl_shift_3_officer: "حارس/سائق الوردية 3 (22:00 - 06:00)",
-                lbl_reliever_officer: "الحارس البديل (تداول 5:2)",
+                lbl_shift_assignments: "تعيينات وإعادة نقل الحراس والبدلاء (365/7/24)",
                 btn_delete: "حذف النقطة",
                 btn_save_changes: "حفظ التغييرات",
                 m_swap_title: "تبديل الحراس / إعادة التوزيع",
@@ -1195,26 +1186,26 @@
             }
         };
 
-        // INITIAL DATA
-        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v8')) || [
+        // INITIAL DATA - 365 / 7 / 24 COMPLETE WITH DEDICATED RELIEVERS (ZERO GAPS FOR POSTS & VEHICLES)
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v9')) || [
             { sector: "Project", plot: "Project", id: "SM1", name: "SECURITY MANAGER PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-04", s1: "علي الغامدي", s2: "وليد العقيدي", s3: "سامي الشمري", reliever: "فهد الدوسري", status: "Full Coverage" },
-            { sector: "North", plot: "A", id: "AD1", name: "POLT A INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-01", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
-            { sector: "North", plot: "A", id: "AX1", name: "POLT A EXTIRNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-02", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
-            { sector: "North", plot: "B", id: "BX1", name: "POLT B EXTIRNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-05", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Emad Hazmi", reliever: "Anas Ghamdi", status: "Full Coverage" },
-            { sector: "North", plot: "B", id: "BD1", name: "POLT B INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "None", s1: "Youssef Ibrahim", s2: "Bandar Ghamdi", s3: "Omar Ghamdi", reliever: "Sami Shammari", status: "Full Coverage" },
-            { sector: "South", plot: "C", id: "CD1", name: "POLT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-03", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
+            { sector: "North", plot: "A", id: "AD1", name: "PLOT A INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-01", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AX1", name: "PLOT A EXTERNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-02", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BX1", name: "PLOT B EXTERNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-05", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Emad Hazmi", reliever: "Anas Ghamdi", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BD1", name: "PLOT B INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "None", s1: "Youssef Ibrahim", s2: "Bandar Ghamdi", s3: "Omar Ghamdi", reliever: "Sami Shammari", status: "Full Coverage" },
+            { sector: "South", plot: "C", id: "CD1", name: "PLOT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-03", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
         ];
 
-        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v4')) || [
-            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", shiftMode: 3, drivers: { s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi" }, status: "On Duty", fuel: 85 },
-            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", shiftMode: 2, drivers: { s1: "Emad Hazmi", s2: "Sultan Otaibi", s3: "N/A" }, status: "On Duty", fuel: 60 },
-            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", shiftMode: 1, drivers: { s1: "Waleed Ruwaili", s2: "N/A", s3: "N/A" }, status: "Maintenance", fuel: 20 },
-            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", shiftMode: 3, drivers: { s1: "Omar Ghamdi", s2: "Bandar Ghamdi", s3: "Sami Shammari" }, status: "Refueling", fuel: 10 },
-            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", shiftMode: 2, drivers: { s1: "Youssef Ibrahim", s2: "Ziyad Mutairi", s3: "N/A" }, status: "Off Duty", fuel: 95 }
+        let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v5')) || [
+            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", shiftMode: 3, drivers: { s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani" }, status: "On Duty", fuel: 85 },
+            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", shiftMode: 3, drivers: { s1: "Emad Hazmi", s2: "Sultan Otaibi", s3: "N/A", reliever: "Anas Ghamdi" }, status: "On Duty", fuel: 60 },
+            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", shiftMode: 3, drivers: { s1: "Waleed Ruwaili", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi" }, status: "Maintenance", fuel: 20 },
+            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", shiftMode: 3, drivers: { s1: "Omar Ghamdi", s2: "Bandar Ghamdi", s3: "Sami Shammari", reliever: "Fahad Al-Dawsari" }, status: "Refueling", fuel: 10 },
+            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", shiftMode: 3, drivers: { s1: "Youssef Ibrahim", s2: "Ziyad Mutairi", s3: "N/A", reliever: "Sami Shammari" }, status: "Off Duty", fuel: 95 }
         ];
 
         let handoverLogs = JSON.parse(localStorage.getItem('nm_handovers_v2')) || [
-            { post: "A01", outgoing: "Ahmad Suleiman", incoming: "Sami Ruwaili", time: "14:00 AST", eq: "Radio #01 OK, Gate Remote Functional", notes: "No security issues reported during Shift 1." }
+            { post: "AD1", outgoing: "Ahmad Suleiman", incoming: "Sami Ruwaili", time: "14:00 AST", eq: "Radio #01 OK, Gate Remote Functional", notes: "No security issues reported during Shift 1. 365/7/24 coverage active." }
         ];
 
         let incidentLogs = JSON.parse(localStorage.getItem('nm_incidents_v2')) || [
@@ -1305,6 +1296,7 @@
                 if (v.drivers?.s1 && v.drivers.s1 !== 'Unassigned' && v.drivers.s1 !== 'N/A') assignedCount++;
                 if (mode >= 2 && v.drivers?.s2 && v.drivers.s2 !== 'Unassigned' && v.drivers.s2 !== 'N/A') assignedCount++;
                 if (mode >= 3 && v.drivers?.s3 && v.drivers.s3 !== 'Unassigned' && v.drivers.s3 !== 'N/A') assignedCount++;
+                if (v.drivers?.reliever && v.drivers.reliever !== 'Unassigned' && v.drivers.reliever !== 'N/A') assignedCount++;
             });
 
             const activeFleet = fleetData.filter(v => v.status === "On Duty").length;
@@ -1342,14 +1334,14 @@
                 "Shift 1 Officer": p.s1,
                 "Shift 2 Officer": p.s2,
                 "Shift 3 Officer": p.s3,
-                "Reliever": p.reliever,
+                "Reliever (5:2 Cover)": p.reliever,
                 "Coverage Status": calculatePostStatus(p)
             }));
 
             const ws = XLSX.utils.json_to_sheet(exportRows);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Security Posts Report");
-            XLSX.writeFile(wb, `New_Murabba_Security_Posts_${scope}_Report.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "365 Security Posts Report");
+            XLSX.writeFile(wb, `New_Murabba_365_Security_Posts_${scope}_Report.xlsx`);
             closeModal('report-modal');
         }
 
@@ -1360,7 +1352,7 @@
                 let gapCov = postsData.length - fullCov;
                 healthBox.innerHTML = `
                     <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                        <span class="text-slate-300">Fully Covered Posts:</span>
+                        <span class="text-slate-300">Fully Covered Posts (365/7/24):</span>
                         <span class="font-bold text-emerald-400">${fullCov} / ${postsData.length}</span>
                     </div>
                     <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
@@ -1410,6 +1402,7 @@
                         <td class="p-2.5 text-slate-300">${p.s1 || 'UNASSIGNED'}</td>
                         <td class="p-2.5 text-slate-300">${p.s2 || 'N/A'}</td>
                         <td class="p-2.5 text-slate-300">${p.s3 || 'N/A'}</td>
+                        <td class="p-2.5 text-amber-300 font-semibold">${p.reliever || 'N/A'}</td>
                         <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${calculatePostStatus(p) === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${calculatePostStatus(p)}</span></td>
                     </tr>
                 `).join('');
@@ -1470,7 +1463,7 @@
                             ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span>`}
                         </td>
                         <td class="p-3">
-                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A</span>' : `<span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-slate-300'}">${p.reliever || 'UNASSIGNED'}</span>`}
+                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A</span>' : `<span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-amber-300 font-semibold'}">${p.reliever || 'UNASSIGNED'}</span>`}
                         </td>
                         <td class="p-3">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse'}">${p.status}</span>
@@ -1503,7 +1496,7 @@
 
             grid.innerHTML = fleetData.map((v, idx) => {
                 const mode = parseInt(v.shiftMode || 3);
-                const shiftBadge = mode === 1 ? '1 Shift (8h)' : (mode === 2 ? '2 Shifts (16h)' : '3 Shifts (24h)');
+                const shiftBadge = mode === 1 ? '1 Shift (8h)' : (mode === 2 ? '2 Shifts (16h)' : '3 Shifts (24h + Reliever)');
                 
                 return `
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 relative group">
@@ -1525,7 +1518,7 @@
                     <div class="text-xs text-slate-400">${currentLang === 'ar' ? 'القطاع' : 'Sector'}: <strong class="text-slate-200">${v.sector} Side</strong></div>
                     
                     <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1 text-xs">
-                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">${currentLang === 'ar' ? 'سائقو الورديات المخصصين' : 'Assigned Shift Drivers'}</div>
+                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">${currentLang === 'ar' ? 'سائقو الورديات والبدلاء' : 'Shift Drivers & Reliever'}</div>
                         <div class="flex justify-between items-center text-[11px]">
                             <span class="text-slate-400">Shift 1 (06-14):</span>
                             <strong class="text-emerald-400">${v.drivers?.s1 || 'Unassigned'}</strong>
@@ -1539,6 +1532,10 @@
                         <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
                             <span class="text-slate-400">Shift 3 (22-06):</span>
                             <strong class="text-emerald-400">${v.drivers?.s3 || 'Unassigned'}</strong>
+                        </div>
+                        <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
+                            <span class="text-amber-400">Reliever (5:2 Cover):</span>
+                            <strong class="text-amber-300">${v.drivers?.reliever || 'Unassigned'}</strong>
                         </div>` : ''}
                     </div>
 
@@ -1570,7 +1567,7 @@
 
         function updateVehicleStatus(idx, newStatus) {
             fleetData[idx].status = newStatus;
-            localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+            localStorage.setItem('nm_fleet_v5', JSON.stringify(fleetData));
             renderFleetDashboard();
             updateMetrics();
             renderDashboard();
@@ -1581,19 +1578,23 @@
             const s1Box = document.getElementById('v-driver-s1-container');
             const s2Box = document.getElementById('v-driver-s2-container');
             const s3Box = document.getElementById('v-driver-s3-container');
+            const relieverBox = document.getElementById('v-driver-reliever-container');
 
             if (mode === 1) {
                 s1Box.style.display = 'block';
                 s2Box.style.display = 'none';
                 s3Box.style.display = 'none';
+                relieverBox.style.display = 'none';
             } else if (mode === 2) {
                 s1Box.style.display = 'block';
                 s2Box.style.display = 'block';
                 s3Box.style.display = 'none';
+                relieverBox.style.display = 'none';
             } else {
                 s1Box.style.display = 'block';
                 s2Box.style.display = 'block';
                 s3Box.style.display = 'block';
+                relieverBox.style.display = 'block';
             }
         }
 
@@ -1606,6 +1607,7 @@
             document.getElementById('v-driver-s1').value = "";
             document.getElementById('v-driver-s2').value = "";
             document.getElementById('v-driver-s3').value = "";
+            document.getElementById('v-driver-reliever').value = "";
             document.getElementById('v-status').value = "On Duty";
             document.getElementById('v-fuel').value = 100;
             toggleVehicleDriverInputs();
@@ -1623,6 +1625,7 @@
             document.getElementById('v-driver-s1').value = v.drivers?.s1 || "";
             document.getElementById('v-driver-s2').value = v.drivers?.s2 || "";
             document.getElementById('v-driver-s3').value = v.drivers?.s3 || "";
+            document.getElementById('v-driver-reliever').value = v.drivers?.reliever || "";
             document.getElementById('v-status').value = v.status;
             document.getElementById('v-fuel').value = v.fuel;
             toggleVehicleDriverInputs();
@@ -1639,6 +1642,7 @@
             const driverS1 = document.getElementById('v-driver-s1').value.trim() || "Unassigned";
             const driverS2 = shiftMode >= 2 ? (document.getElementById('v-driver-s2').value.trim() || "Unassigned") : "N/A";
             const driverS3 = shiftMode >= 3 ? (document.getElementById('v-driver-s3').value.trim() || "Unassigned") : "N/A";
+            const driverReliever = shiftMode >= 3 ? (document.getElementById('v-driver-reliever').value.trim() || "Unassigned") : "N/A";
             
             const status = document.getElementById('v-status').value;
             const fuel = parseInt(document.getElementById('v-fuel').value) || 100;
@@ -1647,7 +1651,7 @@
                 callsign, 
                 sector, 
                 shiftMode,
-                drivers: { s1: driverS1, s2: driverS2, s3: driverS3 },
+                drivers: { s1: driverS1, s2: driverS2, s3: driverS3, reliever: driverReliever },
                 status, 
                 fuel 
             };
@@ -1658,7 +1662,7 @@
                 fleetData.push({ id: `PATROL-0${fleetData.length + 1}`, ...vehiclePayload });
             }
 
-            localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+            localStorage.setItem('nm_fleet_v5', JSON.stringify(fleetData));
             closeModal('add-vehicle-modal');
             renderFleetDashboard();
             updateMetrics();
@@ -1666,9 +1670,9 @@
         }
 
         function deleteVehicle(idx) {
-            if (confirm(currentLang === 'ar' ? "هل أنت ألكيد من حذف وحدة الدورية هذه؟" : "Are you sure you want to delete this patrol vehicle unit?")) {
+            if (confirm(currentLang === 'ar' ? "هل أنت تأكد من حذف وحدة الدورية هذه؟" : "Are you sure you want to delete this patrol vehicle unit?")) {
                 fleetData.splice(idx, 1);
-                localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+                localStorage.setItem('nm_fleet_v5', JSON.stringify(fleetData));
                 renderFleetDashboard();
                 updateMetrics();
                 renderDashboard();
@@ -1706,7 +1710,7 @@
                 status: "COVERAGE GAP"
             });
 
-            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
             closeModal('add-post-modal');
             renderAll();
         }
@@ -1747,7 +1751,7 @@
 
             p.status = calculatePostStatus(p);
 
-            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1755,7 +1759,7 @@
         function deleteCurrentPost() {
             const idx = parseInt(document.getElementById('edit-post-index').value);
             postsData.splice(idx, 1);
-            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1842,22 +1846,25 @@
             let scheduleRows = [];
             postsData.forEach(p => {
                 const h = p.hours || "24 hrs";
-                if (p.s1 && p.s1 !== "N/A") scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)" });
-                if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)" });
-                if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)" });
-                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Reliever (5:2)" });
+                if (p.s1 && p.s1 !== "N/A") scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)", type: "Guard S1", offDays: ["Fri", "Sat"] });
+                if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)", type: "Guard S2", offDays: ["Sun", "Mon"] });
+                if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)", type: "Guard S3", offDays: ["Tue", "Wed"] });
+                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Reliever (Covers Off-Days)", type: "Reliever 5:2", offDays: ["Thu"] });
             });
 
             fleetData.forEach(v => {
                 const mode = parseInt(v.shiftMode || 3);
                 if (v.drivers?.s1 && v.drivers.s1 !== "Unassigned" && v.drivers.s1 !== "N/A") {
-                    scheduleRows.push({ name: v.drivers.s1, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S1 (06-14)" });
+                    scheduleRows.push({ name: v.drivers.s1, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S1 (06-14)", type: "Driver S1", offDays: ["Fri", "Sat"] });
                 }
                 if (mode >= 2 && v.drivers?.s2 && v.drivers.s2 !== "Unassigned" && v.drivers.s2 !== "N/A") {
-                    scheduleRows.push({ name: v.drivers.s2, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S2 (14-22)" });
+                    scheduleRows.push({ name: v.drivers.s2, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S2 (14-22)", type: "Driver S2", offDays: ["Sun", "Mon"] });
                 }
                 if (mode >= 3 && v.drivers?.s3 && v.drivers.s3 !== "Unassigned" && v.drivers.s3 !== "N/A") {
-                    scheduleRows.push({ name: v.drivers.s3, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S3 (22-06)" });
+                    scheduleRows.push({ name: v.drivers.s3, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S3 (22-06)", type: "Driver S3", offDays: ["Tue", "Wed"] });
+                }
+                if (v.drivers?.reliever && v.drivers.reliever !== "Unassigned" && v.drivers.reliever !== "N/A") {
+                    scheduleRows.push({ name: v.drivers.reliever, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Fleet Reliever (5:2 Cover)", type: "Fleet Reliever", offDays: ["Thu"] });
                 }
             });
 
@@ -1868,20 +1875,30 @@
                 return a.post.localeCompare(b.post);
             });
 
-            body.innerHTML = scheduleRows.map(s => `
-                <tr class="hover:bg-slate-800/40 transition-colors">
-                    <td class="p-3 font-semibold text-slate-200">${s.name || 'UNASSIGNED'}</td>
-                    <td class="p-3 text-slate-300 font-mono"><strong class="text-amber-400">${s.post}</strong> • ${s.shift}</td>
-                    <td class="p-3 text-slate-400">${s.side} Side (${s.plot})</td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px]">ON</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
-                    <td class="p-3"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px]">OFF</span></td>
-                </tr>
-            `).join('');
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+            body.innerHTML = scheduleRows.map(s => {
+                let cells = days.map(day => {
+                    const isOff = s.offDays.includes(day);
+                    if (isOff) {
+                        return `<td class="p-3 text-center"><span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded text-[10px] font-bold">OFF</span></td>`;
+                    } else {
+                        return `<td class="p-3 text-center"><span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-[10px] font-bold">ON</span></td>`;
+                    }
+                }).join('');
+
+                return `
+                    <tr class="hover:bg-slate-800/40 transition-colors">
+                        <td class="p-3 font-semibold text-slate-200">
+                            ${s.name || 'UNASSIGNED'}
+                            <span class="text-[10px] text-cyan-400 block font-mono">${s.type}</span>
+                        </td>
+                        <td class="p-3 text-slate-300 font-mono"><strong class="text-amber-400">${s.post}</strong> • ${s.shift}</td>
+                        <td class="p-3 text-slate-400">${s.side} Side (${s.plot})</td>
+                        ${cells}
+                    </tr>
+                `;
+            }).join('');
             if (window.lucide) { lucide.createIcons(); }
         }
 
@@ -1892,13 +1909,13 @@
                 if (p.hours !== "8 hrs") exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Hours: p.hours, Vehicle: p.assignedVehicle });
                 if (p.hours === "24 hrs") {
                     exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Hours: p.hours, Vehicle: p.assignedVehicle });
-                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Reliever", Hours: p.hours, Vehicle: p.assignedVehicle });
+                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Reliever (5:2 Cover)", Hours: p.hours, Vehicle: p.assignedVehicle });
                 }
             });
             const ws = XLSX.utils.json_to_sheet(exportData);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "5-2 Work Schedule");
-            XLSX.writeFile(wb, "New_Murabba_Work_Schedule_Report.xlsx");
+            XLSX.utils.book_append_sheet(wb, ws, "365 Work Schedule");
+            XLSX.writeFile(wb, "New_Murabba_365_Work_Schedule_Report.xlsx");
         }
 
         function switchTab(tabId) {
@@ -1945,7 +1962,7 @@
             postsData[idxA][slotA] = postsData[idxB][slotB];
             postsData[idxB][slotB] = temp;
 
-            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
             closeModal('swap-guards-modal');
             renderAll();
         }
@@ -2010,6 +2027,10 @@
                         <span>Type: <strong class="text-cyan-400">${p.type}</strong></span>
                         <span>Vehicle: <strong class="text-amber-300 font-mono">${p.assignedVehicle || 'None'}</strong></span>
                     </div>
+                    <div class="text-[11px] text-amber-300 bg-slate-950 p-2 rounded border border-slate-800 flex justify-between">
+                        <span>Reliever (5:2): <strong>${p.reliever || 'None'}</strong></span>
+                        <span class="text-emerald-400 font-bold">365 Active</span>
+                    </div>
                 </div>
             `;
 
@@ -2021,7 +2042,7 @@
         }
 
         function autoScheduleFillAndSort() {
-            const staff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi", "Ziyad Mutairi"];
+            const staff = ["Fahad Al-Dawsari", "Sami Al-Qahtani", "Nawaf Al-Harbi", "Bader Al-Otaibi", "Ziyad Mutairi", "Musaad Zahrani", "Anas Ghamdi", "Tariq Hazmi"];
             let sIdx = 0;
             postsData.forEach(p => {
                 const h = p.hours || "24 hrs";
@@ -2033,7 +2054,7 @@
                 }
                 p.status = calculatePostStatus(p);
             });
-            localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
             renderAll();
         }
 
@@ -2097,8 +2118,8 @@
                                     id: vehClean.toUpperCase().startsWith("PATROL") ? vehClean.toUpperCase() : `PATROL-${vehClean.toUpperCase()}`,
                                     callsign: `${vehClean} (Auto-Imported)`,
                                     sector: sector,
-                                    shiftMode: hours === "24 hrs" ? 3 : (hours === "16 hrs" ? 2 : 1),
-                                    drivers: { s1: String(s1), s2: String(s2), s3: String(s3) },
+                                    shiftMode: 3,
+                                    drivers: { s1: String(s1), s2: String(s2), s3: String(s3), reliever: String(reliever) },
                                     status: "On Duty",
                                     fuel: 100
                                 });
@@ -2121,8 +2142,8 @@
                         };
                     });
 
-                    localStorage.setItem('nm_deployment_v8', JSON.stringify(postsData));
-                    localStorage.setItem('nm_fleet_v4', JSON.stringify(fleetData));
+                    localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
+                    localStorage.setItem('nm_fleet_v5', JSON.stringify(fleetData));
                     renderAll();
                 }
             };
@@ -2133,8 +2154,8 @@
             const template = [{ Sector: "North", Plot: "Plot A", "Post ID": "A01", "Post Name": "Gate A01", Type: "Gate Supervisor", Vehicle: "PATROL-01", Hours: "24 hrs", "Shift 1": "Ahmad", "Shift 2": "Sami", "Shift 3": "Bader", Reliever: "Ziyad" }];
             const ws = XLSX.utils.json_to_sheet(template);
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Template");
-            XLSX.writeFile(wb, "New_Murabba_Template.xlsx");
+            XLSX.utils.book_append_sheet(wb, ws, "365 Template");
+            XLSX.writeFile(wb, "New_Murabba_365_Template.xlsx");
         }
 
         function sortRoster(type) {
