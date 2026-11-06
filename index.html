@@ -166,7 +166,7 @@
                 <div class="text-slate-500 font-mono text-[11px]">S1: 06-14 | S2: 14-22 | S3: 22-06</div>
                 <div class="pt-2 border-t border-slate-800 flex justify-between text-slate-400">
                     <span data-i18n="sidebar_rotation">Rotation Rule</span>
-                    <span class="text-amber-400 font-medium">5 Days On / 2 Off (+Reliever)</span>
+                    <span class="text-amber-400 font-medium">5 Days On / 2 Off (Post Reliever)</span>
                 </div>
             </div>
         </aside>
@@ -275,7 +275,7 @@
                                     <th class="p-2.5">Shift 1 Officer</th>
                                     <th class="p-2.5">Shift 2 Officer</th>
                                     <th class="p-2.5">Shift 3 Officer</th>
-                                    <th class="p-2.5">Reliever (5:2)</th>
+                                    <th class="p-2.5">Post Reliever (5:2)</th>
                                     <th class="p-2.5">Coverage</th>
                                 </tr>
                             </thead>
@@ -316,7 +316,7 @@
                                 <th class="p-3" data-i18n="th_shift_1">Shift 1 (06:00 - 14:00)</th>
                                 <th class="p-3" data-i18n="th_shift_2">Shift 2 (14:00 - 22:00)</th>
                                 <th class="p-3" data-i18n="th_shift_3">Shift 3 (22:00 - 06:00)</th>
-                                <th class="p-3" data-i18n="th_reliever">Reliever (5:2 Days Off Cover)</th>
+                                <th class="p-3" data-i18n="th_reliever">Post Reliever (5:2 Days Off Cover)</th>
                                 <th class="p-3" data-i18n="th_health_status">Health Status</th>
                                 <th class="p-3 text-right rtl:text-left admin-only-col no-print" data-i18n="th_actions">Actions</th>
                             </tr>
@@ -784,7 +784,7 @@
                         <input id="ep-s3" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                     </div>
                     <div>
-                        <label class="text-amber-400 block mb-1">Reliever Guard / Driver (5:2 Days Off Cover - Zero Gaps)</label>
+                        <label class="text-amber-400 block mb-1">Post Reliever Guard / Driver (5:2 Days Off Cover - Zero Gaps)</label>
                         <input id="ep-reliever" type="text" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-300 font-bold">
                     </div>
                 </div>
@@ -820,7 +820,7 @@
                         <option value="s1">Shift 1</option>
                         <option value="s2">Shift 2</option>
                         <option value="s3">Shift 3</option>
-                        <option value="reliever">Reliever (5:2)</option>
+                        <option value="reliever">Post Reliever (5:2)</option>
                     </select>
                 </div>
                 <div class="text-center font-bold text-amber-400" data-i18n="lbl_swap_with">SWAP WITH</div>
@@ -831,7 +831,7 @@
                         <option value="s1">Shift 1</option>
                         <option value="s2">Shift 2</option>
                         <option value="s3">Shift 3</option>
-                        <option value="reliever">Reliever (5:2)</option>
+                        <option value="reliever">Post Reliever (5:2)</option>
                     </select>
                 </div>
             </div>
@@ -978,7 +978,7 @@
                 sidebar_shift_cycle: "Continuous Cover",
                 sidebar_shift_val: "365 Days / 24 Hours",
                 sidebar_rotation: "Rotation Rule",
-                sidebar_rotation_val: "5 Days On / 2 Off (+Reliever)",
+                sidebar_rotation_val: "5 Days On / 2 Off (Post Reliever)",
                 m_posts_title: "Total Active Posts",
                 m_posts_sub: "365/7/24 Continuous Coverage",
                 m_gaps_title: "Coverage Gaps Detected",
@@ -999,7 +999,7 @@
                 th_shift_1: "Shift 1 (06:00 - 14:00)",
                 th_shift_2: "Shift 2 (14:00 - 22:00)",
                 th_shift_3: "Shift 3 (22:00 - 06:00)",
-                th_reliever: "Reliever (5:2 Days Off Cover)",
+                th_reliever: "Post Reliever (5:2 Days Off Cover)",
                 th_health_status: "Health Status",
                 th_actions: "Actions",
                 fleet_heading: "Security Fleet & Patrol Vehicles Operations Command (365/7/24)",
@@ -1096,7 +1096,7 @@
                 sidebar_shift_cycle: "تغطية مستمرة",
                 sidebar_shift_val: "365 يوم / 24 ساعة",
                 sidebar_rotation: "قاعدة التناوب",
-                sidebar_rotation_val: "5 أيام عمل / 2 راحة (+بديل)",
+                sidebar_rotation_val: "5 أيام عمل / 2 راحة (بديل النقطة)",
                 m_posts_title: "إجمالي النقاط النشطة",
                 m_posts_sub: "تغطية مستمرة على مدار الساعة 365",
                 m_gaps_title: "نقص التغطية المكتشف",
@@ -1117,7 +1117,7 @@
                 th_shift_1: "الوردية 1 (06:00 - 14:00)",
                 th_shift_2: "الوردية 2 (14:00 - 22:00)",
                 th_shift_3: "الوردية 3 (22:00 - 06:00)",
-                th_reliever: "الحارس البديل (تغطية أيام الراحة 5:2)",
+                th_reliever: "حارس النقطة البديل (تغطية أيام الراحة 5:2)",
                 th_health_status: "حالة التغطية",
                 th_actions: "الإجراءات",
                 fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات (365/7/24)",
@@ -1334,7 +1334,7 @@
                 "Shift 1 Officer": p.s1,
                 "Shift 2 Officer": p.s2,
                 "Shift 3 Officer": p.s3,
-                "Reliever (5:2 Cover)": p.reliever,
+                "Post Reliever (5:2 Cover)": p.reliever,
                 "Coverage Status": calculatePostStatus(p)
             }));
 
@@ -1849,7 +1849,8 @@
                 if (p.s1 && p.s1 !== "N/A") scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)", type: "Guard S1", offDays: ["Fri", "Sat"] });
                 if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)", type: "Guard S2", offDays: ["Sun", "Mon"] });
                 if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)", type: "Guard S3", offDays: ["Tue", "Wed"] });
-                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Reliever (Covers Off-Days)", type: "Reliever 5:2", offDays: ["Thu"] });
+                // CHANGED: Post reliever rotation coverage between posts within the same shift (reliever rotates across the post's 3 shifts as days off replacement)
+                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Post Reliever (Covers Shifts S1/S2/S3 Off-Days)", type: "Post Reliever 5:2", offDays: ["Thu"] });
             });
 
             fleetData.forEach(v => {
@@ -1909,7 +1910,7 @@
                 if (p.hours !== "8 hrs") exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Hours: p.hours, Vehicle: p.assignedVehicle });
                 if (p.hours === "24 hrs") {
                     exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Hours: p.hours, Vehicle: p.assignedVehicle });
-                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Reliever (5:2 Cover)", Hours: p.hours, Vehicle: p.assignedVehicle });
+                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Post Reliever (5:2 Cover)", Hours: p.hours, Vehicle: p.assignedVehicle });
                 }
             });
             const ws = XLSX.utils.json_to_sheet(exportData);
@@ -2028,7 +2029,7 @@
                         <span>Vehicle: <strong class="text-amber-300 font-mono">${p.assignedVehicle || 'None'}</strong></span>
                     </div>
                     <div class="text-[11px] text-amber-300 bg-slate-950 p-2 rounded border border-slate-800 flex justify-between">
-                        <span>Reliever (5:2): <strong>${p.reliever || 'None'}</strong></span>
+                        <span>Post Reliever (5:2): <strong>${p.reliever || 'None'}</strong></span>
                         <span class="text-emerald-400 font-bold">365 Active</span>
                     </div>
                 </div>
