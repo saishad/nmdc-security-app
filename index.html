@@ -42,43 +42,37 @@
                     <h1 class="text-base font-bold text-slate-100 leading-tight" data-i18n="app_title">New Murabba 365/7/24 Security Operations</h1>
                     <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-mono font-bold" data-i18n="hq_badge">RIYADH HQ</span>
                 </div>
-                <p class="text-xs text-slate-400" data-i18n="app_subtitle">Continuous 365 Deployment • Fleet Command • 5:2 Rotation Matrix & Seamless Reliever Engine</p>
+                <p class="text-xs text-slate-400" data-i18n="app_subtitle">Continuous 365 Deployment • Fleet Command • 5:2 Same-Shift Reliever Engine</p>
             </div>
         </div>
 
         <!-- Search Bar & Controls -->
         <div class="flex items-center space-x-2 rtl:space-x-reverse">
-            <!-- Role Badge -->
             <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center space-x-2 rtl:space-x-reverse text-xs">
                 <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i>
                 <span id="current-role-badge" class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-mono">ADMIN</span>
             </div>
 
-            <!-- Global Search Field -->
             <div class="relative w-36 lg:w-48">
                 <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400 rtl:right-3 rtl:left-auto"></i>
                 <input id="global-search" type="text" onkeyup="handleSearch()" placeholder="Search..." data-i18n-ph="search_ph" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500/50 rtl:pr-8 rtl:pl-3">
             </div>
 
-            <!-- Fleet Status Quick Trigger -->
             <button onclick="switchTab('fleet')" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-cyan-600/20 transition-all">
                 <i data-lucide="truck" class="w-4 h-4"></i>
                 <span data-i18n="btn_fleet">Fleet Dashboard</span>
             </button>
 
-            <!-- Generate Report Button -->
             <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse shadow-lg shadow-indigo-600/20 transition-all">
                 <i data-lucide="file-text" class="w-4 h-4"></i>
                 <span>Report Center</span>
             </button>
 
-            <!-- Swap Guards Quick Trigger -->
             <button onclick="openSwapModal()" id="btn-swap-guards" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse border border-slate-700 transition-all">
                 <i data-lucide="arrow-left-right" class="w-4 h-4 text-indigo-400"></i>
                 <span data-i18n="btn_swap">Swap Guards</span>
             </button>
 
-            <!-- Admin Action Buttons -->
             <div id="admin-actions-group" class="flex items-center space-x-2 rtl:space-x-reverse">
                 <label class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 rtl:space-x-reverse cursor-pointer shadow-lg shadow-emerald-600/20 transition-all">
                     <i data-lucide="file-up" class="w-4 h-4"></i>
@@ -102,7 +96,6 @@
                 </button>
             </div>
 
-            <!-- Language Toggle -->
             <button onclick="toggleLanguage()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-400 transition-colors flex items-center space-x-1.5 rtl:space-x-reverse">
                 <i data-lucide="globe" class="w-3.5 h-3.5"></i>
                 <span id="lang-btn-text">العربية</span>
@@ -112,7 +105,6 @@
 
     <!-- Workspace Body -->
     <div class="flex-1 flex overflow-hidden">
-        <!-- Sidebar Navigation -->
         <aside class="w-64 bg-slate-900/60 border-r border-slate-800 flex flex-col justify-between shrink-0 rtl:border-r-0 rtl:border-l">
             <nav class="p-3 space-y-1">
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 rtl:space-x-reverse px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -166,15 +158,13 @@
                 <div class="text-slate-500 font-mono text-[11px]">S1: 06-14 | S2: 14-22 | S3: 22-06</div>
                 <div class="pt-2 border-t border-slate-800 flex justify-between text-slate-400">
                     <span data-i18n="sidebar_rotation">Rotation Rule</span>
-                    <span class="text-amber-400 font-medium">5 Days On / 2 Off (Post Reliever)</span>
+                    <span class="text-amber-400 font-medium">5 Days On / 2 Off (Same-Shift Relief)</span>
                 </div>
             </div>
         </aside>
 
         <!-- Main Workspace Render Panels -->
         <main class="flex-1 overflow-y-auto p-5 bg-slate-950 relative space-y-5">
-            
-            <!-- Printable Header for Security Reports -->
             <div class="print-only mb-6 space-y-2">
                 <div class="flex justify-between items-border border-b-2 border-black pb-3">
                     <div>
@@ -208,7 +198,7 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-1">
                     <div class="text-xs text-slate-400" data-i18n="m_personnel_title">Total Personnel Allocated</div>
                     <div class="text-2xl font-black text-emerald-400" id="m-personnel-count">0 Personnel</div>
-                    <div class="text-[10px] text-slate-500" data-i18n="m_personnel_sub">Guards, Drivers & Relievers</div>
+                    <div class="text-[10px] text-slate-500" data-i18n="m_personnel_sub">Guards, Drivers & Same-Shift Relievers</div>
                 </div>
             </div>
 
@@ -225,7 +215,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print">
-                    <!-- Quick Health Overview Card -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
@@ -234,7 +223,6 @@
                         <div id="dash-health-stats" class="space-y-2 text-xs"></div>
                     </div>
 
-                    <!-- Fleet Readiness Summary -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="truck" class="w-4 h-4 text-cyan-400"></i>
@@ -243,7 +231,6 @@
                         <div id="dash-fleet-summary" class="space-y-2 text-xs max-h-40 overflow-y-auto"></div>
                     </div>
 
-                    <!-- Recent Incidents Feed -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>
@@ -253,7 +240,6 @@
                     </div>
                 </div>
 
-                <!-- Complete Activity Stream Table -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
                     <div class="flex justify-between items-center">
                         <h3 class="font-bold text-xs text-slate-200 flex items-center space-x-2 rtl:space-x-reverse">
@@ -272,10 +258,9 @@
                                     <th class="p-2.5">Post ID & Name</th>
                                     <th class="p-2.5">Sector</th>
                                     <th class="p-2.5">Linked Patrol Vehicle</th>
-                                    <th class="p-2.5">Shift 1 Officer</th>
-                                    <th class="p-2.5">Shift 2 Officer</th>
-                                    <th class="p-2.5">Shift 3 Officer</th>
-                                    <th class="p-2.5">Post Reliever (5:2)</th>
+                                    <th class="p-2.5">Shift 1 (Duty / Same-Shift Reliever)</th>
+                                    <th class="p-2.5">Shift 2 (Duty / Same-Shift Reliever)</th>
+                                    <th class="p-2.5">Shift 3 (Duty / Same-Shift Reliever)</th>
                                     <th class="p-2.5">Coverage</th>
                                 </tr>
                             </thead>
@@ -290,7 +275,7 @@
                 <div class="flex justify-between items-center no-print">
                     <div>
                         <h2 class="text-sm font-bold text-slate-100" data-i18n="roster_heading">Interactive Smart Deployment Roster Matrix (365/7/24)</h2>
-                        <p class="text-xs text-slate-400" data-i18n="roster_subheading">Real-time gap detection, continuous operating hours management, and reliever coverage</p>
+                        <p class="text-xs text-slate-400" data-i18n="roster_subheading">Real-time gap detection, continuous operating hours management, and same-shift reliever coverage</p>
                     </div>
                     <div class="flex items-center space-x-2 text-xs">
                         <button onclick="openReportModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1 rounded-lg flex items-center space-x-1">
@@ -316,7 +301,6 @@
                                 <th class="p-3" data-i18n="th_shift_1">Shift 1 (06:00 - 14:00)</th>
                                 <th class="p-3" data-i18n="th_shift_2">Shift 2 (14:00 - 22:00)</th>
                                 <th class="p-3" data-i18n="th_shift_3">Shift 3 (22:00 - 06:00)</th>
-                                <th class="p-3" data-i18n="th_reliever">Post Reliever (5:2 Days Off Cover)</th>
                                 <th class="p-3" data-i18n="th_health_status">Health Status</th>
                                 <th class="p-3 text-right rtl:text-left admin-only-col no-print" data-i18n="th_actions">Actions</th>
                             </tr>
@@ -342,7 +326,6 @@
                     </button>
                 </div>
 
-                <!-- Fleet Status Quick Bar -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
                         <div>
@@ -415,18 +398,17 @@
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3" id="incidents-container"></div>
             </section>
 
-            <!-- TAB 5: WORK SCHEDULE (365 / 7 / 24 ROTATION MATRIX) -->
+            <!-- TAB 5: WORK SCHEDULE -->
             <section id="tab-schedule" class="hidden space-y-4">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 no-print">
                     <div>
                         <h2 class="text-sm font-bold text-indigo-400 flex items-center space-x-2 rtl:space-x-reverse">
                             <i data-lucide="calendar" class="w-4 h-4"></i>
-                            <span data-i18n="schedule_heading">365/7/24 Comprehensive Work Schedule & Reliever Rotation Matrix</span>
+                            <span data-i18n="schedule_heading">365/7/24 Comprehensive Work Schedule & Same-Shift Reliever Rotation Matrix</span>
                         </h2>
                         <p class="text-xs text-slate-400" data-i18n="schedule_subheading">Automated 5 Days Work / 2 Days Off schedule view per guard with active 7-day calendar coverage</p>
                     </div>
 
-                    <!-- Sorting & Report Options -->
                     <div class="flex flex-wrap items-center gap-2 text-xs no-print">
                         <span class="text-slate-400" data-i18n="lbl_sort_by">Sort By:</span>
                         <select id="schedule-sort-key" onchange="renderScheduleTable()" class="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2 py-1">
@@ -500,7 +482,6 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="project-cards-grid"></div>
             </section>
-
         </main>
     </div>
 
@@ -542,10 +523,6 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-1">
-                    <div>📌 <strong class="text-slate-300">Team Briefing Note:</strong> Printing includes post IDs, names, 365/7/24 vehicle assignments, and shift officer allocations for the security operations team.</div>
-                </div>
             </div>
 
             <div class="flex justify-end pt-2 border-t border-slate-800">
@@ -576,7 +553,7 @@
                 <div>
                     <label class="text-slate-400 block mb-1" data-i18n="lbl_operating_hours">Operating Hours</label>
                     <select id="p-hours" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                        <option value="24 hrs" selected>24 hrs (3 Shifts + Reliever - Full 365 Cover)</option>
+                        <option value="24 hrs" selected>24 hrs (3 Shifts + Same-Shift Relievers)</option>
                         <option value="16 hrs">16 hrs (2 Shifts)</option>
                         <option value="8 hrs">8 hrs (1 Shift)</option>
                     </select>
@@ -597,8 +574,8 @@
                     <label class="text-slate-400 block mb-1" data-i18n="lbl_post_type">Post Type</label>
                     <select id="p-type" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                         <option value="Gate">Gate Access</option>
-                        <option value="External Patrol Vehicle">External Patrol Vehicle (3 Shifts + Reliever)</option>
-                        <option value="Internal Patrol Vehicle">Internal Patrol Vehicle (3 Shifts + Reliever)</option>
+                        <option value="External Patrol Vehicle">External Patrol Vehicle</option>
+                        <option value="Internal Patrol Vehicle">Internal Patrol Vehicle</option>
                         <option value="Project Supervisor">Project Supervisor</option>
                         <option value="General Supervisor">General Supervisor</option>
                         <option value="Gate Supervisor">Gate Supervisor</option>
@@ -651,12 +628,12 @@
                     <select id="v-shift-mode" onchange="toggleVehicleDriverInputs()" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-400 font-bold">
                         <option value="1">1 Shift (8 Hours - Single Driver)</option>
                         <option value="2">2 Shifts (16 Hours - 2 Drivers)</option>
-                        <option value="3" selected>3 Shifts (24 Hours - 3 Drivers + Reliever)</option>
+                        <option value="3" selected>3 Shifts (24 Hours - 3 Drivers + Same-Shift Relievers)</option>
                     </select>
                 </div>
 
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 space-y-2">
-                    <label class="font-bold text-slate-300 block mb-1" data-i18n="lbl_veh_drivers_group">Shift Drivers & Reliever Assignment</label>
+                    <label class="font-bold text-slate-300 block mb-1" data-i18n="lbl_veh_drivers_group">Shift Drivers & Same-Shift Relievers Assignment</label>
                     <div id="v-driver-s1-container">
                         <label class="text-slate-400 block mb-1 text-[11px]">Shift 1 Driver (06:00 - 14:00)</label>
                         <input id="v-driver-s1" type="text" placeholder="Driver Name (Shift 1)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
@@ -670,8 +647,8 @@
                         <input id="v-driver-s3" type="text" placeholder="Driver Name (Shift 3)" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                     </div>
                     <div id="v-driver-reliever-container">
-                        <label class="text-amber-400 block mb-1 text-[11px]">Reliever Driver (5:2 Days Off Cover)</label>
-                        <input id="v-driver-reliever" type="text" placeholder="Reliever Driver Name" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
+                        <label class="text-amber-400 block mb-1 text-[11px]">Same-Shift Driver Reliever (5:2 Days Off Cover)</label>
+                        <input id="v-driver-reliever" type="text" placeholder="Same-Shift Reliever Driver Name" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
                     </div>
                 </div>
 
@@ -698,7 +675,7 @@
         </div>
     </div>
 
-    <!-- MODAL: EDIT POST & SHIFT STAFF MANAGEMENT -->
+    <!-- MODAL: EDIT POST & SHIFT STAFF MANAGEMENT (SAME-SHIFT RELIEVERS UPDATED) -->
     <div id="edit-post-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -722,7 +699,7 @@
                     <div>
                         <label class="text-slate-400 block mb-1" data-i18n="lbl_operating_hours">Operating Hours</label>
                         <select id="ep-hours" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                            <option value="24 hrs">24 hrs (3 Shifts + Reliever - Full 365 Cover)</option>
+                            <option value="24 hrs">24 hrs (3 Shifts + Same-Shift Relievers)</option>
                             <option value="16 hrs">16 hrs (2 Shifts)</option>
                             <option value="8 hrs">8 hrs (1 Shift)</option>
                         </select>
@@ -738,8 +715,8 @@
                         <label class="text-slate-400 block mb-1" data-i18n="lbl_post_type">Post Type</label>
                         <select id="ep-type" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
                             <option value="Gate">Gate Access</option>
-                            <option value="External Patrol Vehicle">External Patrol Vehicle (3 Shifts + Reliever)</option>
-                            <option value="Internal Patrol Vehicle">Internal Patrol Vehicle (3 Shifts + Reliever)</option>
+                            <option value="External Patrol Vehicle">External Patrol Vehicle</option>
+                            <option value="Internal Patrol Vehicle">Internal Patrol Vehicle</option>
                             <option value="Project Supervisor">Project Supervisor</option>
                             <option value="General Supervisor">General Supervisor</option>
                             <option value="Gate Supervisor">Gate Supervisor</option>
@@ -769,23 +746,50 @@
                     </select>
                 </div>
 
-                <div class="border-t border-slate-800 pt-2 space-y-2">
-                    <label class="font-bold text-slate-200 block" data-i18n="lbl_shift_assignments">Guard Shift Relocation & Reliever Assignments (365/7/24)</label>
-                    <div>
-                        <label class="text-slate-400 block mb-1">Shift 1 Guard / Driver (06:00 - 14:00)</label>
-                        <input id="ep-s1" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+                <!-- SAME-SHIFT RELIEVER SELECTION PER SHIFT -->
+                <div class="border-t border-slate-800 pt-2 space-y-3">
+                    <label class="font-bold text-slate-200 block" data-i18n="lbl_shift_assignments">Shift Staff & Same-Shift 5:2 Relievers</label>
+                    
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-2">
+                        <label class="text-amber-400 font-bold block">Shift 1 (06:00 - 14:00)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-slate-400 block text-[10px] mb-1">Primary Guard / Supervisor</label>
+                                <input id="ep-s1" type="text" placeholder="Shift 1 Duty Guard" class="w-full bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded text-slate-200">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 block text-[10px] mb-1">Shift 1 Reliever (5:2 Cover)</label>
+                                <input id="ep-s1-reliever" type="text" placeholder="Shift 1 Supervisor / Reliever" class="w-full bg-slate-900 border border-amber-500/30 px-2.5 py-1.5 rounded text-amber-300 font-semibold">
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="text-slate-400 block mb-1">Shift 2 Guard / Driver (14:00 - 22:00)</label>
-                        <input id="ep-s2" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
+
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-2">
+                        <label class="text-blue-400 font-bold block">Shift 2 (14:00 - 22:00)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-slate-400 block text-[10px] mb-1">Primary Guard / Supervisor</label>
+                                <input id="ep-s2" type="text" placeholder="Shift 2 Duty Guard" class="w-full bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded text-slate-200">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 block text-[10px] mb-1">Shift 2 Reliever (5:2 Cover)</label>
+                                <input id="ep-s2-reliever" type="text" placeholder="Shift 2 Supervisor / Reliever" class="w-full bg-slate-900 border border-amber-500/30 px-2.5 py-1.5 rounded text-amber-300 font-semibold">
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="text-slate-400 block mb-1">Shift 3 Guard / Driver (22:00 - 06:00)</label>
-                        <input id="ep-s3" type="text" class="w-full bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-slate-200">
-                    </div>
-                    <div>
-                        <label class="text-amber-400 block mb-1">Post Reliever Guard / Driver (5:2 Days Off Cover - Zero Gaps)</label>
-                        <input id="ep-reliever" type="text" class="w-full bg-slate-950 border border-amber-500/40 px-3 py-2 rounded-lg text-amber-300 font-bold">
+
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-2">
+                        <label class="text-purple-400 font-bold block">Shift 3 (22:00 - 06:00)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-slate-400 block text-[10px] mb-1">Primary Guard / Supervisor</label>
+                                <input id="ep-s3" type="text" placeholder="Shift 3 Duty Guard" class="w-full bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded text-slate-200">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 block text-[10px] mb-1">Shift 3 Reliever (5:2 Cover)</label>
+                                <input id="ep-s3-reliever" type="text" placeholder="Shift 3 Supervisor / Reliever" class="w-full bg-slate-900 border border-amber-500/30 px-2.5 py-1.5 rounded text-amber-300 font-semibold">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -817,10 +821,12 @@
                     <label class="font-bold text-slate-300 block" data-i18n="lbl_officer_a">Source Officer A</label>
                     <select id="swap-post-a" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200"></select>
                     <select id="swap-slot-a" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
-                        <option value="s1">Shift 1</option>
-                        <option value="s2">Shift 2</option>
-                        <option value="s3">Shift 3</option>
-                        <option value="reliever">Post Reliever (5:2)</option>
+                        <option value="s1">Shift 1 Guard</option>
+                        <option value="s1Reliever">Shift 1 Reliever</option>
+                        <option value="s2">Shift 2 Guard</option>
+                        <option value="s2Reliever">Shift 2 Reliever</option>
+                        <option value="s3">Shift 3 Guard</option>
+                        <option value="s3Reliever">Shift 3 Reliever</option>
                     </select>
                 </div>
                 <div class="text-center font-bold text-amber-400" data-i18n="lbl_swap_with">SWAP WITH</div>
@@ -828,10 +834,12 @@
                     <label class="font-bold text-slate-300 block" data-i18n="lbl_officer_b">Target Officer B</label>
                     <select id="swap-post-b" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200"></select>
                     <select id="swap-slot-b" class="w-full bg-slate-900 border border-slate-800 px-3 py-1.5 rounded text-slate-200">
-                        <option value="s1">Shift 1</option>
-                        <option value="s2">Shift 2</option>
-                        <option value="s3">Shift 3</option>
-                        <option value="reliever">Post Reliever (5:2)</option>
+                        <option value="s1">Shift 1 Guard</option>
+                        <option value="s1Reliever">Shift 1 Reliever</option>
+                        <option value="s2">Shift 2 Guard</option>
+                        <option value="s2Reliever">Shift 2 Reliever</option>
+                        <option value="s3">Shift 3 Guard</option>
+                        <option value="s3Reliever">Shift 3 Reliever</option>
                     </select>
                 </div>
             </div>
@@ -919,7 +927,6 @@
                     <textarea id="inc-details" rows="3" oninput="handleLiveTranslation()" placeholder="Describe what happened..." class="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-lg text-slate-100 focus:outline-none focus:border-rose-500/50"></textarea>
                 </div>
 
-                <!-- LIVE AI TRANSLATION BOX -->
                 <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-1">
                     <div class="flex items-center space-x-2 rtl:space-x-reverse text-[10px] text-amber-400 font-semibold">
                         <i data-lucide="languages" class="w-3.5 h-3.5"></i>
@@ -943,15 +950,13 @@
         let searchQuery = "";
         let currentLang = 'en';
 
-        // DIRECT ACCESS - DEFAULT TO FULL ADMIN CLEARANCE
         let currentUser = { role: "admin", clearance: "Chief Security Admin Clearance" }; 
 
-        // BILINGUAL DICTIONARY
         const i18n = {
             en: {
                 app_title: "New Murabba 365/7/24 Security Operations",
                 hq_badge: "RIYADH HQ",
-                app_subtitle: "Continuous 365 Deployment • Fleet Command • 5:2 Rotation Matrix & Seamless Reliever Engine",
+                app_subtitle: "Continuous 365 Deployment • Fleet Command • 5:2 Same-Shift Reliever Engine",
                 search_ph: "Search guard, post, plot...",
                 btn_fleet: "Fleet Dashboard",
                 btn_swap: "Swap Guards",
@@ -978,7 +983,7 @@
                 sidebar_shift_cycle: "Continuous Cover",
                 sidebar_shift_val: "365 Days / 24 Hours",
                 sidebar_rotation: "Rotation Rule",
-                sidebar_rotation_val: "5 Days On / 2 Off (Post Reliever)",
+                sidebar_rotation_val: "5 Days On / 2 Off (Same-Shift Relief)",
                 m_posts_title: "Total Active Posts",
                 m_posts_sub: "365/7/24 Continuous Coverage",
                 m_gaps_title: "Coverage Gaps Detected",
@@ -986,9 +991,9 @@
                 m_fleet_title: "Patrol Vehicles Active",
                 m_fleet_sub: "Covering 3 Shifts Seamlessly",
                 m_personnel_title: "Total Personnel Allocated",
-                m_personnel_sub: "Guards, Drivers & Relievers",
+                m_personnel_sub: "Guards, Drivers & Same-Shift Relievers",
                 roster_heading: "Interactive Smart Deployment Roster Matrix (365/7/24)",
-                roster_subheading: "Real-time gap detection, continuous operating hours management, and reliever coverage",
+                roster_subheading: "Real-time gap detection, continuous operating hours management, and same-shift reliever coverage",
                 lbl_sort_by: "Sort By:",
                 opt_sector: "Sector & Plot",
                 opt_post_id: "Post ID",
@@ -999,7 +1004,6 @@
                 th_shift_1: "Shift 1 (06:00 - 14:00)",
                 th_shift_2: "Shift 2 (14:00 - 22:00)",
                 th_shift_3: "Shift 3 (22:00 - 06:00)",
-                th_reliever: "Post Reliever (5:2 Days Off Cover)",
                 th_health_status: "Health Status",
                 th_actions: "Actions",
                 fleet_heading: "Security Fleet & Patrol Vehicles Operations Command (365/7/24)",
@@ -1015,7 +1019,7 @@
                 incidents_heading: "Security Incident Reporting & Case Log",
                 incidents_subheading: "Submit formal incident reports, site breaches, or safety hazards with automatic translation",
                 btn_write_incident: "Write Incident Report",
-                schedule_heading: "365/7/24 Comprehensive Work Schedule & Reliever Rotation Matrix",
+                schedule_heading: "365/7/24 Comprehensive Work Schedule & Same-Shift Reliever Rotation Matrix",
                 schedule_subheading: "Automated 5 Days Work / 2 Days Off schedule view per guard with active 7-day calendar coverage",
                 opt_sort_post: "Post ID",
                 opt_sort_side: "Sector / Side",
@@ -1040,9 +1044,9 @@
                 lbl_veh_status: "Operational Status",
                 lbl_veh_fuel: "Fuel Level (%)",
                 lbl_veh_shifts: "Operating Shift Mode",
-                lbl_veh_drivers_group: "Shift Drivers & Reliever Assignment",
+                lbl_veh_drivers_group: "Shift Drivers & Same-Shift Relievers Assignment",
                 m_edit_post_title: "Edit Post Personnel & Shift Allocation",
-                lbl_shift_assignments: "Guard Shift Relocation & Reliever Assignments (365/7/24)",
+                lbl_shift_assignments: "Shift Staff & Same-Shift 5:2 Relievers",
                 btn_delete: "Delete Post",
                 btn_save_changes: "Save Changes",
                 m_swap_title: "Swap Guards / Shift Relocation",
@@ -1069,7 +1073,7 @@
             ar: {
                 app_title: "عمليات أمن المربع الجديد 365/7/24",
                 hq_badge: "مقر الرياض",
-                app_subtitle: "تشغيل مستمر 365 • قيادة الأسطول • مصفوفة تدوير 5:2 ونظام تغطية البدلاء الشامل",
+                app_subtitle: "تشغيل مستمر 365 • قيادة الأسطول • تدوير 5:2 بنظام البدلاء من نفس المناوبة",
                 search_ph: "بحث عن حارس، موقع، أرض...",
                 btn_fleet: "لوحة الدوريات",
                 btn_swap: "تبديل الحراس",
@@ -1096,7 +1100,7 @@
                 sidebar_shift_cycle: "تغطية مستمرة",
                 sidebar_shift_val: "365 يوم / 24 ساعة",
                 sidebar_rotation: "قاعدة التناوب",
-                sidebar_rotation_val: "5 أيام عمل / 2 راحة (بديل النقطة)",
+                sidebar_rotation_val: "5 أيام عمل / 2 راحة (بديل نفس الوردية)",
                 m_posts_title: "إجمالي النقاط النشطة",
                 m_posts_sub: "تغطية مستمرة على مدار الساعة 365",
                 m_gaps_title: "نقص التغطية المكتشف",
@@ -1104,9 +1108,9 @@
                 m_fleet_title: "مركبات الدوريات النشطة",
                 m_fleet_sub: "تغطية 3 ورديات بسلاسة",
                 m_personnel_title: "إجمالي الأفراد المخصصين",
-                m_personnel_sub: "حراس، سائقون وبدلاء",
+                m_personnel_sub: "حراس، سائقون وبدلاء نفس الوردية",
                 roster_heading: "مصفوفة جدول الانتشار الذكي التفاعلي (365/7/24)",
-                roster_subheading: "اكتشاف الفجوات الفوري، إدارة التشغيل المستمر، وتغطية الحراس البدلاء",
+                roster_subheading: "اكتشاف الفجوات الفوري، إدارة التشغيل المستمر، وتغطية بدلاء نفس المناوبة",
                 lbl_sort_by: "ترتيب حسب:",
                 opt_sector: "القطاع والأرض",
                 opt_post_id: "رمز النقطة",
@@ -1117,7 +1121,6 @@
                 th_shift_1: "الوردية 1 (06:00 - 14:00)",
                 th_shift_2: "الوردية 2 (14:00 - 22:00)",
                 th_shift_3: "الوردية 3 (22:00 - 06:00)",
-                th_reliever: "حارس النقطة البديل (تغطية أيام الراحة 5:2)",
                 th_health_status: "حالة التغطية",
                 th_actions: "الإجراءات",
                 fleet_heading: "قيادة عمليات أسطول الأمن ومركبات الدوريات (365/7/24)",
@@ -1158,9 +1161,9 @@
                 lbl_veh_status: "الحالة التشغيلية",
                 lbl_veh_fuel: "مستوى الوقود (%)",
                 lbl_veh_shifts: "نظام ورديات الدورية",
-                lbl_veh_drivers_group: "سائقو الورديات والبدلاء",
+                lbl_veh_drivers_group: "سائقو الورديات والبدلاء من نفس المناوبة",
                 m_edit_post_title: "تعديل أفراد النقطة وتوزيع الورديات",
-                lbl_shift_assignments: "تعيينات وإعادة نقل الحراس والبدلاء (365/7/24)",
+                lbl_shift_assignments: "موظفو المناوبة وبدلاء الراحة (5:2)",
                 btn_delete: "حذف النقطة",
                 btn_save_changes: "حفظ التغييرات",
                 m_swap_title: "تبديل الحراس / إعادة التوزيع",
@@ -1186,22 +1189,22 @@
             }
         };
 
-        // INITIAL DATA - 365 / 7 / 24 COMPLETE WITH DEDICATED RELIEVERS (ZERO GAPS FOR POSTS & VEHICLES)
-        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v9')) || [
-            { sector: "Project", plot: "Project", id: "SM1", name: "SECURITY MANAGER PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-04", s1: "علي الغامدي", s2: "وليد العقيدي", s3: "سامي الشمري", reliever: "فهد الدوسري", status: "Full Coverage" },
-            { sector: "North", plot: "A", id: "AD1", name: "PLOT A INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-01", s1: "Ahmad Suleiman", s2: "Sami Ruwaili", s3: "Bader Mutairi", reliever: "Ziyad Mutairi", status: "Full Coverage" },
-            { sector: "North", plot: "A", id: "AX1", name: "PLOT A EXTERNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-02", s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani", status: "Full Coverage" },
-            { sector: "North", plot: "B", id: "BX1", name: "PLOT B EXTERNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-05", s1: "Sultan Otaibi", s2: "Rakan Ruwaili", s3: "Emad Hazmi", reliever: "Anas Ghamdi", status: "Full Coverage" },
-            { sector: "North", plot: "B", id: "BD1", name: "PLOT B INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "None", s1: "Youssef Ibrahim", s2: "Bandar Ghamdi", s3: "Omar Ghamdi", reliever: "Sami Shammari", status: "Full Coverage" },
-            { sector: "South", plot: "C", id: "CD1", name: "PLOT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-03", s1: "Musaad Ghamdi", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi", status: "Full Coverage" }
+        // UPDATED POSTS INITIAL DATA - RELIEVER CONFIGURATION PER SHIFT (SAME-SHIFT RELIEF ROTATION)
+        let postsData = JSON.parse(localStorage.getItem('nm_deployment_v10')) || [
+            { sector: "Project", plot: "Project", id: "SM1", name: "SECURITY MANAGER PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-04", s1: "علي الغامدي", s1Reliever: "فهد الدوسري (Sup S1)", s2: "وليد العقيدي", s2Reliever: "سعد القحطاني (Sup S2)", s3: "سامي الشمري", s3Reliever: "عبدالله العتيبي (Sup S3)", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AD1", name: "PLOT A INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-01", s1: "Ahmad Suleiman", s1Reliever: "Ziyad Mutairi (S1 Sup)", s2: "Sami Ruwaili", s2Reliever: "Nawaf Harbi (S2 Sup)", s3: "Bader Mutairi", s3Reliever: "Musaad Zahrani (S3 Sup)", status: "Full Coverage" },
+            { sector: "North", plot: "A", id: "AX1", name: "PLOT A EXTERNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-02", s1: "Tariq Mansoor", s1Reliever: "Ziyad Mutairi (S1 Sup)", s2: "Adnan Qasim", s2Reliever: "Nawaf Harbi (S2 Sup)", s3: "Rashid Otaibi", s3Reliever: "Musaad Zahrani (S3 Sup)", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BX1", name: "PLOT B EXTERNAL PATROL", type: "External Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-05", s1: "Sultan Otaibi", s1Reliever: "Anas Ghamdi (S1 Sup)", s2: "Rakan Ruwaili", s2Reliever: "Khalid Shammari (S2 Sup)", s3: "Emad Hazmi", s3Reliever: "Faisal Qahtani (S3 Sup)", status: "Full Coverage" },
+            { sector: "North", plot: "B", id: "BD1", name: "PLOT B INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "None", s1: "Youssef Ibrahim", s1Reliever: "Anas Ghamdi (S1 Sup)", s2: "Bandar Ghamdi", s2Reliever: "Khalid Shammari (S2 Sup)", s3: "Omar Ghamdi", s3Reliever: "Faisal Qahtani (S3 Sup)", status: "Full Coverage" },
+            { sector: "South", plot: "C", id: "CD1", name: "PLOT C INTERNAL PATROL", type: "Internal Patrol Vehicle", hours: "24 hrs", assignedVehicle: "PATROL-03", s1: "Musaad Ghamdi", s1Reliever: "Tariq Hazmi (S1 Sup)", s2: "Sami Asiri", s2Reliever: "Ibrahim Ruwaili (S2 Sup)", s3: "Bader Ruwaili", s3Reliever: "Saleh Ghamdi (S3 Sup)", status: "Full Coverage" }
         ];
 
         let fleetData = JSON.parse(localStorage.getItem('nm_fleet_v5')) || [
-            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", shiftMode: 3, drivers: { s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani" }, status: "On Duty", fuel: 85 },
-            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", shiftMode: 3, drivers: { s1: "Emad Hazmi", s2: "Sultan Otaibi", s3: "N/A", reliever: "Anas Ghamdi" }, status: "On Duty", fuel: 60 },
-            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", shiftMode: 3, drivers: { s1: "Waleed Ruwaili", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi" }, status: "Maintenance", fuel: 20 },
-            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", shiftMode: 3, drivers: { s1: "Omar Ghamdi", s2: "Bandar Ghamdi", s3: "Sami Shammari", reliever: "Fahad Al-Dawsari" }, status: "Refueling", fuel: 10 },
-            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", shiftMode: 3, drivers: { s1: "Youssef Ibrahim", s2: "Ziyad Mutairi", s3: "N/A", reliever: "Sami Shammari" }, status: "Off Duty", fuel: 95 }
+            { id: "PATROL-01", callsign: "Patrol Alpha 01 (KSA 4892)", sector: "North", shiftMode: 3, drivers: { s1: "Tariq Mansoor", s2: "Adnan Qasim", s3: "Rashid Otaibi", reliever: "Musaad Zahrani (Same-Shift)" }, status: "On Duty", fuel: 85 },
+            { id: "PATROL-02", callsign: "Patrol Bravo 02 (KSA 9012)", sector: "North", shiftMode: 3, drivers: { s1: "Emad Hazmi", s2: "Sultan Otaibi", s3: "N/A", reliever: "Anas Ghamdi (Same-Shift)" }, status: "On Duty", fuel: 60 },
+            { id: "PATROL-03", callsign: "Patrol Charlie 03 (KSA 1144)", sector: "South", shiftMode: 3, drivers: { s1: "Waleed Ruwaili", s2: "Sami Asiri", s3: "Bader Ruwaili", reliever: "Tariq Hazmi (Same-Shift)" }, status: "Maintenance", fuel: 20 },
+            { id: "PATROL-04", callsign: "Patrol Delta 04 (KSA 3381)", sector: "Project", shiftMode: 3, drivers: { s1: "Omar Ghamdi", s2: "Bandar Ghamdi", s3: "Sami Shammari", reliever: "Fahad Al-Dawsari (Same-Shift)" }, status: "Refueling", fuel: 10 },
+            { id: "PATROL-05", callsign: "Patrol Echo 05 (KSA 7711)", sector: "West", shiftMode: 3, drivers: { s1: "Youssef Ibrahim", s2: "Ziyad Mutairi", s3: "N/A", reliever: "Sami Shammari (Same-Shift)" }, status: "Off Duty", fuel: 95 }
         ];
 
         let handoverLogs = JSON.parse(localStorage.getItem('nm_handovers_v2')) || [
@@ -1215,15 +1218,15 @@
         function calculatePostStatus(p) {
             const h = p.hours || "24 hrs";
             if (h === "24 hrs") {
-                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED" || !p.s3 || p.s3 === "UNASSIGNED" || !p.reliever || p.reliever === "UNASSIGNED") {
+                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED" || !p.s3 || p.s3 === "UNASSIGNED" || !p.s1Reliever || p.s1Reliever === "UNASSIGNED" || !p.s2Reliever || p.s2Reliever === "UNASSIGNED" || !p.s3Reliever || p.s3Reliever === "UNASSIGNED") {
                     return "COVERAGE GAP";
                 }
             } else if (h === "16 hrs") {
-                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED") {
+                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s2 || p.s2 === "UNASSIGNED" || !p.s1Reliever || p.s1Reliever === "UNASSIGNED" || !p.s2Reliever || p.s2Reliever === "UNASSIGNED") {
                     return "COVERAGE GAP";
                 }
             } else if (h === "8 hrs") {
-                if (!p.s1 || p.s1 === "UNASSIGNED") {
+                if (!p.s1 || p.s1 === "UNASSIGNED" || !p.s1Reliever || p.s1Reliever === "UNASSIGNED") {
                     return "COVERAGE GAP";
                 }
             }
@@ -1280,14 +1283,16 @@
             postsData.forEach(p => {
                 const h = p.hours || "24 hrs";
                 if (!p.s1 || p.s1 === "UNASSIGNED") gaps++; else assignedCount++;
+                if (!p.s1Reliever || p.s1Reliever === "UNASSIGNED") gaps++; else assignedCount++;
                 
                 if (h === "24 hrs" || h === "16 hrs") {
                     if (!p.s2 || p.s2 === "UNASSIGNED") gaps++; else if (p.s2 !== "N/A") assignedCount++;
+                    if (!p.s2Reliever || p.s2Reliever === "UNASSIGNED") gaps++; else if (p.s2Reliever !== "N/A") assignedCount++;
                 }
                 
                 if (h === "24 hrs") {
                     if (!p.s3 || p.s3 === "UNASSIGNED") gaps++; else if (p.s3 !== "N/A") assignedCount++;
-                    if (!p.reliever || p.reliever === "UNASSIGNED") gaps++; else if (p.reliever !== "N/A") assignedCount++;
+                    if (!p.s3Reliever || p.s3Reliever === "UNASSIGNED") gaps++; else if (p.s3Reliever !== "N/A") assignedCount++;
                 }
             });
 
@@ -1332,9 +1337,11 @@
                 "Hours": p.hours,
                 "Patrol Vehicle": p.assignedVehicle || "None",
                 "Shift 1 Officer": p.s1,
+                "Shift 1 Same-Shift Reliever": p.s1Reliever || "None",
                 "Shift 2 Officer": p.s2,
+                "Shift 2 Same-Shift Reliever": p.s2Reliever || "None",
                 "Shift 3 Officer": p.s3,
-                "Post Reliever (5:2 Cover)": p.reliever,
+                "Shift 3 Same-Shift Reliever": p.s3Reliever || "None",
                 "Coverage Status": calculatePostStatus(p)
             }));
 
@@ -1399,10 +1406,18 @@
                         <td class="p-2.5 font-bold text-amber-400 font-mono">${p.id} <span class="text-slate-300 font-normal block text-[11px]">${p.name}</span></td>
                         <td class="p-2.5"><span class="text-slate-300 uppercase">${p.sector}</span> (${p.plot})</td>
                         <td class="p-2.5"><span class="font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/40">${p.assignedVehicle || 'None'}</span></td>
-                        <td class="p-2.5 text-slate-300">${p.s1 || 'UNASSIGNED'}</td>
-                        <td class="p-2.5 text-slate-300">${p.s2 || 'N/A'}</td>
-                        <td class="p-2.5 text-slate-300">${p.s3 || 'N/A'}</td>
-                        <td class="p-2.5 text-amber-300 font-semibold">${p.reliever || 'N/A'}</td>
+                        <td class="p-2.5 text-slate-300">
+                            <div>${p.s1 || 'UNASSIGNED'}</div>
+                            <span class="text-[10px] text-amber-400 block font-semibold">Relief: ${p.s1Reliever || 'UNASSIGNED'}</span>
+                        </td>
+                        <td class="p-2.5 text-slate-300">
+                            <div>${p.s2 || 'N/A'}</div>
+                            ${p.hours !== '8 hrs' ? `<span class="text-[10px] text-amber-400 block font-semibold">Relief: ${p.s2Reliever || 'UNASSIGNED'}</span>` : ''}
+                        </td>
+                        <td class="p-2.5 text-slate-300">
+                            <div>${p.s3 || 'N/A'}</div>
+                            ${p.hours === '24 hrs' ? `<span class="text-[10px] text-amber-400 block font-semibold">Relief: ${p.s3Reliever || 'UNASSIGNED'}</span>` : ''}
+                        </td>
                         <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${calculatePostStatus(p) === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}">${calculatePostStatus(p)}</span></td>
                     </tr>
                 `).join('');
@@ -1420,10 +1435,12 @@
                        p.name.toLowerCase().includes(searchQuery) ||
                        (p.type && p.type.toLowerCase().includes(searchQuery)) ||
                        p.plot.toLowerCase().includes(searchQuery) ||
-                       p.s1.toLowerCase().includes(searchQuery) ||
-                       p.s2.toLowerCase().includes(searchQuery) ||
-                       p.s3.toLowerCase().includes(searchQuery) ||
-                       p.reliever.toLowerCase().includes(searchQuery);
+                       (p.s1 && p.s1.toLowerCase().includes(searchQuery)) ||
+                       (p.s1Reliever && p.s1Reliever.toLowerCase().includes(searchQuery)) ||
+                       (p.s2 && p.s2.toLowerCase().includes(searchQuery)) ||
+                       (p.s2Reliever && p.s2Reliever.toLowerCase().includes(searchQuery)) ||
+                       (p.s3 && p.s3.toLowerCase().includes(searchQuery)) ||
+                       (p.s3Reliever && p.s3Reliever.toLowerCase().includes(searchQuery));
             });
 
             body.innerHTML = filtered.map((p) => {
@@ -1455,15 +1472,21 @@
                         <td class="p-3">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-slate-800 text-amber-300 border border-slate-700">${hrs}</span>
                         </td>
-                        <td class="p-3"><span class="${!p.s1 || p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1 || 'UNASSIGNED'}</span></td>
                         <td class="p-3">
-                            ${hrs === '8 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</span>`}
+                            <div class="${!p.s1 || p.s1 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s1 || 'UNASSIGNED'}</div>
+                            <div class="text-[10px] text-amber-400 mt-1 font-semibold">🔄 Reliever: ${p.s1Reliever || 'UNASSIGNED'}</div>
                         </td>
                         <td class="p-3">
-                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `<span class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</span>`}
+                            ${hrs === '8 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `
+                            <div class="${!p.s2 || p.s2 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s2 || 'UNASSIGNED'}</div>
+                            <div class="text-[10px] text-amber-400 mt-1 font-semibold">🔄 Reliever: ${p.s2Reliever || 'UNASSIGNED'}</div>
+                            `}
                         </td>
                         <td class="p-3">
-                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A</span>' : `<span class="${!p.reliever || p.reliever === 'UNASSIGNED' ? 'text-amber-400 font-bold' : 'text-amber-300 font-semibold'}">${p.reliever || 'UNASSIGNED'}</span>`}
+                            ${hrs !== '24 hrs' ? '<span class="text-slate-600 italic">N/A (Off)</span>' : `
+                            <div class="${!p.s3 || p.s3 === 'UNASSIGNED' ? 'text-rose-400 font-bold' : 'text-slate-300'}">${p.s3 || 'UNASSIGNED'}</div>
+                            <div class="text-[10px] text-amber-400 mt-1 font-semibold">🔄 Reliever: ${p.s3Reliever || 'UNASSIGNED'}</div>
+                            `}
                         </td>
                         <td class="p-3">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.status === 'Full Coverage' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse'}">${p.status}</span>
@@ -1496,7 +1519,7 @@
 
             grid.innerHTML = fleetData.map((v, idx) => {
                 const mode = parseInt(v.shiftMode || 3);
-                const shiftBadge = mode === 1 ? '1 Shift (8h)' : (mode === 2 ? '2 Shifts (16h)' : '3 Shifts (24h + Reliever)');
+                const shiftBadge = mode === 1 ? '1 Shift (8h)' : (mode === 2 ? '2 Shifts (16h)' : '3 Shifts (24h + Same-Shift Relievers)');
                 
                 return `
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 relative group">
@@ -1534,7 +1557,7 @@
                             <strong class="text-emerald-400">${v.drivers?.s3 || 'Unassigned'}</strong>
                         </div>
                         <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-900">
-                            <span class="text-amber-400">Reliever (5:2 Cover):</span>
+                            <span class="text-amber-400">Same-Shift Reliever (5:2):</span>
                             <strong class="text-amber-300">${v.drivers?.reliever || 'Unassigned'}</strong>
                         </div>` : ''}
                     </div>
@@ -1704,13 +1727,15 @@
             postsData.push({
                 sector, hours, plot, id, name, type, assignedVehicle,
                 s1: "UNASSIGNED",
+                s1Reliever: "UNASSIGNED",
                 s2: hours === "8 hrs" ? "N/A" : "UNASSIGNED",
+                s2Reliever: hours === "8 hrs" ? "N/A" : "UNASSIGNED",
                 s3: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
-                reliever: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
+                s3Reliever: hours !== "24 hrs" ? "N/A" : "UNASSIGNED",
                 status: "COVERAGE GAP"
             });
 
-            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v10', JSON.stringify(postsData));
             closeModal('add-post-modal');
             renderAll();
         }
@@ -1725,9 +1750,11 @@
             document.getElementById('ep-name').value = p.name;
             document.getElementById('ep-type').value = p.type || "Gate";
             document.getElementById('ep-s1').value = p.s1 || "UNASSIGNED";
+            document.getElementById('ep-s1-reliever').value = p.s1Reliever || "UNASSIGNED";
             document.getElementById('ep-s2').value = p.s2 || "UNASSIGNED";
+            document.getElementById('ep-s2-reliever').value = p.s2Reliever || "UNASSIGNED";
             document.getElementById('ep-s3').value = p.s3 || "UNASSIGNED";
-            document.getElementById('ep-reliever').value = p.reliever || "UNASSIGNED";
+            document.getElementById('ep-s3-reliever').value = p.s3Reliever || "UNASSIGNED";
             populateVehicleSelect('ep-assigned-vehicle', p.assignedVehicle || 'None');
             document.getElementById('edit-post-modal').classList.remove('hidden');
             if (window.lucide) { lucide.createIcons(); }
@@ -1744,14 +1771,19 @@
             p.name = document.getElementById('ep-name').value;
             p.type = document.getElementById('ep-type').value;
             p.assignedVehicle = document.getElementById('ep-assigned-vehicle').value;
+            
             p.s1 = document.getElementById('ep-s1').value;
-            p.s2 = document.getElementById('ep-s2').value;
+            p.s1Reliever = document.getElementById('ep-s1-reliever').value;
+            
+            p.s2 = p.hours === "8 hrs" ? "N/A" : document.getElementById('ep-s2').value;
+            p.s2Reliever = p.hours === "8 hrs" ? "N/A" : document.getElementById('ep-s2-reliever').value;
+            
             p.s3 = p.hours === "24 hrs" ? document.getElementById('ep-s3').value : "N/A";
-            p.reliever = p.hours === "24 hrs" ? document.getElementById('ep-reliever').value : "N/A";
+            p.s3Reliever = p.hours === "24 hrs" ? document.getElementById('ep-s3-reliever').value : "N/A";
 
             p.status = calculatePostStatus(p);
 
-            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v10', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1759,7 +1791,7 @@
         function deleteCurrentPost() {
             const idx = parseInt(document.getElementById('edit-post-index').value);
             postsData.splice(idx, 1);
-            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v10', JSON.stringify(postsData));
             closeModal('edit-post-modal');
             renderAll();
         }
@@ -1847,10 +1879,13 @@
             postsData.forEach(p => {
                 const h = p.hours || "24 hrs";
                 if (p.s1 && p.s1 !== "N/A") scheduleRows.push({ name: p.s1, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 (06-14)", type: "Guard S1", offDays: ["Fri", "Sat"] });
+                if (p.s1Reliever && p.s1Reliever !== "N/A") scheduleRows.push({ name: p.s1Reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 1 Same-Shift Relief", type: "S1 Same-Shift Reliever", offDays: ["Wed", "Thu"] });
+
                 if (h !== "8 hrs" && p.s2 && p.s2 !== "N/A") scheduleRows.push({ name: p.s2, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 (14-22)", type: "Guard S2", offDays: ["Sun", "Mon"] });
+                if (h !== "8 hrs" && p.s2Reliever && p.s2Reliever !== "N/A") scheduleRows.push({ name: p.s2Reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 2 Same-Shift Relief", type: "S2 Same-Shift Reliever", offDays: ["Tue", "Wed"] });
+
                 if (h === "24 hrs" && p.s3 && p.s3 !== "N/A") scheduleRows.push({ name: p.s3, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 (22-06)", type: "Guard S3", offDays: ["Tue", "Wed"] });
-                // CHANGED: Post reliever rotation coverage between posts within the same shift (reliever rotates across the post's 3 shifts as days off replacement)
-                if (h === "24 hrs" && p.reliever && p.reliever !== "N/A") scheduleRows.push({ name: p.reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Post Reliever (Covers Shifts S1/S2/S3 Off-Days)", type: "Post Reliever 5:2", offDays: ["Thu"] });
+                if (h === "24 hrs" && p.s3Reliever && p.s3Reliever !== "N/A") scheduleRows.push({ name: p.s3Reliever, post: p.id, side: p.sector, plot: p.plot, shift: "Shift 3 Same-Shift Relief", type: "S3 Same-Shift Reliever", offDays: ["Sun", "Mon"] });
             });
 
             fleetData.forEach(v => {
@@ -1865,7 +1900,7 @@
                     scheduleRows.push({ name: v.drivers.s3, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Driver S3 (22-06)", type: "Driver S3", offDays: ["Tue", "Wed"] });
                 }
                 if (v.drivers?.reliever && v.drivers.reliever !== "Unassigned" && v.drivers.reliever !== "N/A") {
-                    scheduleRows.push({ name: v.drivers.reliever, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Fleet Reliever (5:2 Cover)", type: "Fleet Reliever", offDays: ["Thu"] });
+                    scheduleRows.push({ name: v.drivers.reliever, post: v.id, side: v.sector, plot: "Patrol Route", shift: "Fleet Reliever (Same-Shift)", type: "Fleet Reliever", offDays: ["Thu"] });
                 }
             });
 
@@ -1906,11 +1941,17 @@
         function exportScheduleExcel() {
             let exportData = [];
             postsData.forEach(p => {
-                exportData.push({ Guard: p.s1, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 1", Hours: p.hours, Vehicle: p.assignedVehicle });
-                if (p.hours !== "8 hrs") exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Hours: p.hours, Vehicle: p.assignedVehicle });
+                exportData.push({ Guard: p.s1, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 1", Role: "Primary", Vehicle: p.assignedVehicle });
+                exportData.push({ Guard: p.s1Reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 1", Role: "Same-Shift Reliever (5:2)", Vehicle: p.assignedVehicle });
+                
+                if (p.hours !== "8 hrs") {
+                    exportData.push({ Guard: p.s2, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Role: "Primary", Vehicle: p.assignedVehicle });
+                    exportData.push({ Guard: p.s2Reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 2", Role: "Same-Shift Reliever (5:2)", Vehicle: p.assignedVehicle });
+                }
+                
                 if (p.hours === "24 hrs") {
-                    exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Hours: p.hours, Vehicle: p.assignedVehicle });
-                    exportData.push({ Guard: p.reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Post Reliever (5:2 Cover)", Hours: p.hours, Vehicle: p.assignedVehicle });
+                    exportData.push({ Guard: p.s3, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Role: "Primary", Vehicle: p.assignedVehicle });
+                    exportData.push({ Guard: p.s3Reliever, Post: p.id, Sector: p.sector, Plot: p.plot, Shift: "Shift 3", Role: "Same-Shift Reliever (5:2)", Vehicle: p.assignedVehicle });
                 }
             });
             const ws = XLSX.utils.json_to_sheet(exportData);
@@ -1963,7 +2004,7 @@
             postsData[idxA][slotA] = postsData[idxB][slotB];
             postsData[idxB][slotB] = temp;
 
-            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v10', JSON.stringify(postsData));
             closeModal('swap-guards-modal');
             renderAll();
         }
@@ -2028,9 +2069,10 @@
                         <span>Type: <strong class="text-cyan-400">${p.type}</strong></span>
                         <span>Vehicle: <strong class="text-amber-300 font-mono">${p.assignedVehicle || 'None'}</strong></span>
                     </div>
-                    <div class="text-[11px] text-amber-300 bg-slate-950 p-2 rounded border border-slate-800 flex justify-between">
-                        <span>Post Reliever (5:2): <strong>${p.reliever || 'None'}</strong></span>
-                        <span class="text-emerald-400 font-bold">365 Active</span>
+                    <div class="text-[11px] text-amber-300 bg-slate-950 p-2 rounded border border-slate-800 space-y-1">
+                        <div class="flex justify-between"><span>S1 Reliever: <strong>${p.s1Reliever || 'None'}</strong></span></div>
+                        <div class="flex justify-between"><span>S2 Reliever: <strong>${p.s2Reliever || 'None'}</strong></span></div>
+                        <div class="flex justify-between"><span>S3 Reliever: <strong>${p.s3Reliever || 'None'}</strong></span></div>
                     </div>
                 </div>
             `;
@@ -2048,14 +2090,20 @@
             postsData.forEach(p => {
                 const h = p.hours || "24 hrs";
                 if (!p.s1 || p.s1 === "UNASSIGNED") p.s1 = staff[sIdx++ % staff.length];
-                if (h !== "8 hrs" && (!p.s2 || p.s2 === "UNASSIGNED")) p.s2 = staff[sIdx++ % staff.length];
+                if (!p.s1Reliever || p.s1Reliever === "UNASSIGNED") p.s1Reliever = staff[sIdx++ % staff.length] + " (Reliever)";
+                
+                if (h !== "8 hrs") {
+                    if (!p.s2 || p.s2 === "UNASSIGNED") p.s2 = staff[sIdx++ % staff.length];
+                    if (!p.s2Reliever || p.s2Reliever === "UNASSIGNED") p.s2Reliever = staff[sIdx++ % staff.length] + " (Reliever)";
+                }
+                
                 if (h === "24 hrs") {
                     if (!p.s3 || p.s3 === "UNASSIGNED") p.s3 = staff[sIdx++ % staff.length];
-                    if (!p.reliever || p.reliever === "UNASSIGNED") p.reliever = staff[sIdx++ % staff.length];
+                    if (!p.s3Reliever || p.s3Reliever === "UNASSIGNED") p.s3Reliever = staff[sIdx++ % staff.length] + " (Reliever)";
                 }
                 p.status = calculatePostStatus(p);
             });
-            localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
+            localStorage.setItem('nm_deployment_v10', JSON.stringify(postsData));
             renderAll();
         }
 
@@ -2086,13 +2134,16 @@
                         const id = getVal(["Post ID", "PostID", "ID", "Code"]) || "P-01";
                         const name = getVal(["Post Name", "PostName", "Name", "Title"]) || "Imported Post";
                         const type = getVal(["Type", "Post Type", "Category"]) || "Gate";
-                        
                         const vehicle = getVal(["Vehicle", "Patrol Vehicle", "Assigned Vehicle", "Car", "Unit"]) || "None";
                         
-                        const s1 = getVal(["Shift 1", "Shift1", "1st Shift", "S1", "Officer 1", "Guard 1"]) || "UNASSIGNED";
-                        const s2_raw = getVal(["Shift 2", "Shift2", "2nd Shift", "S2", "Officer 2", "Guard 2"]);
-                        const s3_raw = getVal(["Shift 3", "Shift3", "3rd Shift", "S3", "Officer 3", "Guard 3"]);
-                        const reliever_raw = getVal(["Reliever", "Reliver", "Relief Guard", "Reliever Guard", "5:2 Reliever"]);
+                        const s1 = getVal(["Shift 1", "Shift1", "1st Shift", "S1"]) || "UNASSIGNED";
+                        const s1Reliever = getVal(["Shift 1 Reliever", "S1 Reliever", "S1Reliever"]) || "UNASSIGNED";
+                        
+                        const s2_raw = getVal(["Shift 2", "Shift2", "2nd Shift", "S2"]);
+                        const s2Reliever_raw = getVal(["Shift 2 Reliever", "S2 Reliever", "S2Reliever"]);
+                        
+                        const s3_raw = getVal(["Shift 3", "Shift3", "3rd Shift", "S3"]);
+                        const s3Reliever_raw = getVal(["Shift 3 Reliever", "S3 Reliever", "S3Reliever"]);
 
                         let rawHours = getVal(["Hours", "Operating Hours", "Shift Hours", "Duration"]);
                         let hours = "24 hrs";
@@ -2102,30 +2153,16 @@
                             else if (strH.includes("16")) hours = "16 hrs";
                             else hours = "24 hrs";
                         } else {
-                            if (s3_raw || reliever_raw) hours = "24 hrs";
+                            if (s3_raw) hours = "24 hrs";
                             else if (s2_raw) hours = "16 hrs";
                             else hours = "8 hrs";
                         }
 
                         const s2 = hours === "8 hrs" ? "N/A" : (s2_raw || "UNASSIGNED");
+                        const s2Reliever = hours === "8 hrs" ? "N/A" : (s2Reliever_raw || "UNASSIGNED");
+                        
                         const s3 = hours !== "24 hrs" ? "N/A" : (s3_raw || "UNASSIGNED");
-                        const reliever = hours !== "24 hrs" ? "N/A" : (reliever_raw || "UNASSIGNED");
-
-                        if (vehicle && vehicle !== "None" && String(vehicle).trim() !== "") {
-                            const vehClean = String(vehicle).trim();
-                            const existing = fleetData.find(v => v.id.toLowerCase() === vehClean.toLowerCase() || v.callsign.toLowerCase().includes(vehClean.toLowerCase()));
-                            if (!existing) {
-                                fleetData.push({
-                                    id: vehClean.toUpperCase().startsWith("PATROL") ? vehClean.toUpperCase() : `PATROL-${vehClean.toUpperCase()}`,
-                                    callsign: `${vehClean} (Auto-Imported)`,
-                                    sector: sector,
-                                    shiftMode: 3,
-                                    drivers: { s1: String(s1), s2: String(s2), s3: String(s3), reliever: String(reliever) },
-                                    status: "On Duty",
-                                    fuel: 100
-                                });
-                            }
-                        }
+                        const s3Reliever = hours !== "24 hrs" ? "N/A" : (s3Reliever_raw || "UNASSIGNED");
 
                         return {
                             sector: String(sector),
@@ -2136,15 +2173,16 @@
                             assignedVehicle: vehicle ? String(vehicle) : "None",
                             hours: hours,
                             s1: String(s1),
+                            s1Reliever: String(s1Reliever),
                             s2: String(s2),
+                            s2Reliever: String(s2Reliever),
                             s3: String(s3),
-                            reliever: String(reliever),
+                            s3Reliever: String(s3Reliever),
                             status: "Full Coverage"
                         };
                     });
 
-                    localStorage.setItem('nm_deployment_v9', JSON.stringify(postsData));
-                    localStorage.setItem('nm_fleet_v5', JSON.stringify(fleetData));
+                    localStorage.setItem('nm_deployment_v10', JSON.stringify(postsData));
                     renderAll();
                 }
             };
@@ -2152,11 +2190,11 @@
         }
 
         function downloadExcelTemplate() {
-            const template = [{ Sector: "North", Plot: "Plot A", "Post ID": "A01", "Post Name": "Gate A01", Type: "Gate Supervisor", Vehicle: "PATROL-01", Hours: "24 hrs", "Shift 1": "Ahmad", "Shift 2": "Sami", "Shift 3": "Bader", Reliever: "Ziyad" }];
+            const template = [{ Sector: "North", Plot: "Plot A", "Post ID": "A01", "Post Name": "Gate A01", Type: "Gate Supervisor", Vehicle: "PATROL-01", Hours: "24 hrs", "Shift 1": "Ahmad", "Shift 1 Reliever": "Ziyad (S1 Sup)", "Shift 2": "Sami", "Shift 2 Reliever": "Nawaf (S2 Sup)", "Shift 3": "Bader", "Shift 3 Reliever": "Musaad (S3 Sup)" }];
             const ws = XLSX.utils.json_to_sheet(template);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "365 Template");
-            XLSX.writeFile(wb, "New_Murabba_365_Template.xlsx");
+            XLSX.writeFile(wb, "New_Murabba_365_SameShift_Template.xlsx");
         }
 
         function sortRoster(type) {
